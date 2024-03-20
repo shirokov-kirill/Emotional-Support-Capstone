@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import EmotionAssessmentScreen from './Emotion assessment/EmotionAssessmentScreen';
+import EmotionAssessmentForm from './Emotion assessment/EmotionAssessmentForm';
 import Header from './header/Header';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Header/>
-    <EmotionAssessmentScreen/>
+    <EmotionAssessmentForm/>
   </React.StrictMode>
 );
 

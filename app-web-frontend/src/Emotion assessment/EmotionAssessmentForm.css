@@ -1,0 +1,45 @@
+.formRow {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.formRow p {
+  margin: 0;
+  margin-right: 10;
+}
+
+.emotionAssessmentForm {
+  width: 200px;
+  height: 100px;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Align items horizontally at the center */
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.emotionAssessmentFormParameterBox {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.componentEmotionAssessment p {
+  font-size: 16px;
+}
+
+.submitFormButton {
+  background-color: #8a3ab9; /* Light purple color */
+  color: white; /* Text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Add border radius */
+  padding: 10px 20px; /* Add padding */
+  cursor: pointer; /* Add cursor pointer on hover */
+}
+
+.submitFormButton:hover {
+  opacity: 0.8; /* Reduce opacity on hover */
+}
