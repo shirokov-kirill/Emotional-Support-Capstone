@@ -6,7 +6,7 @@ import EmojiSelectionButton from '../reusables/Buttons/EmojiSelectionButton/Emoj
 
 function EmotionAssessmentForm() {
   let [selectedColor, setSelectedColor] = useState('#ffffff');
-  let [selectedEmoji, setSelectedEmoji] = useState(null);
+  let [selectedEmoji, setSelectedEmoji] = useState('+1');
 
   const handleColorChange = (color) => {
     setSelectedColor(color['hex']);
