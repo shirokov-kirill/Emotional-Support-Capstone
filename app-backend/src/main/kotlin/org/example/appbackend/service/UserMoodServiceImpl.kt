@@ -10,8 +10,15 @@ import org.example.appbackend.exception.UserMoodNotFoundException
 import org.example.appbackend.mapper.UserMoodMapper
 import org.example.appbackend.repository.UserMoodRepository
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 
+/**
+ * Implementation of the UserMoodService interface.
+ *
+ * @property userMoodRepository The repository for accessing user mood data.
+ * @property userMoodMapper The mapper for converting between UserMood and UserMoodDto objects.
+ */
 @Service
 class UserMoodServiceImpl(
     private val userMoodRepository: UserMoodRepository,
@@ -40,6 +47,17 @@ class UserMoodServiceImpl(
             throw UserMoodNotFoundException(id)
         }
         return userMoodMapper.entityToDto(moodOpt.get())
+    }
+
+    override fun getUserMoodForTimeFrame(userId: Int, startDate: LocalDate, endDate: LocalDate): Map<LocalDate, UserMoodDto> {
+        val startLocalDateTime = startDate.atStartOfDay()
+        val endLocalDateTime = endDate.atStartOfDay()
+        val userMoodData = userMoodRepository.findByUserIdAndCreatedBetween(userId, startLocalDateTime, endLocalDateTime)
+        return userMoodData.mapNotNull {
+            it.created?.let {
+                date -> date.toLocalDate() to userMoodMapper.entityToDto(it)
+            }
+        }.toMap()
     }
 
     @Transactional
