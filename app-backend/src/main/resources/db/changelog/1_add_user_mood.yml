@@ -28,7 +28,10 @@ databaseChangeLog:
                   type: nvarchar
               - column:
                   name: created
-                  type: time
+                  type: datetime
+              - column:
+                  name: updated
+                  type: datetime
               - column:
                   name: user_id
                   type: int
