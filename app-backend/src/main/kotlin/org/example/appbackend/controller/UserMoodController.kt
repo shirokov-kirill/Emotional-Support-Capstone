@@ -1,6 +1,7 @@
 package org.example.appbackend.controller
 
 import org.example.appbackend.dto.CreateUserMoodDto
+import org.example.appbackend.dto.UpdateUserMoodDto
 import org.example.appbackend.dto.UserMoodDto
 import org.example.appbackend.service.UserMoodService
 import org.slf4j.LoggerFactory
@@ -31,7 +32,7 @@ class UserMoodController(
     }
 
     @PutMapping("user-mood/update")
-    fun updateUserMood(@RequestBody dto: UserMoodDto): UserMoodDto {
+    fun updateUserMood(@RequestBody dto: UpdateUserMoodDto): UserMoodDto {
         logger.info("Updating user mood: {}", dto)
         return userMoodService.update(dto)
     }

@@ -1,5 +1,6 @@
 package org.example.appbackend.controller
 
+import org.example.appbackend.dto.ExceptionDto
 import org.example.appbackend.exception.UserMoodIdNotAssignedException
 import org.example.appbackend.exception.UserMoodNotFoundException
 import org.slf4j.LoggerFactory
@@ -15,14 +16,16 @@ class UserMoodExceptionController {
     private var logger = LoggerFactory.getLogger(UserMoodExceptionController::class.java)
 
     @ExceptionHandler
-    fun handleNotFoundException(ex: UserMoodNotFoundException): ResponseEntity<String> {
+    fun handleNotFoundException(ex: UserMoodNotFoundException): ResponseEntity<ExceptionDto> {
         logger.error(ex.message)
-        return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
+        val dto = ExceptionDto(HttpStatus.NOT_FOUND.value(), ex.message)
+        return ResponseEntity(dto, HttpStatus.NOT_FOUND)
     }
 
     @ExceptionHandler
-    fun handleIdNotAssignedException(ex: UserMoodIdNotAssignedException): ResponseEntity<String> {
+    fun handleIdNotAssignedException(ex: UserMoodIdNotAssignedException): ResponseEntity<ExceptionDto> {
         logger.error(ex.message)
-        return ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
+        val dto = ExceptionDto(HttpStatus.BAD_REQUEST.value(), ex.message)
+        return ResponseEntity(dto, HttpStatus.BAD_REQUEST)
     }
 }
