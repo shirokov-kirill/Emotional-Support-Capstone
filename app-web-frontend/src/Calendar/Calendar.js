@@ -1,41 +1,58 @@
 import React, { Component } from 'react';
 import './Calendar.css';
 import CalendarDays from './Calendar days/CalendarDays'; // Adjust the import path accordingly
+<<<<<<< HEAD
 import Header from '../header/Header';
+=======
+import getMoodsForTimeFrame from "./../reusables/Mood/GetMood";
+>>>>>>> fixed calendar
 
 
-function currentDayOfMonth() {
-  const currentDate = new Date();
+function findStartAndEndDate(date) {
+  let startDate = new Date(date.getFullYear(), date.getMonth(), 1);
+  startDate = startDate.setDate(startDate.getDate() - startDate.getDay());
   
-  const dayOfMonth = currentDate.getDate();
+  let endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  endDate = endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
   
-  return dayOfMonth;
+  return {
+    startDate: startDate,
+    endDate: endDate
+  }
 }
+
+
+function getMoods(date) {
+  let timeFrame = findStartAndEndDate(date);
+  return getMoodsForTimeFrame(timeFrame.startDate, timeFrame.endDate);
+}
+
 
 export default class Calendar extends Component {
   constructor() {
     super();
 
     this.weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    this.months = ['January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'];
+    this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
+      'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
     this.state = {
-      currentDay: new Date()
+      currentDay: new Date(),
+      moods: getMoods(new Date())
     }
   }
 
-  // Function to change the current month to the previous month
   goToPreviousMonth = () => {
     this.setState(prevState => ({
-      currentDay: new Date(prevState.currentDay.getFullYear(), prevState.currentDay.getMonth() - 1, currentDayOfMonth())
+      currentDay: new Date(prevState.currentDay.getFullYear(), prevState.currentDay.getMonth() - 1, 1),
+      moods: getMoods(new Date(prevState.currentDay.getFullYear(), prevState.currentDay.getMonth() - 1, 1))
     }));
   }
 
-  // Function to change the current month to the next month
   goToNextMonth = () => {
     this.setState(prevState => ({
-      currentDay: new Date(prevState.currentDay.getFullYear(), prevState.currentDay.getMonth() + 1, currentDayOfMonth())
+      currentDay: new Date(prevState.currentDay.getFullYear(), prevState.currentDay.getMonth() + 1, 1),
+      moods: getMoods(new Date(prevState.currentDay.getFullYear(), prevState.currentDay.getMonth() + 1, 1))
     }));
   }
 
@@ -55,7 +72,7 @@ export default class Calendar extends Component {
               <div key={index} className="weekday"><p>{weekday}</p></div>
             ))}
           </div>
-          <CalendarDays day={this.state.currentDay} />
+          <CalendarDays moods={this.state.moods} />
         </div>
       </div>
       </div>
