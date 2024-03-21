@@ -33,6 +33,6 @@ class UserMood {
     @Column(name = "updated")
     var updated: LocalDateTime? = null
 
-    @Column(name = "userId")
-    var userID: Int? = null
+    @Column(name = "user_id")
+    var userId: Int? = null
 }
