@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 function Footer() {
     return (
@@ -18,6 +19,11 @@ function Login() {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [username, setUsername] = useState('');
+    let navigate = useNavigate();
+
+    const handleLogin = () => {
+        navigate('/home');
+    }
 
     const isFormEmpty = () => {
         return !name || !surname || !dob || !email || !username || !password || !confirmationPassword;
@@ -53,7 +59,7 @@ function Login() {
                     <form>
                         <input type="text" placeholder="Username" />
                         <input type="password" placeholder="Password" />
-                        <button type="submit">Login</button>
+                        <button type="submit" onClick={handleLogin}>Login</button>
                     </form>
                     <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign Up!</button>
                 </div>
