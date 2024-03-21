@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
 @RestController
+@CrossOrigin(origins = ["http://localhost:3000"])
 class UserMoodController(
     private val userMoodService: UserMoodService,
 ) {
