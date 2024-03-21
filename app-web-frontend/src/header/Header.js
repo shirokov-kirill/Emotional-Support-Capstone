@@ -7,9 +7,9 @@ function Header() {
     <header>
       <nav>
         <ul>
-          <li><Link to="/">Home</Link></li>
+          <li><Link to="/home">Home</Link></li>
           <li><Link to="/assessment">Assessment</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/calendar">Calendar</Link></li>
         </ul>
       </nav>
       <h1>Emotional support</h1>
