@@ -1,6 +1,4 @@
 import Header from '../header/Header';
-import { Route, Routes } from 'react-router-dom';
-import Calendar from './../Calendar/Calendar';
 
 
 function Home() {
