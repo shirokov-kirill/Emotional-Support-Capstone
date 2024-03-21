@@ -26,6 +26,14 @@ class UserMoodController(
         return userMoodService.get(id)
     }
 
+    /**
+     * Retrieves the user mood for the given time frame.
+     *
+     * @param userId the ID of the user.
+     * @param startDateTime the start date and time of the time frame (included).
+     * @param endDateTime the end date and time of the time frame (excluded).
+     * @return a map representing the user mood for each date in the time frame, where the key is the date and the value is the corresponding UserMoodDto.
+     */
     @GetMapping("user-mood/getByUser/{userId}/timeframe")
     fun getUserMoodByTimeFrame(@PathVariable("userId") userId: Int,
                                @RequestParam("start") startDateTime: LocalDate,

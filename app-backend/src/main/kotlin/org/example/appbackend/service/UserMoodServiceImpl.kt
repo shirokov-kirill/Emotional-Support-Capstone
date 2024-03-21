@@ -53,8 +53,11 @@ class UserMoodServiceImpl(
         val startLocalDateTime = startDate.atStartOfDay()
         val endLocalDateTime = endDate.atStartOfDay()
         val userMoodData = userMoodRepository.findByUserIdAndCreatedBetween(userId, startLocalDateTime, endLocalDateTime)
-        return userMoodData.mapNotNull { it.created?.let { date -> date.toLocalDate() to userMoodMapper.entityToDto(it) } }
-            .toMap()
+        return userMoodData.mapNotNull {
+            it.created?.let {
+                date -> date.toLocalDate() to userMoodMapper.entityToDto(it)
+            }
+        }.toMap()
     }
 
     @Transactional
