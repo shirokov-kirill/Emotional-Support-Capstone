@@ -16,4 +16,4 @@ function getMoodsForTimeFrame(startDate, endDate) {
   }
 
 
-export default getMood;
+export default getMoodsForTimeFrame;
