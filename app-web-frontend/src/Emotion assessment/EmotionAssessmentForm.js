@@ -5,8 +5,11 @@ import ColorSelectionButton from '../reusables/Buttons/ColorSelectionButton/Colo
 import EmojiSelectionButton from '../reusables/Buttons/EmojiSelectionButton/EmojiSelectionButton';
 
 function EmotionAssessmentForm() {
-  let [selectedColor, setSelectedColor] = useState('#ffffff');
-  let [selectedEmoji, setSelectedEmoji] = useState('+1');
+  const selectedColorDefault = '#ffffff'
+  const selectedEmojiDefault = '+1'
+
+  let [selectedColor, setSelectedColor] = useState(selectedColorDefault);
+  let [selectedEmoji, setSelectedEmoji] = useState(selectedEmojiDefault);
 
   const handleColorChange = (color) => {
     setSelectedColor(color['hex']);
@@ -16,6 +19,13 @@ function EmotionAssessmentForm() {
     console.log(emoji)
     setSelectedEmoji(emoji['id']);
   };
+
+  const onSubmit = () => {
+    // TODO check data
+    // TODO send data to server
+    setSelectedColor(selectedColorDefault)
+    setSelectedEmoji(selectedEmojiDefault)
+  }
 
   return (
     <div className='emotionAssessmentForm'>
@@ -29,7 +39,7 @@ function EmotionAssessmentForm() {
           <EmojiSelectionButton selectedEmoji={selectedEmoji} handleEmojiChange={handleEmojiChange}/>
         </div>
       </div>
-      <button className='submitFormButton'>
+      <button className='submitFormButton' onClick={onSubmit}>
         Submit
       </button>
     </div>
