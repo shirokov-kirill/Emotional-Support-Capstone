@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import './Calendar.css';
 import CalendarDays from './Calendar days/CalendarDays'; // Adjust the import path accordingly
-import Header from '../header/Header';
-
-
-function currentDayOfMonth() {
-  const currentDate = new Date();
-  
-  const dayOfMonth = currentDate.getDate();
 import getMoodsForTimeFrame from "./../reusables/Mood/GetMood";
 
 
