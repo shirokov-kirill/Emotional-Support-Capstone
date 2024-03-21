@@ -30,6 +30,9 @@ class UserMood {
     @Column(name = "created")
     var created: LocalDateTime? = null
 
+    @Column(name = "updated")
+    var updated: LocalDateTime? = null
+
     @Column(name = "userId")
     var userID: Int? = null
 }

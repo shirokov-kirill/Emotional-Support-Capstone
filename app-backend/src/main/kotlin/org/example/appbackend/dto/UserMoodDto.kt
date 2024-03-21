@@ -8,5 +8,6 @@ data class UserMoodDto(
     val emoji: String?,
     val description: String?,
     val created: LocalDateTime?,
+    val updated: LocalDateTime?,
     val userID: Int?
 )
