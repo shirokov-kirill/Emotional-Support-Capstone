@@ -3,6 +3,7 @@ import { useState } from 'react';
 import './EmotionAssessmentForm.css';
 import ColorSelectionButton from '../reusables/Buttons/ColorSelectionButton/ColorSelectionButton';
 import EmojiSelectionButton from '../reusables/Buttons/EmojiSelectionButton/EmojiSelectionButton';
+import {SERVER_ADDRESS, prepareRequest} from '../setupInfo';
 
 function EmotionAssessmentForm() {
   const selectedColorDefault = '#ffffff'
@@ -16,16 +17,34 @@ function EmotionAssessmentForm() {
   };
 
   const handleEmojiChange = (emoji) => {
-    console.log(emoji)
     setSelectedEmoji(emoji['id']);
   };
 
-  const onSubmit = () => {
-    // TODO check data
-    // TODO send data to server
-    setSelectedColor(selectedColorDefault)
-    setSelectedEmoji(selectedEmojiDefault)
-  }
+  const onSubmit = (event) => {
+    event.preventDefault();
+    console.log(JSON.stringify({
+      color: selectedColor,
+      emoji: selectedEmoji,
+      description: null,
+      userId: null
+    }))
+
+    fetch(SERVER_ADDRESS + '/user-mood/create', 
+    prepareRequest('POST', JSON.stringify({
+      color: selectedColor,
+      emoji: selectedEmoji,
+      description: null,
+      userId: null
+    })))
+    .then(response => {
+      console.log(response)
+      if(response.ok) {
+        setSelectedColor(selectedColorDefault)
+        setSelectedEmoji(selectedEmojiDefault)
+      }
+    })
+    .catch(error => console.error('Error during POSTing data: ', error));
+  };
 
   return (
     <div className='emotionAssessmentForm'>
