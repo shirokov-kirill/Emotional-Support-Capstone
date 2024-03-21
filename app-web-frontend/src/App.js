@@ -1,25 +1,34 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [isLogin, setIsLogin] = useState(true);
+
+    return (
+        <div className="App">
+            {isLogin ? (
+                <div className="form-container">
+                    <h2>Login</h2>
+                    <form>
+                        <input type="text" placeholder="Username" />
+                        <input type="password" placeholder="Password" />
+                        <button type="submit">Login</button>
+                    </form>
+                    <button className="switch-form-button" onClick={() => setIsLogin(false)}>Switch to Sign Up</button>
+                </div>
+            ) : (
+                <div className="form-container">
+                    <h2>Sign Up</h2>
+                    <form>
+                        <input type="text" placeholder="Username" />
+                        <input type="password" placeholder="Password" />
+                        <button type="submit">Sign Up</button>
+                    </form>
+                    <button className="switch-form-button" onClick={() => setIsLogin(true)}>Switch to Login</button>
+                </div>
+            )}
+        </div>
+    );
 }
 
 export default App;
