@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './Login.css';
 
 function Footer() {
     return (
@@ -9,7 +9,7 @@ function Footer() {
     );
 }
 
-function App() {
+function Login() {
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -108,4 +108,4 @@ function App() {
     );
 }
 
-export default App;
+export default Login;
