@@ -9,5 +9,5 @@ data class UserMoodDto(
     val description: String?,
     val created: LocalDateTime?,
     val updated: LocalDateTime?,
-    val userID: Int?
+    val userId: Int?
 )

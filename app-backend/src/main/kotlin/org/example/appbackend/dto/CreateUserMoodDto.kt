@@ -4,5 +4,5 @@ data class CreateUserMoodDto(
     val color: String?,
     val emoji: String?,
     val description: String?,
-    val userID: Int?
+    val userId: Int?
 )

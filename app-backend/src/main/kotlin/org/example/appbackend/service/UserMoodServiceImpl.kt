@@ -59,7 +59,6 @@ class UserMoodServiceImpl(
         mood.color = dto.color
         mood.emoji = dto.emoji
         mood.description = dto.description
-        mood.userID = dto.userID
         mood.updated = LocalDateTime.now()
         return mood
     }
