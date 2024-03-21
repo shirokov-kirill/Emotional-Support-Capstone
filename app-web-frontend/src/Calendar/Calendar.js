@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Calendar.css';
 import CalendarDays from './Calendar days/CalendarDays'; // Adjust the import path accordingly
 import getMoodsForTimeFrame from "./../reusables/Mood/GetMood";
+import Header from '../header/Header';
 
 
 function findStartAndEndDate(date) {
@@ -54,19 +55,22 @@ export default class Calendar extends Component {
 
   render() {
     return (
-      <div className="calendar">
-        <div className="calendar-header">
-          <button onClick={this.goToPreviousMonth}>Previous</button>
-          <h2>{this.months[this.state.currentDay.getMonth()]} {this.state.currentDay.getFullYear()}</h2>
-          <button onClick={this.goToNextMonth}>Next</button>
-        </div>
-        <div className="calendar-body">
-          <div className="table-header">
-            {this.weekdays.map((weekday, index) => (
-              <div key={index} className="weekday"><p>{weekday}</p></div>
-            ))}
+      <div>
+        <Header />
+        <div className="calendar">
+          <div className="calendar-header">
+            <button onClick={this.goToPreviousMonth}>Previous</button>
+            <h2>{this.months[this.state.currentDay.getMonth()]} {this.state.currentDay.getFullYear()}</h2>
+            <button onClick={this.goToNextMonth}>Next</button>
           </div>
-          <CalendarDays moods={this.state.moods} />
+          <div className="calendar-body">
+            <div className="table-header">
+              {this.weekdays.map((weekday, index) => (
+                <div key={index} className="weekday"><p>{weekday}</p></div>
+              ))}
+            </div>
+            <CalendarDays moods={this.state.moods} />
+          </div>
         </div>
       </div>
     )
