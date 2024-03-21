@@ -5,8 +5,8 @@ function getMoodsForTimeFrame(startDate, endDate) {
     while (currentDate <= endDate) {
       moods.push({
         date: new Date(currentDate),
-        color: "yellow",
-        smiley: "😐",
+        color: "lightyellow",
+        emoji: "😐",
       });
   
       currentDate.setDate(currentDate.getDate() + 1);
