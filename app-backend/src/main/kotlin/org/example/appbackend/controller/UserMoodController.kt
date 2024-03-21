@@ -5,13 +5,8 @@ import org.example.appbackend.dto.UpdateUserMoodDto
 import org.example.appbackend.dto.UserMoodDto
 import org.example.appbackend.service.UserMoodService
 import org.slf4j.LoggerFactory
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 
 @RestController
 class UserMoodController(
@@ -29,6 +24,14 @@ class UserMoodController(
     fun getUserMood(@PathVariable("id") id: Int): UserMoodDto {
         logger.info("Receiving user mood by id: {}", id)
         return userMoodService.get(id)
+    }
+
+    @GetMapping("user-mood/getByUser/{userId}/timeframe")
+    fun getUserMoodByTimeFrame(@PathVariable("userId") userId: Int,
+                               @RequestParam("start") startDateTime: LocalDate,
+                               @RequestParam("end") endDateTime: LocalDate): Map<LocalDate, UserMoodDto> {
+        logger.info("Receiving user mood for timeframe: {} to {}", startDateTime, endDateTime)
+        return userMoodService.getUserMoodForTimeFrame(userId, startDateTime, endDateTime)
     }
 
     @PutMapping("user-mood/update")
