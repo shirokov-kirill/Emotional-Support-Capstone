@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Footer() {
     return (
@@ -19,6 +20,8 @@ function Login() {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [username, setUsername] = useState('');
+    const [gender, setGender] = useState('');
+
     let navigate = useNavigate();
 
     const handleLogin = () => {
@@ -47,9 +50,55 @@ function Login() {
         return age >= 13 || dob.length === 0;
     }
 
-    const isFormValid = () => {
+    const isNewUserFormValid = () => {
         return isPasswordValid() && isPasswordSame() && validateEmail() && isDOBValid() && !isFormEmpty();
     }
+
+    const isLoginFormValid = () => {
+        return isPasswordValid() && username;
+    }
+
+    const onUserLoginSubmit = async (event) => {
+        event.preventDefault();
+
+        const userLogin = {
+            email,
+            password
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/register', userLogin);
+            if (response.status === 200) {
+                console.log('User login successfully')
+                console.log(response.data);
+            }
+        } catch (error) {
+            console.error('Error during registration', error);
+        }
+    };
+
+    const onNewUserFormSubmit = async (event) => {
+        event.preventDefault();
+
+        const userRegistration = {
+            email,
+            name,
+            surname,
+            dob,
+            gender,
+            password
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/register', userRegistration);
+            if (response.status === 200) {
+                console.log('User registered successfully')
+                console.log(response.data);
+            }
+        } catch (error) {
+            console.error('Error during registration', error);
+        }
+    };
 
     return (
         <div className="App">
@@ -57,25 +106,37 @@ function Login() {
                 <div className="form-container">
                     <h2>Login</h2>
                     <form>
-                        <input type="text" placeholder="Username" />
-                        <input type="password" placeholder="Password" />
-                        <button type="submit" onClick={handleLogin}>Login</button>
+                        <input type="text" placeholder="email" onChange={e => setUsername(e.target.value)}/>
+                        {!validateEmail() &&
+                            <p className="warning-message">Please enter a valid Email.</p>}
+
+                        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
+                        {!isPasswordValid() &&
+                            <p className="warning-message">Password must be at least 8 characters long.</p>}
+
+                        <form onSubmit={onUserLoginSubmit}>
+                            {!isLoginFormValid() && <p className="warning-message">Please fill in all the required fields.</p>}
+                            <button type="submit" disabled={!isLoginFormValid()}>Login</button>
+                        </form>
                     </form>
-                    <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign Up!</button>
+                    <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
+                        Up!
+                    </button>
                 </div>
             ) : (
                 <div className="form-container">
                     <h2>Sign Up</h2>
                     <form>
-                        <input type="text" placeholder="Name" />
-                        <input type="text" placeholder="Surname" />
+                        <input type="text" placeholder="Name" onChange={e => setName(e.target.value)}/>
+                        <input type="text" placeholder="Surname" onChange={e => setSurname(e.target.value)}/>
                         <input
                             type="date"
                             placeholder="Date of Birth"
                             onChange={e => setDob(e.target.value)}
                             style={isDOBValid() ? {} : {border: '1px solid lightcoral'}}
                         />
-                        {!isDOBValid() && <p className="warning-message">You must be at least 13 years old to register.</p>}
+                        {!isDOBValid() &&
+                            <p className="warning-message">You must be at least 13 years old to register.</p>}
                         <input
                             type="email"
                             placeholder="Email"
@@ -84,7 +145,13 @@ function Login() {
 
                         />
                         {!validateEmail() && <p className="warning-message">Please enter a valid Email.</p>}
-                        <input type="text" placeholder="Username" />
+                        <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
+                        <select value={gender} onChange={e => setGender(e.target.value)}>
+                            <option value="">Select gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
                         <input
                             type="password"
                             placeholder="Password"
@@ -92,7 +159,8 @@ function Login() {
                             style={isPasswordValid() ? {} : {border: '1px solid lightcoral'}}
                         />
 
-                        {!isPasswordValid() && <p className="warning-message">Password must be at least 8 characters long.</p>}
+                        {!isPasswordValid() &&
+                            <p className="warning-message">Password must be at least 8 characters long.</p>}
 
                         <input
                             type="password"
@@ -101,9 +169,13 @@ function Login() {
                             style={isPasswordSame() ? {} : {border: '1px solid lightcoral'}}
                         />
 
-                        {!isPasswordSame() && <p className="warning-message">Passwords must match the confirmation password.</p>}
+                        {!isPasswordSame() &&
+                            <p className="warning-message">Passwords must match the confirmation password.</p>}
 
-                        <button type="submit" disabled={!isFormValid()}>Sign Up</button>
+                        <form onSubmit={onNewUserFormSubmit}>
+                            {!isNewUserFormValid() && <p className="warning-message">Please fill in all the required fields.</p>}
+                            <button type="submit" disabled={!isNewUserFormValid()}>Sign Up</button>
+                        </form>
 
                     </form>
                     <button className="switch-form-button" onClick={() => setIsLogin(true)}>Back to Login</button>
