@@ -2,12 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import App from './App';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Login } from './Login/Login';
+import HeaderLayout from './header/Header';
+import MainComponents from './MainComponents/MainComponents.js';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App/>
+    <Router>
+      <HeaderLayout>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          {MainComponents.map((component, index) => (
+            <Route key={index + 1} path={component.path} element={<component.element />} />
+          ))}
+        </Routes>
+      </HeaderLayout>
+    </Router>
   </React.StrictMode>
 );
 

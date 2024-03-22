@@ -1,10 +1,7 @@
-import Header from '../header/Header';
-
-
 function Home() {
+    // TODO: Implement the Home page
     return (
         <div className="App">
-            <Header />
             <h2>Home</h2>
         </div>
     )

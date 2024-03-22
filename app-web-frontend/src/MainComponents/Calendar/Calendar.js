@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './Calendar.css';
 import CalendarDays from './Calendar days/CalendarDays';
-import getMoodsForTimeFrame from "./../reusables/Mood/GetMood";
-import Header from '../header/Header';
+import getMoodsForTimeFrame from "../../reusables/Mood/GetMood";
 
 
 function findStartAndEndDate(date) {
@@ -70,7 +69,6 @@ export default class Calendar extends Component {
   render() {
     return (
         <div>
-          <Header />
           <div className="calendar">
             <div className="calendar-header">
               <button onClick={this.goToPreviousMonth}>Previous</button>

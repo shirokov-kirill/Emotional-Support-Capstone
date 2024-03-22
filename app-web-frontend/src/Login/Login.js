@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
+
 function Footer() {
     return (
         <footer className="App-footer">
@@ -12,7 +13,7 @@ function Footer() {
     );
 }
 
-function Login() {
+export function Login() {
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -76,7 +77,7 @@ function Login() {
         } catch (error) {
             console.error('Error during registration', error);
         }
-        navigate('/Home');
+        navigate('/home');
     };
 
     const onNewUserFormSubmit = async (event) => {
@@ -100,8 +101,7 @@ function Login() {
         } catch (error) {
             console.error('Error during registration', error);
         }
-        navigate('/Home');
-
+        navigate('/home');
     };
 
     return (
@@ -195,4 +195,10 @@ function Login() {
     );
 }
 
-export default Login;
+
+
+// this logic isn't great, but this functiion is needed for the header to work
+// TODO: refactor this
+export function isLoggedIn() {
+    return true;
+}
