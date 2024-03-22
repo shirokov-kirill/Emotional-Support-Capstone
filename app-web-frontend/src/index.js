@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './Login/Login';
+import { Login } from './Login/Login';
 import HeaderLayout from './header/Header';
 import MainComponents from './MainComponents/MainComponents.js';
 

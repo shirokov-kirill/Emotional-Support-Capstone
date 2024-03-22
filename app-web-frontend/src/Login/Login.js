@@ -13,7 +13,7 @@ function Footer() {
     );
 }
 
-function Login() {
+export function Login() {
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -206,9 +206,8 @@ function Login() {
 // this logic isn't great, but this functiion is needed for the header to work
 // TODO: refactor this
 let isLoggedIn_ = false;
-function isLoggedIn() {
+export function isLoggedIn() {
+    console.log("Hi from isLoggedIn")
+    console.log(isLoggedIn_ ? "logged in" : "not logged in");
     return isLoggedIn_;
 }
-
-
-export default Login;
