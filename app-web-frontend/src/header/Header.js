@@ -22,10 +22,9 @@ const Header = () => {
 
 
 const HeaderLayout = ({ children }) => {
-  console.log("header layout");
   return (
     <div>
-      <div className="header">{isLoggedIn && <Header />}</div>
+      <div className="header">{isLoggedIn() && <Header />}</div>
       <div>{children}</div>
     </div>
   );
