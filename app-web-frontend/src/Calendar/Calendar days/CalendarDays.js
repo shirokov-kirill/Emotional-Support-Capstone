@@ -12,13 +12,10 @@ function isCurrentDate(date) {
 function CalendarDays(props) {
   let currentDays = [];
   
-  console.log(props.moods.length)
   for (let i = 0; i < props.moods.length; i++) {
     let date = props.moods[i].date;
     let color = props.moods[i].color;
     let emoji = props.moods[i].emoji;
-
-    console.log(date, color, emoji)
 
     let calendarDay = {
       currentMonth: true,
