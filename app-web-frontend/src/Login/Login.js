@@ -124,7 +124,7 @@ function Login() {
                     </button>
                 </div>
             ) : (
-                <div className="form-container">
+                <div className="form-container" style={{textAlign: 'left'}}>
                     <h2>Sign Up</h2>
                     <form>
                         <input type="text" placeholder="Name" onChange={e => setName(e.target.value)}/>
@@ -146,7 +146,11 @@ function Login() {
                         />
                         {!validateEmail() && <p className="warning-message">Please enter a valid Email.</p>}
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <select value={gender} onChange={e => setGender(e.target.value)}>
+                        <select
+                            className="mySelectStyle"
+                            value={gender}
+                            onChange={e => setGender(e.target.value)}
+                        >
                             <option value="">Select gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
@@ -173,7 +177,8 @@ function Login() {
                             <p className="warning-message">Passwords must match the confirmation password.</p>}
 
                         <form onSubmit={onNewUserFormSubmit}>
-                            {!isNewUserFormValid() && <p className="warning-message">Please fill in all the required fields.</p>}
+                            {!isNewUserFormValid() &&
+                                <p className="warning-message">Please fill in all the required fields.</p>}
                             <button type="submit" disabled={!isNewUserFormValid()}>Sign Up</button>
                         </form>
 
@@ -181,7 +186,7 @@ function Login() {
                     <button className="switch-form-button" onClick={() => setIsLogin(true)}>Back to Login</button>
                 </div>
             )}
-            <Footer />
+            <Footer/>
         </div>
     );
 }
