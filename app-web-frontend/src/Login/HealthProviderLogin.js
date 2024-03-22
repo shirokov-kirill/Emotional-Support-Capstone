@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 function Footer() {
     return (
@@ -24,10 +25,6 @@ function HealthProviderLogin() {
     const [file, setFile] = useState(null);
 
     let navigate = useNavigate();
-
-    const handleLogin = () => {
-        navigate('/home/hprovider');
-    }
 
     const isFormEmpty = () => {
         return !name || !surname || !dob || !email || !username || !password || !confirmationPassword || !clinic || !specialization;
@@ -60,6 +57,55 @@ function HealthProviderLogin() {
         setFile(selectedFile);
     }
 
+    const onHealthProviderLoginSubmit = async (event) => {
+        event.preventDefault();
+
+        const hProviderLogin = {
+            email,
+            password
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/register', hProviderLogin);
+            if (response.status === 200) {
+                navigate('/home/hprovider');
+                console.log('User login successfully')
+                console.log(response.data);
+            }
+        } catch (error) {
+            navigate('/home/hprovider');
+            console.error('Error during registration', error);
+        }
+    };
+
+    const onNewHealthProviderFormSubmit = async (event) => {
+        event.preventDefault();
+
+        const hpRegistration = {
+            email,
+            name,
+            surname,
+            dob,
+            password,
+            username,
+            clinic,
+            specialization,
+            file
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/register', hpRegistration);
+            if (response.status === 200) {
+                navigate('/home/hprovider');
+                console.log('User registered successfully')
+                console.log(response.data);
+            }
+        } catch (error) {
+            navigate('/home/hprovider');
+            console.error('Error during registration', error);
+        }
+    };
+
     return (
         <div className="App">
             {isLogin ? (
@@ -68,9 +114,11 @@ function HealthProviderLogin() {
                     <form>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
                         <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-                        <button type="submit" onClick={handleLogin}>Login</button>
+                        <button type="submit" onClick={onHealthProviderLoginSubmit}>Login</button>
                     </form>
-                    <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign Up!</button>
+                    <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
+                        Up!
+                    </button>
                 </div>
             ) : (
                 <div className="form-container">
@@ -124,7 +172,7 @@ function HealthProviderLogin() {
                         />
                         {!isPasswordSame() &&
                             <p className="warning-message">Passwords must match the confirmation password.</p>}
-                        <button type="submit" onClick={handleLogin} disabled={!isFormValid()}>Sign Up</button>
+                        <button type="submit" onClick={onNewHealthProviderFormSubmit} disabled={!isFormValid()}>Sign Up</button>
                     </form>
                     <button className="switch-form-button" onClick={() => setIsLogin(true)}>Back to Login</button>
                 </div>
