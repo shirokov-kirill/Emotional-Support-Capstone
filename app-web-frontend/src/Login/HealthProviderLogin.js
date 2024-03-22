@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 function Footer() {
@@ -119,10 +119,11 @@ function HealthProviderLogin() {
                     <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
                         Up!
                     </button>
+                    <Link to='/' style={{ textDecoration: 'underline', marginTop: '10px' }}>Back to role choice</Link>
                 </div>
             ) : (
                 <div className="form-container">
-                    <h2>Doctor Sign Up</h2>
+                    <h2>Health Provider Sign Up</h2>
                     <form>
                         <input type="text" placeholder="Name" onChange={e => setName(e.target.value)}/>
                         <input type="text" placeholder="Surname" onChange={e => setSurname(e.target.value)}/>
@@ -175,6 +176,7 @@ function HealthProviderLogin() {
                         <button type="submit" onClick={onNewHealthProviderFormSubmit} disabled={!isFormValid()}>Sign Up</button>
                     </form>
                     <button className="switch-form-button" onClick={() => setIsLogin(true)}>Back to Login</button>
+                    <Link to='/' style={{ textDecoration: 'underline', marginTop: '10px' }}>Back to role choice</Link>
                 </div>
             )}
             <Footer/>
