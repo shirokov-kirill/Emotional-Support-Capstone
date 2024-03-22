@@ -209,5 +209,3 @@ let isLoggedIn_ = false;
 export function isLoggedIn() {
     return isLoggedIn_;
 }
-
-export default Login;
