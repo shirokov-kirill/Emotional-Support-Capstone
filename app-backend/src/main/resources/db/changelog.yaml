@@ -1,3 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: db/changelog/1_add_user_mood.yml
