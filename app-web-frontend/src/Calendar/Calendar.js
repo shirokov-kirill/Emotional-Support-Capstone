@@ -8,7 +8,7 @@ import Header from '../header/Header';
 function findStartAndEndDate(date) {
   let startDate = new Date(date.getFullYear(), date.getMonth(), 1);
   // startDate = startDate.setDate(startDate.getDate() - startDate.getDay());
-  
+
   let endDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
   // endDate = endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
   
@@ -57,14 +57,14 @@ export default class Calendar extends Component {
         {
       currentDay: new Date(prevState.currentDay.getFullYear(), prevState.currentDay.getMonth() - 1, 1),
     }));
-    this.fetchMoods();
+    this.componentDidMount();
   }
 
   goToNextMonth = () => {
     this.setState(prevState => ({
       currentDay: new Date(prevState.currentDay.getFullYear(), prevState.currentDay.getMonth() + 1, 1),
     }));
-    this.fetchMoods()
+    this.componentDidMount();
   }
 
   render() {
