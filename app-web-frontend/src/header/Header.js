@@ -1,15 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Header.css'; // Import the CSS file
+import './Header.css';
+import isLoggedIn from "../Login/Login";
+import MainComponents from '../MainComponents/MainComponents.js';
 
-function Header() {
+
+const Header = () => {
   return (
     <header>
       <nav>
         <ul>
-          <li><Link to="/home">Home</Link></li>
-          <li><Link to="/assessment">Assessment</Link></li>
-          <li><Link to="/calendar">Calendar</Link></li>
+          {MainComponents.map((component, index) => (
+            <li key={index}><Link to={component.path}>{component.label}</Link></li>
+          ))}
         </ul>
       </nav>
       <h1>Emotional support</h1>
@@ -17,4 +20,15 @@ function Header() {
   );
 };
 
-export default Header;
+
+const HeaderLayout = ({ children }) => {
+  console.log("header layout");
+  return (
+    <div>
+      <div className="header">{isLoggedIn && <Header />}</div>
+      <div>{children}</div>
+    </div>
+  );
+};
+
+export default HeaderLayout;

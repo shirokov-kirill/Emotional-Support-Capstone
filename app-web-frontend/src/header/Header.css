@@ -5,7 +5,7 @@ header {
   background-color: #333;
   color: white;
   padding: 10px;
-  justify-content: space-between;
+  justify-content: space-between; /* Adjusted */
   align-items: center;
   display: flex;
 }
@@ -33,4 +33,21 @@ nav ul li a {
 h1 {
   margin: 0;
   font-size: 24px; /* Decrease font size */
+  margin-left: auto; /* Pushes the h1 element to the right */
+  padding-right: 1%;
+}
+
+.header {
+  padding: 10px 0px;
+}
+
+/* Page content */
+.content {
+  padding: 16px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
 }

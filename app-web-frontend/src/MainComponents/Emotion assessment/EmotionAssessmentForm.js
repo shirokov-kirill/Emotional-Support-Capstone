@@ -1,10 +1,9 @@
 
 import { useState } from 'react';
 import './EmotionAssessmentForm.css';
-import ColorSelectionButton from '../reusables/Buttons/ColorSelectionButton/ColorSelectionButton';
-import EmojiSelectionButton from '../reusables/Buttons/EmojiSelectionButton/EmojiSelectionButton';
-import {SERVER_ADDRESS, prepareRequest} from '../setupInfo';
-import Header from '../header/Header';
+import ColorSelectionButton from '../../reusables/Buttons/ColorSelectionButton/ColorSelectionButton';
+import EmojiSelectionButton from '../../reusables/Buttons/EmojiSelectionButton/EmojiSelectionButton';
+import {SERVER_ADDRESS, prepareRequest} from '../../setupInfo';
 
 function EmotionAssessmentForm() {
   const selectedColorDefault = '#ffffff'
@@ -49,7 +48,6 @@ function EmotionAssessmentForm() {
 
   return (
     <div>
-      <Header/>
       <div className='emotionAssessmentForm'>
         <div className='emotionAssessmentFormParameterBox'>
           <div className='formRow'>
