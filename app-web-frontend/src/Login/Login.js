@@ -26,8 +26,11 @@ export function Login() {
     let navigate = useNavigate();
 
     const handleLogin = () => {
+<<<<<<< HEAD
         isLoggedIn_ = true;
         console.log('Login successful');
+=======
+>>>>>>> modified isLoggedIn
         navigate('/home');
     }
 
@@ -78,8 +81,7 @@ export function Login() {
         } catch (error) {
             console.error('Error during registration', error);
         }
-        isLoggedIn_ = true;
-        navigate('/Home');
+        navigate('/home');
     };
 
     const onNewUserFormSubmit = async (event) => {
@@ -103,8 +105,7 @@ export function Login() {
         } catch (error) {
             console.error('Error during registration', error);
         }
-        navigate('/Home');
-
+        navigate('/home');
     };
 
     return (
@@ -205,7 +206,6 @@ export function Login() {
 
 // this logic isn't great, but this functiion is needed for the header to work
 // TODO: refactor this
-let isLoggedIn_ = false;
 export function isLoggedIn() {
-    return isLoggedIn_;
+    return true;
 }
