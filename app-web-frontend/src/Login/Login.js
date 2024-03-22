@@ -211,12 +211,4 @@ function isLoggedIn() {
 }
 
 
-
-// this logic isn't great, but this functiion is needed for the header to work
-// TODO: refactor this
-let isLoggedIn_ = false;
-function isLoggedIn() {
-    return isLoggedIn_;
-}
-
 export default Login;
