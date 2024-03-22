@@ -4,6 +4,7 @@ import './EmotionAssessmentForm.css';
 import ColorSelectionButton from '../reusables/Buttons/ColorSelectionButton/ColorSelectionButton';
 import EmojiSelectionButton from '../reusables/Buttons/EmojiSelectionButton/EmojiSelectionButton';
 import {SERVER_ADDRESS, prepareRequest} from '../setupInfo';
+import Header from '../header/Header';
 
 function EmotionAssessmentForm() {
   const selectedColorDefault = '#ffffff'
@@ -47,20 +48,23 @@ function EmotionAssessmentForm() {
   };
 
   return (
-    <div className='emotionAssessmentForm'>
-      <div className='emotionAssessmentFormParameterBox'>
-        <div className='formRow'>
-          <p>Color:</p>
-          <ColorSelectionButton selectedColor={selectedColor} handleColorChange={handleColorChange}/>
+    <div>
+      <Header/>
+      <div className='emotionAssessmentForm'>
+        <div className='emotionAssessmentFormParameterBox'>
+          <div className='formRow'>
+            <p>Color:</p>
+            <ColorSelectionButton selectedColor={selectedColor} handleColorChange={handleColorChange}/>
+          </div>
+          <div className='formRow'>
+            <p>Emoji:</p>
+            <EmojiSelectionButton selectedEmoji={selectedEmoji} handleEmojiChange={handleEmojiChange}/>
+          </div>
         </div>
-        <div className='formRow'>
-          <p>Emoji:</p>
-          <EmojiSelectionButton selectedEmoji={selectedEmoji} handleEmojiChange={handleEmojiChange}/>
-        </div>
+        <button className='submitFormButton' onClick={onSubmit}>
+          Submit
+        </button>
       </div>
-      <button className='submitFormButton' onClick={onSubmit}>
-        Submit
-      </button>
     </div>
   );
 }
