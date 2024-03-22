@@ -12,7 +12,7 @@ function Footer() {
     );
 }
 
-function Login() {
+export function Login() {
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -123,7 +123,10 @@ function Login() {
 
                         <div>
                             {!isLoginFormValid() && <p className="warning-message">Please fill in all the required fields.</p>}
-                            <button type="submit" disabled={!isLoginFormValid()}>Login</button>
+                            <button type="submit" disabled={!isLoginFormValid()} onClick={handleLogin}>Login</button>
+                            {/* Handle login is needed to navigate to the home page after the successful login
+                            feel free to modify the logic, but please try to remain
+                            that the successfull login leads to navigation to the home page*/}
                         </div>
                     </form>
                     <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
@@ -203,7 +206,7 @@ function Login() {
 // this logic isn't great, but this functiion is needed for the header to work
 // TODO: refactor this
 let isLoggedIn_ = false;
-function isLoggedIn() {
+export function isLoggedIn() {
     return isLoggedIn_;
 }
 

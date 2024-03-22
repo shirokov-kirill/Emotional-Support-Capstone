@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './Login/Login';
+import { Login } from './Login/Login';
 import Home from './Home/Home';
 import Calendar from './Calendar/Calendar';
 import EmotionAssessmentForm from './Emotion assessment/EmotionAssessmentForm'

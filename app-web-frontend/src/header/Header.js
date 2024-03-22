@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
-import isLoggedIn from "../Login/Login";
+import { isLoggedIn } from "../Login/Login";
 import MainComponents from '../MainComponents/MainComponents.js';
 
 
