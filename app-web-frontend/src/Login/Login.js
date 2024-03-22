@@ -3,6 +3,7 @@ import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 function Footer() {
     return (
         <footer className="App-footer">
@@ -67,7 +68,7 @@ function Login() {
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/register', userLogin);
+            const response = await axios.post('/', userLogin);
             if (response.status === 200) {
                 console.log('User login successfully')
                 console.log(response.data);
@@ -75,6 +76,7 @@ function Login() {
         } catch (error) {
             console.error('Error during registration', error);
         }
+        navigate('/Home');
     };
 
     const onNewUserFormSubmit = async (event) => {
@@ -90,7 +92,7 @@ function Login() {
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/register', userRegistration);
+            const response = await axios.post('/', userRegistration);
             if (response.status === 200) {
                 console.log('User registered successfully')
                 console.log(response.data);
@@ -98,6 +100,8 @@ function Login() {
         } catch (error) {
             console.error('Error during registration', error);
         }
+        navigate('/Home');
+
     };
 
     return (
@@ -105,7 +109,7 @@ function Login() {
             {isLogin ? (
                 <div className="form-container">
                     <h2>Login</h2>
-                    <form>
+                    <form onSubmit={onUserLoginSubmit}>
                         <input type="text" placeholder="email" onChange={e => setUsername(e.target.value)}/>
                         {!validateEmail() &&
                             <p className="warning-message">Please enter a valid Email.</p>}
@@ -114,10 +118,10 @@ function Login() {
                         {!isPasswordValid() &&
                             <p className="warning-message">Password must be at least 8 characters long.</p>}
 
-                        <form onSubmit={onUserLoginSubmit}>
+                        <div>
                             {!isLoginFormValid() && <p className="warning-message">Please fill in all the required fields.</p>}
                             <button type="submit" disabled={!isLoginFormValid()}>Login</button>
-                        </form>
+                        </div>
                     </form>
                     <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
                         Up!
@@ -126,7 +130,7 @@ function Login() {
             ) : (
                 <div className="form-container" style={{textAlign: 'left'}}>
                     <h2>Sign Up</h2>
-                    <form>
+                    <form onSubmit={onNewUserFormSubmit}>
                         <input type="text" placeholder="Name" onChange={e => setName(e.target.value)}/>
                         <input type="text" placeholder="Surname" onChange={e => setSurname(e.target.value)}/>
                         <input
@@ -176,11 +180,11 @@ function Login() {
                         {!isPasswordSame() &&
                             <p className="warning-message">Passwords must match the confirmation password.</p>}
 
-                        <form onSubmit={onNewUserFormSubmit}>
+                        <div>
                             {!isNewUserFormValid() &&
                                 <p className="warning-message">Please fill in all the required fields.</p>}
                             <button type="submit" disabled={!isNewUserFormValid()}>Sign Up</button>
-                        </form>
+                        </div>
 
                     </form>
                     <button className="switch-form-button" onClick={() => setIsLogin(true)}>Back to Login</button>
