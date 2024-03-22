@@ -1,4 +1,4 @@
-function getUserID() {
+export function getUserID() {
     // Wait for Authorisation
-    return 1
+    return 0
 }

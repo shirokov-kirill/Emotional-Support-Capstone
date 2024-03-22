@@ -1,8 +1,9 @@
-import getUserID from "../utils/UserID"
+import { getUserID } from "../utils/UserID"
 
 async function getMoodDataFromServer(userId, startDate, endDate) {
-    const url = `user-mood/getByUser/${userId}/timeframe?start=${startDate}&end=${endDate}`;
-
+    let formatStartDate = dateToIsoWithoutTime(startDate)
+    let formatEndDate = dateToIsoWithoutTime(endDate)
+    const url = `http://localhost:8080/user-mood/getByUser/${userId}/timeframe?start=${formatStartDate}&end=${formatEndDate}`;
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -21,15 +22,15 @@ async function getMoodsForTimeFrame(startDate, endDate) {
     const moods = [];
 
     let currentDate = new Date(startDate);
-    while (currentDate <= endDate) {
-        const currentDateISO = currentDate.toISOString().split('T')[0];
+    while (currentDate < endDate) {
+        const currentDateISO = dateToIsoWithoutTime(currentDate)
         // Find mood data for the current date
         const moodInfo = moodData[currentDateISO];
 
-        const default_color = "yellow"
+        const default_color = "grey"
         const default_emoji = "😐"
-        let color = moodInfo && moodInfo.color !== null ? moodInfo.color : default_color;
-        let emoji = moodInfo && moodInfo.emoji !== null ? moodInfo.emoji : default_emoji;
+        let color = (currentDateISO in moodData && moodInfo.color !== undefined) ? moodInfo.color : default_color;
+        let emoji = (currentDateISO in moodData && moodInfo.emoji !== undefined) ? moodInfo.emoji : default_emoji;
         moods.push({
             date: new Date(currentDate),
             color: color,
@@ -38,9 +39,15 @@ async function getMoodsForTimeFrame(startDate, endDate) {
 
         currentDate.setDate(currentDate.getDate() + 1);
     }
-
     return moods;
 }
 
+
+function dateToIsoWithoutTime(dateString) {
+    let dateObject = new Date(dateString);
+    let isoString = dateObject.toISOString();
+    let isoDate = isoString.split('T')[0];
+    return isoDate;
+}
 
 export default getMoodsForTimeFrame;
