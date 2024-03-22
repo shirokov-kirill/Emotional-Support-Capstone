@@ -1,0 +1,13 @@
+.emojiSelectionButton {
+    position: relative; /* Set position to relative */
+  }
+  
+.emojiSelectionButton button {
+  margin-right: 10px; /* Add margin between button and dialog */
+}
+  
+.emojiSelectionButton .picker {
+  position: absolute; /* Set position to absolute */
+  top: 30px; /* Adjust top position as needed */
+  left: 0; /* Align to the left edge of the container */
+}
