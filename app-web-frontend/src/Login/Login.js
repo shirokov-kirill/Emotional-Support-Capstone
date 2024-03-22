@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
+
 function Footer() {
     return (
         <footer className="App-footer">
@@ -26,6 +27,8 @@ function Login() {
     let navigate = useNavigate();
 
     const handleLogin = () => {
+        isLoggedIn_ = true;
+        console.log('Login successful');
         isLoggedIn_ = true;
         console.log('Login successful');
         navigate('/home');
@@ -196,6 +199,15 @@ function Login() {
             <Footer/>
         </div>
     );
+}
+
+
+
+// this logic isn't great, but this functiion is needed for the header to work
+// TODO: refactor this
+let isLoggedIn_ = false;
+function isLoggedIn() {
+    return isLoggedIn_;
 }
 
 
