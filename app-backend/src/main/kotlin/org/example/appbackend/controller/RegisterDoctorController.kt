@@ -1,5 +1,6 @@
 package org.example.appbackend.controller
 
+import org.example.appbackend.dto.DoctorCredentialsDto
 import org.example.appbackend.dto.RegisterDoctorCredentialsDto
 import org.example.appbackend.service.DoctorCredentialsService
 import org.slf4j.LoggerFactory
@@ -14,8 +15,8 @@ class RegisterDoctorController(
     private var logger = LoggerFactory.getLogger(RegisterDoctorController::class.java)
 
     @PostMapping("doctor/register")
-    fun registerDoctor(@RequestBody dto: RegisterDoctorCredentialsDto) {
+    fun registerDoctor(@RequestBody dto: RegisterDoctorCredentialsDto): DoctorCredentialsDto {
         logger.info("Register {}", dto)
-        doctorCredentialsService.register(dto)
+        return doctorCredentialsService.register(dto)
     }
 }

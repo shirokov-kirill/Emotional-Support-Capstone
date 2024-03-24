@@ -1,5 +1,6 @@
 package org.example.appbackend.service
 
+import org.example.appbackend.dto.DoctorCredentialsDto
 import org.example.appbackend.dto.RegisterDoctorCredentialsDto
 import org.example.appbackend.mapper.DoctorCredentialsMapper
 import org.example.appbackend.repository.DoctorCredentialsRepository
@@ -11,8 +12,10 @@ class DoctorCredentialsServiceImpl(
     private val doctorCredentialsMapper: DoctorCredentialsMapper
 ) : DoctorCredentialsService {
 
-    override fun register(dto: RegisterDoctorCredentialsDto) {
+    override fun register(dto: RegisterDoctorCredentialsDto): DoctorCredentialsDto {
         val doctorCredentials = doctorCredentialsMapper.registerDtoToEntity(dto)
-        doctorCredentialsRepository.save(doctorCredentials)
+        val credentials = doctorCredentialsRepository.save(doctorCredentials)
+
+        return doctorCredentialsMapper.entityToDto(credentials)
     }
 }
