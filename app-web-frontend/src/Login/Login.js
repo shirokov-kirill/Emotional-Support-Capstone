@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
+
 function Footer() {
     return (
         <footer className="App-footer">
@@ -26,11 +27,8 @@ export function Login() {
     let navigate = useNavigate();
 
     const handleLogin = () => {
-<<<<<<< HEAD
         isLoggedIn_ = true;
         console.log('Login successful');
-=======
->>>>>>> modified isLoggedIn
         navigate('/home');
     }
 
