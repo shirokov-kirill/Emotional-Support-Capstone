@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Define domain for deployment of the application
-DOMAIN_NAME="dev.ecoharmony.com"
-
 # Define the path to your .env.sample and the output .env file
 ENV_FILE=".env"
 ENV_SAMPLE=".env.sample"
@@ -96,6 +93,7 @@ create_ngnix_conf() {
             exit 1
         fi
 	# Replace the placeholder in nginx.conf.template and save as nginx.conf
+	DOMAIN_NAME="${DOMAIN_NAME:-localhost}"  # Use DOMAIN_NAME if set, otherwise default to localhost
 	sed "s/\${DOMAIN_NAME}/${DOMAIN_NAME}/g" ./app-web-frontend/nginx.conf.template > ./app-web-frontend/nginx.conf
         echo "nginx.conf has been created."
     fi
@@ -104,7 +102,7 @@ create_ngnix_conf() {
 # Function to generate self-signed SSL certificates
 generate_ssl() {
 
-    SSL_DIR="./ssl"
+    SSL_DIR="app-web-frontend/ssl"
     CERT_FILE="${SSL_DIR}/${DOMAIN_NAME}.crt"
     KEY_FILE="${SSL_DIR}/${DOMAIN_NAME}.key"
 
@@ -150,7 +148,7 @@ deploy() {
 main() {
     check_docker
     
-    pull_current_branch
+#    pull_current_branch
     
     create_env
     generate_ssl
