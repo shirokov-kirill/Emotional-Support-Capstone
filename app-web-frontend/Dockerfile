@@ -1,17 +1,25 @@
-
 # Build stage with the latest Node.js version
-FROM node:latest as build
-COPY --from=build /app/build /usr/share/nginx/html
-COPY app-web-frontend/nginx.conf /etc/nginx/conf.d/default.conf
+FROM node:18-slim as build-stage
+
 WORKDIR /app
-COPY app-web-frontend/package.json app-web-frontend/package-lock.json ./
-RUN npm install
-COPY app-web-frontend/ .
-RUN npm run build
+
+COPY package*.json ./
+
+RUN npm install --verbose --network=host
+
+#Copy the necessary files
+COPY . .
+CMD ["npm", "run", "build"]
 
 # Serve stage with the latest Nginx version
 FROM nginx:latest
-COPY --from=build /app/build /usr/share/nginx/html
-COPY app-web-frontend/nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 443
+
+COPY --from=build-stage /app/build /usr/share/nginx/html
+
+# Copy nginx configuration file
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY ssl/* /etc/nginx/ssl/
+
+# Expose the port specified via environment variable
+EXPOSE $FRONTEND_PORT
 CMD ["nginx", "-g", "daemon off;"]
