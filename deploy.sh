@@ -76,6 +76,9 @@ create_env() {
 	# Replace placeholders in .env
 	sed -i "s/POSTGRES_USER=.*/POSTGRES_USER=$DB_USER/" $ENV_FILE
 	sed -i "s/POSTGRES_PASSWORD=.*/POSTGRES_PASSWORD=$DB_PASSWORD/" $ENV_FILE
+	DOMAIN_NAME=$(domainname)
+	echo "Domain: $DOMAIN_NAME"
+	sed -i "s/yourdomain/$DOMAIN_NAME/" $ENV_FILE
 	echo ".env file has been generated with random credentials."
     fi
 }
@@ -93,7 +96,6 @@ create_ngnix_conf() {
             exit 1
         fi
 	# Replace the placeholder in nginx.conf.template and save as nginx.conf
-	DOMAIN_NAME="${DOMAIN_NAME:-localhost}"  # Use DOMAIN_NAME if set, otherwise default to localhost
 	sed "s/\${DOMAIN_NAME}/${DOMAIN_NAME}/g" ./app-web-frontend/nginx.conf.template > ./app-web-frontend/nginx.conf
         echo "nginx.conf has been created."
     fi

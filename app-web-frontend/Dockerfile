@@ -9,7 +9,7 @@ RUN npm install --verbose --network=host
 
 #Copy the necessary files
 COPY . .
-CMD ["npm", "run", "build"]
+RUN npm run build
 
 # Serve stage with the latest Nginx version
 FROM nginx:latest
