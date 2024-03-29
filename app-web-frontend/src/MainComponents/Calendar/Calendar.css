@@ -3,7 +3,7 @@
   height: 600px;
   display: flex;
   flex-direction: column;
-  margin-top: 40px;
+  /* margin-top: 20px; */
 }
 
 .calendar-header {
