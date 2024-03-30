@@ -5,11 +5,13 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --verbose --network=host
+RUN npm install --verbose
 
 # Copy the necessary files
 COPY . .
 RUN npm run build
+COPY ./public ./build/
+COPY ./src ./build/
 
 # Serve stage with the latest Nginx version
 FROM nginx:latest
