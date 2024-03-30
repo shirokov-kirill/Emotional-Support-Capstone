@@ -73,11 +73,11 @@ create_env() {
         # Generate random values
 	DB_USER="user_$(openssl rand -hex 6)"
 	DB_PASSWORD="$(openssl rand -hex 12)"
+	DOMAIN_NAME=$(domainname)
+        echo "Domain: $DOMAIN_NAME"
 	# Replace placeholders in .env
 	sed -i "s/POSTGRES_USER=.*/POSTGRES_USER=$DB_USER/" $ENV_FILE
 	sed -i "s/POSTGRES_PASSWORD=.*/POSTGRES_PASSWORD=$DB_PASSWORD/" $ENV_FILE
-	DOMAIN_NAME=$(domainname)
-	echo "Domain: $DOMAIN_NAME"
 	sed -i "s/yourdomain/$DOMAIN_NAME/" $ENV_FILE
 	echo ".env file has been generated with random credentials."
     fi
@@ -98,6 +98,20 @@ create_ngnix_conf() {
 	# Replace the placeholder in nginx.conf.template and save as nginx.conf
 	sed "s/\${DOMAIN_NAME}/${DOMAIN_NAME}/g" ./app-web-frontend/nginx.conf.template > ./app-web-frontend/nginx.conf
         echo "nginx.conf has been created."
+    fi
+}
+
+# Function to create app config for database
+create_application_conf() {
+    source .env
+    echo "Update application-local.yaml"
+    # Replace application-local.yaml with application-local.yaml.sample and replace the placeholders"
+    CONFIG_FILE=app-backend/src/main/resources/application-local.yaml
+    if [ -f $CONFIG_FILE.sample ]; then
+	    mv $CONFIG_FILE.sample $CONFIG_FILE
+	    sed -i "s/yourdomain:dbport\/postgres/${DOMAIN_NAME}:${POSTGRES_PORT}\/${POSTGRES_DB}/" $CONFIG_FILE
+            sed -i "s/dbusername/${POSTGRES_USER}/" $CONFIG_FILE
+            sed -i "s/dbpassword/${POSTGRES_PASSWORD}/" $CONFIG_FILE
     fi
 }
 
@@ -155,7 +169,8 @@ main() {
     create_env
     generate_ssl
     create_ngnix_conf
-    
+    create_application_conf
+
     deploy
 }
 
