@@ -5,9 +5,9 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --verbose
+RUN npm install --verbose --network=host
 
-#Copy the necessary files
+# Copy the necessary files
 COPY . .
 RUN npm run build
 COPY ./public ./build/
