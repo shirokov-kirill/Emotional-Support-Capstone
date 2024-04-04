@@ -141,7 +141,13 @@ create_application_conf() {
     echo "Update application-local.yaml"
     # Set actual values in application-local.yaml"
     CONFIG_FILE=app-backend/src/main/resources/application-local.yaml
-    sed -i "s/localhost:5432\/postgres/${DOMAIN_NAME}:${POSTGRES_PORT}\/${POSTGRES_DB}/" $CONFIG_FILE
+    # For dev deployment replace domain name with IP to avoid potential issues with DNS resolution
+    if [ "$PRODUCTION" = true ]; then
+	    DB_HOST=${DOMAIN_NAME}
+    else
+	    DB_HOST=$(hostname -I | cut -d' ' -f1)
+    fi
+    sed -i "s/localhost:5432\/postgres/${DB_HOST}:${POSTGRES_PORT}\/${POSTGRES_DB}/" $CONFIG_FILE
     sed -i "s/username: postgres/username: ${POSTGRES_USER}/" $CONFIG_FILE
     sed -i "s/password: postgres/password: ${POSTGRES_PASSWORD}/" $CONFIG_FILE
 }
