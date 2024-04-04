@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://yourdomain:dbport/postgres
-    username: dbusername
-    password: dbpassword
-    driver-class-name: org.postgresql.Driver
