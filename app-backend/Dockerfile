@@ -19,4 +19,4 @@ COPY --from=builder /home/gradle/src/build/libs/*.jar /app/backend.jar
 WORKDIR /app
 
 # Command to run the application
-CMD ["java", "-jar", "backend.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=cloud", "backend.jar"]

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#
 # Initialize variables with default values
 PRODUCTION=false
 
@@ -138,9 +138,9 @@ create_ngnix_conf() {
 # Function to create app config for database
 create_application_conf() {
     source $ENV_FILE
-    echo "Update application-local.yaml"
-    # Set actual values in application-local.yaml"
-    CONFIG_FILE=app-backend/src/main/resources/application-local.yaml
+    echo "Updating application-cloud.yaml"
+    # Set actual values in application-cloud.yaml"
+    CONFIG_FILE=app-backend/src/main/resources/application-cloud.yaml
     # For dev deployment replace domain name with IP to avoid potential issues with DNS resolution
     if [ "$PRODUCTION" = true ]; then
 	    DB_HOST=${DOMAIN_NAME}
