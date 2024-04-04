@@ -20,10 +20,6 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
-    location ~ \.js$ {
-        add_header Content-Type application/javascript;
-    }
-
     # Proxy API requests to the Backend
     location /api/ {
         proxy_pass http://$server_name:8080/;

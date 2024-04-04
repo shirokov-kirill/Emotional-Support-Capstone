@@ -10,8 +10,6 @@ RUN npm install --verbose --network=host
 # Copy the necessary files
 COPY . .
 RUN npm run build
-COPY ./public ./build/
-COPY ./src ./build/
 
 # Serve stage with the latest Nginx version
 FROM nginx:latest
