@@ -1,4 +1,16 @@
-import React from 'react';
+import DashboardCard from "./Components/DashboardComponent/DashboardCard";
+
+function App() {
+  return (
+    <>
+      <DashboardCard></DashboardCard>
+    </>
+  );
+}
+
+export default App;
+
+/*import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Login } from './Login/Login';
 import Home from './Home/Home';
@@ -25,4 +37,4 @@ function App() {
 }
 
 
-export default App;
+export default App;*/
