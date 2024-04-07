@@ -1,10 +1,17 @@
-import DashboardCard from "./Components/DashboardComponent/DashboardCard";
+import "./index.css";
+import CustomCard from "./Components/DashboardComponent/CustomDashboardCard";
+import PieChar_img from "./Components/DashboardComponent/CardImages/Pie_chart.png";
 
 function App() {
   return (
-    <>
-      <DashboardCard></DashboardCard>
-    </>
+    <div className="body">
+      <CustomCard
+        title="New Patient"
+        number={125}
+        progress={45}
+        imageSrc={PieChar_img}
+      />
+    </div>
   );
 }
 
