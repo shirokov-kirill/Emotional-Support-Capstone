@@ -1,0 +1,16 @@
+.messageViewBox {
+    display: flex;
+}
+
+.messageBlock {
+    margin: 5px;
+    background-color: lightgreen;
+}
+
+.right-align {
+    justify-self: right;
+}
+
+.left-align {
+    justify-self: left;
+}

@@ -5,7 +5,9 @@ import ChatView from "./components/ChatView";
 import ChatHeader from "./components/ChatHeader";
 
 function ChatsPage() {
-  let [position, setPosition] = useState(-1);
+  let [position, setPosition] = useState(0);
+  const myId = 0;
+  const myIcon = "https://via.placeholder.com/30";
   const chats = [
     {
       user: {
@@ -27,7 +29,7 @@ function ChatsPage() {
         {
           from: 0, // my userID
           time: "11:07",
-          text: "Good morning! Fine, thank you!"
+          text: "Good morning! Fine, thank you, Leonard!"
         }
       ]
     },
@@ -39,19 +41,19 @@ function ChatsPage() {
       },
       messages: [
         {
-          from: 1, // userID of sender
+          from: 2, // userID of sender
           time: "11:04",
           text: "Hello!"
         },
         {
-          from: 1, 
+          from: 2, 
           time: "11:05",
           text: "How are you?"
         },
         {
           from: 0, // my userID
           time: "11:07",
-          text: "Good morning! Fine, thank you!"
+          text: "Good morning! Fine, thank you, Sheldon!"
         }
       ]
     },
@@ -63,19 +65,19 @@ function ChatsPage() {
       },
       messages: [
         {
-          from: 1, // userID of sender
+          from: 3, // userID of sender
           time: "11:04",
           text: "Hello!"
         },
         {
-          from: 1, 
+          from: 3, 
           time: "11:05",
           text: "How are you?"
         },
         {
           from: 0, // my userID
           time: "11:10",
-          text: "Good morning! Fine, thank you!"
+          text: "Good morning! Fine, thank you, Radjesh!"
         }
       ]
     }
@@ -94,7 +96,7 @@ function ChatsPage() {
         } position={position} onPositionChange={(i) => {
           setPosition(i)
           }}/>
-        <ChatView className="row-item"/>
+        <ChatView className="row-item" userMap={new Map([[myId, ["me", myIcon]], [chats[position].user.id, ["other", chats[position].user.url]]])} messages={chats[position].messages}/>
       </div>
     </div>
   );
