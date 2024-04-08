@@ -9,14 +9,13 @@ function ChatsList(props) {
   return (
     <div className="chatsList">
       <input className="chatsSearch" placeholder="Persons, Groups, Chats" onInput={it => {
-        console.log(it.target)
         setSearchSubstring(it.target.value)
         }}></input>
       <div className="chatsListView">
         {
-        props.messages.map((message, i) => [i, message])
-        .filter(it => it[1].author.includes(searchSubstring))
-        .map(it => <ChatBlock message={it[1]} index={it[0]} position={props.position} handleClick={props.onPositionChange}/>)
+        props.messages.map((chat, i) => [i, chat])
+        .filter(it => it[1].get("author").includes(searchSubstring))
+        .map(it => <ChatBlock chat={it[1]} index={it[0]} position={props.position} handleClick={props.onPositionChange}/>)
         }
 
       </div>
