@@ -85,7 +85,7 @@ function ChatsPage() {
 
   return (
     <div className="chatsPage">
-      <ChatHeader author={position != -1 ? chats[position].user.author : "Select chat"}/>
+      <ChatHeader author={position !== -1 ? chats[position].user.author : "Select chat"}/>
       <div className="chatsLayout">
         <ChatsList className="row-item" messages={chats.map(it => new Map(
           [

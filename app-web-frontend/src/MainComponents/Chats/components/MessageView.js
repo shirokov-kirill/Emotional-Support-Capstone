@@ -3,8 +3,8 @@ import "./MessageView.css"
 function MessageView(props) {
     console.log(props)
     return(
-        <div className={props.from == "me" ? "right-align" : "left-align"}>
-            {props.from == "me"
+        <div className={props.from === "me" ? "right-align" : "left-align"}>
+            {props.from === "me"
             ? <div className="messageViewBox">
                 <MessageBlock text={props.text}/>
                 <MessageIcon url={props.url}/>
