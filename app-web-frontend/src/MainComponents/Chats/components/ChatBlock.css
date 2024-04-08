@@ -1,0 +1,7 @@
+.chatBlock:hover {
+    background-color:antiquewhite;
+}
+
+.active {
+    border: medium solid lightblue;
+}
