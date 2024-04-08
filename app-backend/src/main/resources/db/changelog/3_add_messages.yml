@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: e2e4b6b7
+      changes:
+        - createSequence:
+            sequenceName: chat_id
+            startValue: 1
+            incrementBy: 1
+            ordered: true
+        - createTable:
+            tableName: chats
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  valueSequenceNext: chat_id
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: doctor_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_chats_doctors
+                    references: doctor_credentials(id)
+                    nullable: false
+        - addUniqueConstraint:
+            constraintName: uq_chats_user_doctor
+            tableName: chats
+            columnNames: user_id, doctor_id
+        - createIndex:
+            indexName: idx_chats_doctor
+            tableName: chats
+            columns:
+              - column:
+                  name: doctor_id
+        - createIndex:
+            indexName: idx_chats_user
+            tableName: chats
+            columns:
+              - column:
+                  name: user_id
+        - createTable:
+            tableName: messages
+            columns:
+              - column:
+                  name: chat_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_messages_chats
+                    references: chats(id)
+                    nullable: false
+              - column:
+                  name: message_ord
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sender_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content
+                  type: text
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: idx_messages_chat
+            tableName: messages
+            columns:
+              - column:
+                  name: chat_id
