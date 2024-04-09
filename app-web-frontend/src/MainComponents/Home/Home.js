@@ -1,4 +1,4 @@
-import EmotionAssesmentNotification from "../../Home/EmotionAssesmentNotification/EmotionAssesmentNotification"
+import EmotionAssesmentNotification from "./EmotionAssesmentNotification/EmotionAssesmentNotification"
 
 function Home() {
     // TODO: Implement the Home page
