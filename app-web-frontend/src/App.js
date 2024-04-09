@@ -1,20 +1,16 @@
-import "./index.css";
-import CustomCard from "./Components/DashboardComponent/CustomDashboardCard";
-import PieChar_img from "./Components/DashboardComponent/CardImages/Pie_chart.png";
+import Profile from "./Components/ProfileComponent/Profile";
+import Feedback from "./Components/FeedbackComponent/Feedback";
+import Notification from "./Components/NotificationComponent/Notification";
 
 function App() {
   return (
-    <div className="body">
-      <CustomCard
-        title="New Patient"
-        number={125}
-        progress={45}
-        imageSrc={PieChar_img}
-      />
+    <div className="App">
+      <Profile />
+      <Feedback />
+      <Notification />
     </div>
   );
 }
-
 export default App;
 
 /*import React from 'react';
