@@ -1,4 +1,5 @@
 import Header from '../header/Header';
+import EmotionAssesmentNotification from './EmotionAssesmentNotification/EmotionAssesmentNotification';
 
 
 function HealthProviderHome() {
@@ -6,6 +7,7 @@ function HealthProviderHome() {
         <div className="App">
             <Header/>
             <h2>Home Page for Health Provider</h2>
+            <EmotionAssesmentNotification/>
         </div>
     )
 }
