@@ -1,3 +1,10 @@
 .chatsView {
-    width: 100%;
+    width: 80vw;
+}
+
+.chatMessagesView {
+    margin-top: 20px;
+    height: 82vh;
+    flex-grow: 1;
+    overflow-y: auto;
 }

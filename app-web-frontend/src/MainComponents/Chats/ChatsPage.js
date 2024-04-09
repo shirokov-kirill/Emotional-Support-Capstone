@@ -5,10 +5,7 @@ import ChatView from "./components/ChatView";
 import ChatHeader from "./components/ChatHeader";
 
 function ChatsPage() {
-  let [position, setPosition] = useState(0);
-  const myId = 0;
-  const myIcon = "https://via.placeholder.com/30";
-  const chats = [
+  const chatsInitial = [
     {
       user: {
         id: 1,
@@ -82,6 +79,18 @@ function ChatsPage() {
       ]
     }
   ]
+  let [position, setPosition] = useState(0);
+  let [chats, setChats] = useState(chatsInitial)
+  const myId = 0;
+  const myIcon = "https://via.placeholder.com/30";
+
+  const onSendMessage = (message) => {
+    // TODO server connection
+    let chatsCopy = [...chats]
+    chatsCopy[position].messages.push({from: myId, time: "now", text: message})
+    console.log(chatsCopy)
+    setChats(chatsCopy)
+  }
 
   return (
     <div className="chatsPage">
@@ -96,7 +105,7 @@ function ChatsPage() {
         } position={position} onPositionChange={(i) => {
           setPosition(i)
           }}/>
-        <ChatView className="row-item" userMap={new Map([[myId, ["me", myIcon]], [chats[position].user.id, ["other", chats[position].user.url]]])} messages={chats[position].messages}/>
+        <ChatView className="row-item" userMap={new Map([[myId, ["me", myIcon]], [chats[position].user.id, ["other", chats[position].user.url]]])} messages={chats[position].messages} onSendMessage={onSendMessage}/>
       </div>
     </div>
   );

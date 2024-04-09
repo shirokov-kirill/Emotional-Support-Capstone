@@ -1,7 +1,6 @@
 import "./MessageView.css"
 
 function MessageView(props) {
-    console.log(props)
     return(
         <div className={props.from === "me" ? "right-align" : "left-align"}>
             {props.from === "me"
@@ -29,7 +28,6 @@ function MessageBlock(props) {
 }
 
 function MessageIcon(props) {
-    console.log(props.url)
     return(
         <div>
             <img src={props.url}></img>
