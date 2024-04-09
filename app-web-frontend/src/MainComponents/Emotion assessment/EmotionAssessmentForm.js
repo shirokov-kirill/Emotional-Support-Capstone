@@ -44,6 +44,9 @@ function EmotionAssessmentForm() {
       }
     })
     .catch(error => console.error('Error during POSTing data: ', error));
+
+    localStorage.setItem('lastAssessmentDate', new Date().toDateString());
+    console.log('Assessment submitted');
   };
 
   return (
