@@ -1,21 +1,39 @@
-import "./index.css";
-import CustomCard from "./Components/DashboardComponent/CustomDashboardCard";
-import PieChar_img from "./Components/DashboardComponent/CardImages/Pie_chart.png";
+/*import "./index.css";
+import Topbar from "./scenes/global/Topbar";
+import { Routes, Route } from "react-router-dom";
+import ProSidebar from "./scenes/global/Sidebar";
+import Dashboard from "./scenes/Dashboard";
+import MainCalendar from "./scenes/Calendar/MainCalendar";
+import Appointment from "./scenes/Appointment/Appointment";
+import Message from "./scenes/Message/Message";
+import Feedback from "./scenes/Feedback/Feedback";
+import Profile from "./scenes/Profile/Profile";
 
 function App() {
   return (
-    <div className="body">
-      <CustomCard
-        title="New Patient"
-        number={125}
-        progress={45}
-        imageSrc={PieChar_img}
-      />
-    </div>
+    <>
+      <div className="App">
+        <ProSidebar />
+        <main className="content">
+          <Topbar></Topbar>
+
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/calendar" element={<MainCalendar />} />
+            <Route path="/appointment" element={<Appointment />} />
+            <Route path="/message" element={<Message />} />
+            <Route path="/feedback" element={<Feedback />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </main>
+      </div>
+    </>
   );
 }
 
-export default App;
+export default App;*/
+
+/* -----------------------------------------------------------------*/
 
 /*import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
