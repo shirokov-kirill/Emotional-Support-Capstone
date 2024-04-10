@@ -7,21 +7,11 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
-import org.example.appbackend.dto.FeedbackDto
 import java.time.LocalDateTime
 
 @Entity
 @Table(name = "feedback")
 class FeedbackEntity() {
-
-    constructor(dto: FeedbackDto) : this() {
-        name = dto.name
-        email = dto.email
-        phone = dto.phone
-        companyName = dto.companyName
-        rating = dto.rating
-        comment = dto.comment
-    }
 
     @Id
     @GeneratedValue(generator = SEQUENCE_GENERATOR_NAME, strategy = GenerationType.SEQUENCE)
