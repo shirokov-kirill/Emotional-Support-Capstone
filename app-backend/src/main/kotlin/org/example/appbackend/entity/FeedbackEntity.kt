@@ -19,7 +19,7 @@ class FeedbackEntity() {
     var id: Int? = null
 
     @Column(name = "created")
-    var created: LocalDateTime? = null
+    var created: LocalDateTime = LocalDateTime.now()
 
     @Column(name = "name")
     var name: String? = null
