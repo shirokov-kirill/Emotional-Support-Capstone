@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "@fullcalendar/bootstrap5": "^6.1.11",
+    "@fullcalendar/core": "^6.1.11",
+    "@fullcalendar/daygrid": "^6.1.11",
+    "@fullcalendar/list": "^6.1.11",
+    "@fullcalendar/react": "^6.1.11",
+    "@fullcalendar/timegrid": "^6.1.11",
+    "axios": "^1.6.8",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "bootswatch": "^5.3.3",
+    "emoji-mart": "^5.5.2",
+    "react": "^18.2.0",
+    "react-color": "^2.19.3",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3",
+    "react-scripts": "^5.0.1",
+    "startbootstrap-sb-admin-2": "^4.1.4",
+    "styled-components": "^6.1.8",
+    "web-vitals": "^3.5.2"
+  }
+}

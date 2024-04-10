@@ -1,44 +1,5 @@
 
-/*import "./index.css";
-import Topbar from "./scenes/global/Topbar";
-import { Routes, Route } from "react-router-dom";
-import ProSidebar from "./scenes/global/Sidebar";
-import Dashboard from "./scenes/Dashboard";
-import MainCalendar from "./scenes/Calendar/MainCalendar";
-import Appointment from "./scenes/Appointment/Appointment";
-import Message from "./scenes/Message/Message";
-import Feedback from "./scenes/Feedback/Feedback";
-import Profile from "./scenes/Profile/Profile";
-
-function App() {
-  return (
-    <>
-      <div className="App">
-        <ProSidebar />
-        <main className="content">
-          <Topbar></Topbar>
-
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/calendar" element={<MainCalendar />} />
-            <Route path="/appointment" element={<Appointment />} />
-            <Route path="/message" element={<Message />} />
-            <Route path="/feedback" element={<Feedback />} />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
-        </main>
-      </div>
-    </>
-  );
-}
-
-export default App;
-
-
-
-
-
-import React from 'react';
+/*import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Login } from './Login/Login';
 import Home from './Home/Home';
@@ -66,3 +27,4 @@ function App() {
 
 
 export default App;*/
+
