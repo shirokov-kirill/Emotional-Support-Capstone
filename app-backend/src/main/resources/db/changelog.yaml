@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/2_add_doctor_credentials.yml
   - include:
       file: db/changelog/3_add_messages.yml
+  - include:
+      file: db/changelog/4_add_feedback.yml
