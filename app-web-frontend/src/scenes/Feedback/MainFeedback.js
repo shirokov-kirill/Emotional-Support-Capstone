@@ -1,6 +1,7 @@
 import Header from "../../Components/Header";
 import { Box } from "@mui/material";
-const Feedback = () => {
+import Feedback from "../../Components/FeedbackComponent/Feedback";
+const MainFeedback = () => {
   return (
     <Box m="1px">
       <Box
@@ -11,8 +12,9 @@ const Feedback = () => {
       >
         <Header title="FEEDBACK" subtitle="Welcome to your feedback"></Header>
       </Box>
+      <Feedback></Feedback>
     </Box>
   );
 };
 
-export default Feedback;
+export default MainFeedback;

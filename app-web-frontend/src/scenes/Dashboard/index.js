@@ -20,7 +20,7 @@ const Dashboard = () => {
           number={49}
           progress={66}
           imageSrc={cardImage}
-        ></CustomCard>
+        />
         <CustomDashboardCardDoctor
           bloodSugarLevel={80}
           title="Blood Sugar"

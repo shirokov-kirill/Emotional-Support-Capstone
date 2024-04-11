@@ -12,6 +12,7 @@ import Item from "../../Components/Item";
 import MenuOutlinedIcon from "@mui/icons-material/Menu";
 import AppointmentIcon from "@mui/icons-material/Schedule";
 import FeedbackIcon from "@mui/icons-material/Feedback";
+import AssessmentIcon from "@mui/icons-material/Assessment";
 
 const ProSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -52,7 +53,7 @@ const ProSidebar = () => {
           >
             <Item
               title="Dashboard"
-              to="/"
+              to="/dashboard"
               icon={<HomeIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -61,6 +62,13 @@ const ProSidebar = () => {
               title="Calendar"
               to="/calendar"
               icon={<CalendarIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Assessment"
+              to="/assessment"
+              icon={<AssessmentIcon />}
               selected={selected}
               setSelected={setSelected}
             />
