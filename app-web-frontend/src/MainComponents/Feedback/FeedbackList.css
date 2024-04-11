@@ -1,0 +1,13 @@
+.feedback-list {
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.feedback-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+.feedback-item:last-child {
+    border-bottom: none;
+}
