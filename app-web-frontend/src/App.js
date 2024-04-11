@@ -7,6 +7,7 @@ import EmotionAssessmentForm from './Emotion assessment/EmotionAssessmentForm'
 import LoginChoice from "./Login/LoginChoice";
 import HealthProviderLogin from "./Login/HealthProviderLogin";
 import HealthProviderHome from "./Home/HealthProviderHome";
+import Feedback from './MainComponents/Feedback/Feedback';
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/assessment" element={<EmotionAssessmentForm/>}/>
                 <Route path="/home/hprovider" element={<HealthProviderHome/>} />
                 <Route path="/calendar" element={<Calendar/>} />
+                <Route path="/feedback" element={<Feedback/>} />
             </Routes>
         </Router>
     )
