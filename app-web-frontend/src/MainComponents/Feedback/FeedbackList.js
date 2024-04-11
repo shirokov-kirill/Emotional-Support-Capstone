@@ -18,12 +18,12 @@ const FeedbackList = () => {
         <div className="feedback-list">
             {feedbacks.map(feedback => (
                 <div key={feedback.id} className="feedback-item">
-                    <p>Name: {feedback.name}</p>
-                    <p>Email: {feedback.email}</p>
-                    <p>Phone: {feedback.phone}</p>
-                    <p>Company Name: {feedback.companyName}</p>
-                    <p>Rating: {feedback.rating}</p>
-                    <p>Comment: {feedback.comment}</p>
+                    <p><b>Name</b>: {feedback.name}</p>
+                    <p><b>Email</b>: {feedback.email}</p>
+                    <p><b>Phone</b>: {feedback.phone}</p>
+                    <p><b>Company Name</b>: {feedback.companyName}</p>
+                    <p><b>Rating</b>: {feedback.rating}</p>
+                    <p><b>Comment</b>: {feedback.comment}</p>
                 </div>
             ))}
         </div>

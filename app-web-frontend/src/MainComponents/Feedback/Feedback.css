@@ -72,7 +72,6 @@ body {
 .checkbox-container {
     display: flex;
     align-items: center;
-    color: #6F6C90;
     font-size: 14px;
 }
 
@@ -113,4 +112,8 @@ textarea {
     resize: none; 
     height: 150px; 
     margin-top: 5px;
+}
+
+.has-error label {
+    color: red;
 }
