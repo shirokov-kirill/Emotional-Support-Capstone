@@ -11,5 +11,6 @@ interface UserMoodService {
     fun get(id: Int): UserMoodDto
     fun update(dto: UpdateUserMoodDto): UserMoodDto
     fun getUserMoodForTimeFrame(userId: Int, startDate: LocalDate, endDate: LocalDate): Map<LocalDate, UserMoodDto>
+    fun getUsersMoodByDoctorId(doctorId: Int): Map<Int, UserMoodDto>
     fun delete(id: Int)
 }
