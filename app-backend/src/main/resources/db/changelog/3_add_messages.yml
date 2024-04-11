@@ -7,7 +7,6 @@ databaseChangeLog:
             sequenceName: chat_id
             startValue: 1
             incrementBy: 1
-            ordered: true
         - createTable:
             tableName: chats
             columns:

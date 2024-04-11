@@ -7,7 +7,9 @@ import org.example.appbackend.dto.UserMoodDto
 import org.example.appbackend.entity.UserMood
 import org.example.appbackend.exception.UserMoodIdNotAssignedException
 import org.example.appbackend.exception.UserMoodNotFoundException
+import org.example.appbackend.mapper.ChatMapper
 import org.example.appbackend.mapper.UserMoodMapper
+import org.example.appbackend.repository.ChatRepository
 import org.example.appbackend.repository.UserMoodRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -17,12 +19,15 @@ import java.time.LocalDateTime
  * Implementation of the UserMoodService interface.
  *
  * @property userMoodRepository The repository for accessing user mood data.
+ * @property chatRepository The repository for accessing binding between doctor and user
  * @property userMoodMapper The mapper for converting between UserMood and UserMoodDto objects.
  */
 @Service
 class UserMoodServiceImpl(
     private val userMoodRepository: UserMoodRepository,
-    private val userMoodMapper: UserMoodMapper
+    private val chatRepository: ChatRepository,
+    private val userMoodMapper: UserMoodMapper,
+    private val chatMapper: ChatMapper
 ) : UserMoodService {
 
     @Transactional
@@ -49,6 +54,7 @@ class UserMoodServiceImpl(
         return userMoodMapper.entityToDto(moodOpt.get())
     }
 
+    @Transactional
     override fun getUserMoodForTimeFrame(userId: Int, startDate: LocalDate, endDate: LocalDate): Map<LocalDate, UserMoodDto> {
         val startLocalDateTime = startDate.atStartOfDay()
         val endLocalDateTime = endDate.atStartOfDay()
@@ -58,6 +64,37 @@ class UserMoodServiceImpl(
                 date -> date.toLocalDate() to userMoodMapper.entityToDto(it)
             }
         }.toMap()
+    }
+
+
+    /**
+     * Retrieves a map of user IDs to UserMoodDto objects representing the mood of users
+     * who have had chats with a specific doctor.
+     *
+     * @param doctorId The ID of the doctor.
+     * @return A map of user IDs to UserMoodDto objects.
+     */
+    @Transactional
+    override fun getCriticalUsersMoodByDoctorId(doctorId: Int): Map<Int, UserMoodDto> {
+        val doctorChats = chatRepository.findByDoctorId(doctorId)
+        val userIdToMoodDto = mutableMapOf<Int, UserMoodDto>()
+        val today = LocalDateTime.now().toLocalDate().atStartOfDay()
+        val tomorrow = today.plusDays(1)
+        for (doctorChat in doctorChats) {
+            val chatDto = chatMapper.entityToDto(doctorChat)
+            val userMoods = userMoodRepository.findByUserIdAndCreatedBetween(chatDto.userId, today, tomorrow).map {
+                userMoodMapper.entityToDto(it)
+            }
+            if (userMoods.isNotEmpty()) {
+                val userMood = userMoods[0]
+                if (UserMoodService.isMoodCritical(userMood)) {
+                    userMood.userId?.let {
+                        userIdToMoodDto[it] = userMood
+                    }
+                }
+            }
+        }
+        return userIdToMoodDto
     }
 
     @Transactional

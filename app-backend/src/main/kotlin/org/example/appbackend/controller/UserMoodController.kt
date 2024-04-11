@@ -43,6 +43,12 @@ class UserMoodController(
         return userMoodService.getUserMoodForTimeFrame(userId, startDateTime, endDateTime)
     }
 
+    @GetMapping("user-mood/getCriticalUsersMoodByDoctor/{doctorId}")
+    fun getCriticalUsersMoodByDoctorId(@PathVariable("doctorId") doctorId: Int): Map<Int, UserMoodDto> {
+        logger.info("Receiving patients of doctor {}", doctorId)
+        return userMoodService.getCriticalUsersMoodByDoctorId(doctorId)
+    }
+
     @PutMapping("user-mood/update")
     fun updateUserMood(@RequestBody dto: UpdateUserMoodDto): UserMoodDto {
         logger.info("Updating user mood: {}", dto)
