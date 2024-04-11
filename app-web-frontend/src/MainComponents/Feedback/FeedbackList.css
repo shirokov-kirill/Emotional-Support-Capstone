@@ -1,0 +1,23 @@
+.feedback-list {
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.feedback-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    margin-left: 20px;
+}
+
+.feedback-item:last-child {
+    border-bottom: none;
+}
+
+body {
+    background-color: #F3F4F6;
+    margin: 30px 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+
+}
