@@ -6,6 +6,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Login } from './Login/Login';
 import HeaderLayout from './header/Header';
 import MainComponents from './MainComponents/MainComponents.js';
+import LoginChoice from "./Login/LoginChoice";
+import HealthProviderLogin from "./Login/HealthProviderLogin";
+import HealthProviderHome from "./Home/HealthProviderHome";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -14,7 +17,10 @@ root.render(
     <Router>
       <HeaderLayout>
         <Routes>
-          <Route path="/" element={<Login />} />
+            <Route path="/" element={<LoginChoice/>}/>
+            <Route path="/user" element={<Login/>}/>
+            <Route path="/hprovider" element={<HealthProviderLogin/>}/>
+            <Route path="/home/hprovider" element={<HealthProviderHome/>}/>
           {MainComponents.map((component, index) => (
             <Route key={index + 1} path={component.path} element={<component.element />} />
           ))}
