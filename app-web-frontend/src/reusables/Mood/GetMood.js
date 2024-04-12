@@ -43,7 +43,7 @@ async function getMoodsForTimeFrame(startDate, endDate) {
 }
 
 async function getPatientsDataForDoctor(doctorId) {
-    const url = `http://localhost:8080/user-mood/getByPatientsMoodByDoctor/${doctorId}`;
+    const url = `http://localhost:8080/user-mood/getCriticalUsersMoodByDoctor/${doctorId}`;
     try {
         const response = await fetch(url);
         console.log(response);
