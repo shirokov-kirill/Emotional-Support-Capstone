@@ -48,7 +48,7 @@ function DataSharing() {
     };
 
     const filteredDoctors = doctors.filter(doctor =>
-        doctor.name.toLowerCase().split(" ").some(word => word.startsWith(searchTerm))
+        doctor.name.toLowerCase().split(" ").some(word => word.startsWith(searchTerm.toLowerCase()))
     );
 
     return (

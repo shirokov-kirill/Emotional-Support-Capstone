@@ -1,0 +1,67 @@
+/* ContactList.css */
+.container {
+    display: flex;
+    align-items: flex-start;
+    padding: 40px;
+}
+
+.patients-container {
+    flex: 0 0 auto; /* Ensure the patients container doesn't grow or shrink */
+    margin-right: 50px;
+    width: 500px;
+}
+
+.patient-list {
+    list-style: none;
+    padding: 10px;
+}
+
+input[type="text"] {
+    width: 100%; /* Use full width */
+    padding: 10px; /* Add padding for better appearance */
+    font-size: 16px; /* Increase font size */
+    border: 1px solid #ccc; /* Add border for better visibility */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+.patient-item {
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease;
+}
+
+.patient-item:hover {
+    background-color: #e0e0e0;
+}
+
+.patient-item strong {
+    font-size: 18px; /* Increase font size for patient names */
+}
+
+.custom-calendar {
+    max-width: 1000px; /* Adjust the maximum width of the calendar */
+    width: 100%;
+    max-height: 1000px;
+    height: 100%;
+    font-size: 18px; /* Increase font size for better readability */
+}
+
+.react-calendar__tile {
+    height: 100px; /* Adjust the height of each day */
+    display: flex; /* Use flexbox for vertical alignment */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    font-size: 18px; /* Adjust font size for better readability */
+}
+
+.data-header {
+    text-align: center; /* Center the content horizontally */
+    margin-bottom: 20px; /* Add some space below the header */
+}
