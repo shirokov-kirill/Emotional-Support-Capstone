@@ -1,0 +1,76 @@
+package org.example.appbackend.service
+
+import org.example.appbackend.dto.UserDto
+import org.example.appbackend.dto.CreateUserDto
+import org.example.appbackend.entity.User
+import org.example.appbackend.mapper.UserMapper
+import org.example.appbackend.repository.UserRepository
+import org.springframework.stereotype.Service
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.authentication.BadCredentialsException
+import java.time.LocalDateTime
+import org.slf4j.LoggerFactory
+
+@Service
+class UserServiceImpl(
+        private val userRepository: UserRepository,
+        private val userMapper: UserMapper
+) : UserService {
+
+    private val passwordEncoder = BCryptPasswordEncoder()
+    private var logger = LoggerFactory.getLogger(UserServiceImpl::class.java)
+
+    override fun createUser(userDto: CreateUserDto): UserDto {
+        // Check if a user with the same username already exists
+        logger.info("/createUser: {}", userDto.username)
+        val existingUser = userRepository.findByUsername(userDto.username)
+        logger.info("/createUser findByUsername: {}", existingUser?.username)
+        if (existingUser != null) {
+            // Return the existing user DTO
+            return userMapper.entityToDto(existingUser)
+        }
+
+        val hashedPassword = hashPassword(userDto.password)
+
+        var user = userMapper.createDtoToEntity(userDto)
+        user.password = hashedPassword
+        user.createdAt = LocalDateTime.now()
+        val savedUser = userRepository.save(user)
+        return userMapper.entityToDto(savedUser)
+    }
+
+    override fun getUserById(userId: Int): UserDto {
+        val user = userRepository.findById(userId).orElseThrow { IllegalArgumentException("User not found with id: $userId") }
+        return userMapper.entityToDto(user)
+    }
+
+    override fun getUserByUsername(username: String): UserDto {
+        val user = userRepository.findByUsername(username) ?: throw IllegalArgumentException("User not found with username: $username")
+        return userMapper.entityToDto(user)
+    }
+
+    override fun authenticateUser(username: String, password: String): UserDto {
+        try {
+            // Load user details by username
+            logger.info("/authenticateUser")
+            val user = userRepository.findByUsername(username)
+            logger.info("/authenticateUser {}", user?.username)
+
+            // Check if the provided password matches the stored password
+            if (user == null || !passwordEncoder.matches(password, user.password)) {
+                logger.info("/authenticateUser password {}", password)
+                logger.info("/authenticateUser user password{}", user?.password)
+                throw BadCredentialsException("Invalid username or password")
+            }
+
+            return userMapper.entityToDto(user)
+        } catch (ex: Exception) {
+            logger.error("Error authenticating user: {}", ex.message)
+            throw ex
+        }
+    }
+
+    private fun hashPassword(password: String?): String {
+        return password?.let { passwordEncoder.encode(it) } ?: throw IllegalArgumentException("Password cannot be null")
+    }
+}

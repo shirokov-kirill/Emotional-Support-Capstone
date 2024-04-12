@@ -147,9 +147,17 @@ create_application_conf() {
     else
 	    DB_HOST=$(hostname -I | cut -d' ' -f1)
     fi
+    echo "DB_HOST: $DB_HOST"
     sed -i "s/localhost:5432\/postgres/${DB_HOST}:${POSTGRES_PORT}\/${POSTGRES_DB}/" $CONFIG_FILE
     sed -i "s/username: postgres/username: ${POSTGRES_USER}/" $CONFIG_FILE
     sed -i "s/password: postgres/password: ${POSTGRES_PASSWORD}/" $CONFIG_FILE
+
+    # Generate JWT secret
+    openssl rand -out key.bin 64
+    openssl base64 -in key.bin -out key.base64
+    secret_key=$(openssl rand -base64 64)
+    
+    sed -i "s/mySecret/$secret_key/" $CONFIG_FILE
 }
 
 # Function to generate self-signed SSL certificates
