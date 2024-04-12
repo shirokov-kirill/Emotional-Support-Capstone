@@ -1,4 +1,4 @@
-import { getUserID } from "../utils/UserID"
+import { getUserID, getDoctorID } from "../utils/UserID"
 
 async function getMoodDataFromServer(userId, startDate, endDate) {
     let formatStartDate = dateToIsoWithoutTime(startDate)
@@ -42,7 +42,8 @@ async function getMoodsForTimeFrame(startDate, endDate) {
     return moods;
 }
 
-async function getPatientsDataForDoctor(doctorId) {
+export async function getCriticalPatientsDataForDoctor() {
+    const doctorId = getDoctorID()
     const url = `http://localhost:8080/user-mood/getCriticalUsersMoodByDoctor/${doctorId}`;
     try {
         const response = await fetch(url);
