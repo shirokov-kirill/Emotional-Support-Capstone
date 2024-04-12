@@ -42,6 +42,21 @@ async function getMoodsForTimeFrame(startDate, endDate) {
     return moods;
 }
 
+async function getPatientsDataForDoctor(doctorId) {
+    const url = `http://localhost:8080/user-mood/getCriticalUsersMoodByDoctor/${doctorId}`;
+    try {
+        const response = await fetch(url);
+        console.log(response);
+        if (!response.ok) {
+            throw new Error('Failed to fetch doctor data');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching doctor data:', error);
+        return {}; // Return an empty array in case of error
+    }
+}
+
 
 function dateToIsoWithoutTime(dateString) {
     let dateObject = new Date(dateString);
