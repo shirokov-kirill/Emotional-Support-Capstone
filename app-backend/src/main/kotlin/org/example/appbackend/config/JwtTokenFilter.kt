@@ -42,7 +42,6 @@ class JwtTokenFilter(
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwtToken = authorizationHeader.substring(7)
-            logger.info("/JwtTokenFilter: jwtToken= $jwtToken")
             try {
                 // TODO: check in persistent token storage
                 //val session = sessionRepository.findById("jwtToken")
@@ -51,7 +50,6 @@ class JwtTokenFilter(
                 //    throw IllegalArgumentException("Token not found.")
                 //}
                 userId = extractUserId(jwtToken)
-                logger.info("/JwtTokenFilter: userId = $userId")
             } catch (e: IllegalArgumentException) {
                 // Log the error
                 logger.error("Invalid JWT token: ${e.message}")
@@ -63,14 +61,12 @@ class JwtTokenFilter(
 
         if (userId != null && SecurityContextHolder.getContext().authentication == null) {
             val userDetails = userService.getUserById(userId)
-            logger.info("/JwtTokenFilter: username= ${userDetails.username}")
             if (userDetails != null) {
                 val authenticationToken = UsernamePasswordAuthenticationToken(
                         userDetails, null, null
                 )
                 authenticationToken.details = WebAuthenticationDetailsSource().buildDetails(request)
                 SecurityContextHolder.getContext().authentication = authenticationToken
-                logger.info("/JwtTokenFilter: end.")
             }
         }
         filterChain.doFilter(request, response)
