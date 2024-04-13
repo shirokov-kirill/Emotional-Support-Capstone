@@ -29,7 +29,7 @@ class JwtTokenFilter(
 
     private var logger = LoggerFactory.getLogger(JwtTokenFilter::class.java)
 
-    @Throws(ServletException::class, IOException::class)
+   @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(
             request: HttpServletRequest,
             response: HttpServletResponse,
@@ -44,12 +44,12 @@ class JwtTokenFilter(
             jwtToken = authorizationHeader.substring(7)
             logger.info("/JwtTokenFilter: jwtToken= $jwtToken")
             try {
-                val session = request.session
-                val token = session.getAttribute("token") as? String
-                logger.info("/JwtTokenFilter: session token = $token")
-                if (token != jwtToken) {
-                    throw IllegalArgumentException("Token not found.")
-                }
+                // TODO: check in persistent token storage
+                //val session = sessionRepository.findById("jwtToken")
+                //val token = session?.getAttribute("token") as String?
+                //if (token == null) {
+                //    throw IllegalArgumentException("Token not found.")
+                //}
                 userId = extractUserId(jwtToken)
                 logger.info("/JwtTokenFilter: userId = $userId")
             } catch (e: IllegalArgumentException) {

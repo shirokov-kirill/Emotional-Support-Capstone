@@ -16,13 +16,14 @@ import java.util.*
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import io.jsonwebtoken.security.Keys
-import jakarta.servlet.http.HttpSession
+import org.springframework.session.SessionRepository
+import org.springframework.session.Session
 
 @RestController
 @RequestMapping("/auth")
 class AuthController(
         private val userService: UserService,
-        private val httpSession: HttpSession
+        private val sessionRepository: SessionRepository<*>
     ) {
 
     @Value("\${spring.jwt.secret}")
@@ -41,9 +42,9 @@ class AuthController(
             logger.info("/login generated token.")
             // Return the authentication token in the response
             val responseDto = LoginResponseDto(authToken)
-            // Store token in the session
-            httpSession.setAttribute("token", authToken)
-
+            // Store token in the session repository
+            //val session = sessionRepository.findById("token")
+            //session?.setAttribute("token", authToken)
             return ResponseEntity(responseDto, HttpStatus.OK)
         } catch (e: Exception) {
             // Return 401 Unauthorized status code if authentication fails
@@ -55,7 +56,7 @@ class AuthController(
 
     @PostMapping("/logout")
     fun logout() {
-        httpSession.removeAttribute("token")
+        //sessionRepository.deleteById("token")
         SecurityContextHolder.clearContext()
     }
 

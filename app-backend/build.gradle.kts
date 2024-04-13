@@ -29,12 +29,14 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-logging")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.springframework.boot:spring-boot-starter-security")
+  implementation("org.springframework.boot:spring-boot-starter-jdbc")
+  implementation("org.springframework.session:spring-session-jdbc")
   implementation("org.springframework.security:spring-security-config")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.liquibase:liquibase-core:4.26.0")
   implementation("org.postgresql:postgresql:42.7.3")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("io.jsonwebtoken:jjwt-api:0.11.2")
   implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
   implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
@@ -45,6 +47,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.h2database:h2")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.22")
+    testImplementation("org.apache.httpcomponents:httpclient:4.5.13")
 }
 
 tasks.withType<KotlinCompile> {
@@ -56,11 +59,4 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
   useJUnitPlatform()
-}
-
-tasks {
-  test {
-  exclude("**/ChatsIntegrationTest.class")
-  exclude("**/MessagesIntegrationTest.class")
-  }
 }
