@@ -9,3 +9,5 @@ databaseChangeLog:
       file: db/changelog/4_add_feedback.yml
   - include:
       file: db/changelog/5_add_user.yml
+  - include:
+      file: db/changelog/6_add_authtoken.yml

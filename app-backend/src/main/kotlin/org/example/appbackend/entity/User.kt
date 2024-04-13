@@ -12,7 +12,7 @@ class User {
         @Column(name = "id")
         val id: Int? = null
 
-        @Column(name = "username")
+        @Column(name = "username", nullable = false)
         var username: String = ""
 
         @Column(name = "password")
@@ -33,7 +33,7 @@ class User {
         @Column(name = "gender")
         var gender: String? = null
 
-        @Column(name = "created_at")
+        @Column(name = "created_at", nullable = false)
         var createdAt: LocalDateTime? = LocalDateTime.now()
 
         @Column(name = "updated_at")

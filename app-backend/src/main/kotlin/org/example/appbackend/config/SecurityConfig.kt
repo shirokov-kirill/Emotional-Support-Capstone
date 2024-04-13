@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.example.appbackend.service.UserService
+import org.example.appbackend.repository.AuthTokenRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.example.appbackend.config.JwtTokenFilter
 import org.springframework.beans.factory.annotation.Value
@@ -22,11 +23,14 @@ class SecurityConfig {
     @Autowired
     private lateinit var userService: UserService
 
+    @Autowired
+    private lateinit var authTokenRepository: AuthTokenRepository
+
     @Value("\${spring.jwt.secret}")
     private lateinit var jwtSecret: String
 
     @Bean
-    fun jwtTokenFilter(): JwtTokenFilter = JwtTokenFilter(jwtSecret, userService)
+    fun jwtTokenFilter(): JwtTokenFilter = JwtTokenFilter(jwtSecret, userService, authTokenRepository)
 
     @Bean
     fun authenticationEntryPoint(): AuthenticationEntryPoint {

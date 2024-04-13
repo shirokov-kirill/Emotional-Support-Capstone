@@ -16,14 +16,15 @@ import java.util.*
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import io.jsonwebtoken.security.Keys
-import org.springframework.session.SessionRepository
-import org.springframework.session.Session
+import org.example.appbackend.repository.AuthTokenRepository
+import org.example.appbackend.entity.AuthToken
+import jakarta.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/auth")
 class AuthController(
         private val userService: UserService,
-        private val sessionRepository: SessionRepository<*>
+        private val authTokenRepository: AuthTokenRepository
     ) {
 
     @Value("\${spring.jwt.secret}")
@@ -33,31 +34,32 @@ class AuthController(
     @PostMapping("/login")
     fun login(@RequestBody loginRequest: LoginRequestDto): ResponseEntity<Any> {
         try {
-            logger.info("/login {}", loginRequest.username)
             // Perform authentication
             val userDto = userService.authenticateUser(loginRequest.username, loginRequest.password)
-            logger.info("/login credential matches.")
+            logger.info("Logging in ${loginRequest.username}. Credentials match.")
             // If authentication succeeds, generate an authentication token (JWT) with user ID
             val authToken = generateAuthToken(userDto.id)
-            logger.info("/login generated token.")
             // Return the authentication token in the response
             val responseDto = LoginResponseDto(authToken)
-            // Store token in the session repository
-            //val session = sessionRepository.findById("token")
-            //session?.setAttribute("token", authToken)
+            // Store token in the repository
+            authTokenRepository.save(AuthToken(authToken, userDto.id))
+            logger.info("Logged in successfully.")
             return ResponseEntity(responseDto, HttpStatus.OK)
         } catch (e: Exception) {
             // Return 401 Unauthorized status code if authentication fails
             logger.error("Error authenticating user: {}", e.message)
-            logger.info("/login failed.")
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
         }
     }
 
     @PostMapping("/logout")
-    fun logout() {
-        //sessionRepository.deleteById("token")
+    fun logout(request: HttpServletRequest): ResponseEntity<Any> {
+        val token = request.getHeader("Authorization")?.substring(7)
+        if (token != null && authTokenRepository.existsById(token)) {
+            authTokenRepository.deleteByToken(token)
+        }
         SecurityContextHolder.clearContext()
+        return ResponseEntity("Logged out successfully.", HttpStatus.OK)
     }
 
     // Method to generate authentication token (JWT) with user ID

@@ -22,11 +22,10 @@ class UserServiceImpl(
 
     override fun createUser(userDto: CreateUserDto): UserDto {
         // Check if a user with the same username already exists
-        logger.info("/createUser: {}", userDto.username)
+        logger.info("Create user: {}", userDto.username)
         val existingUser = userRepository.findByUsername(userDto.username)
-        logger.info("/createUser findByUsername: {}", existingUser?.username)
         if (existingUser != null) {
-            // Return the existing user DTO
+            logger.info("User with such username already exists: {}", existingUser.username)
             return userMapper.entityToDto(existingUser)
         }
 
@@ -52,17 +51,13 @@ class UserServiceImpl(
     override fun authenticateUser(username: String, password: String): UserDto {
         try {
             // Load user details by username
-            logger.info("/authenticateUser")
+            logger.info("Authenticate user: $username")
             val user = userRepository.findByUsername(username)
-            logger.info("/authenticateUser {}", user?.username)
 
             // Check if the provided password matches the stored password
             if (user == null || !passwordEncoder.matches(password, user.password)) {
-                logger.info("/authenticateUser password {}", password)
-                logger.info("/authenticateUser user password{}", user?.password)
                 throw BadCredentialsException("Invalid username or password")
             }
-
             return userMapper.entityToDto(user)
         } catch (ex: Exception) {
             logger.error("Error authenticating user: {}", ex.message)
@@ -70,7 +65,7 @@ class UserServiceImpl(
         }
     }
 
-    private fun hashPassword(password: String?): String {
-        return password?.let { passwordEncoder.encode(it) } ?: throw IllegalArgumentException("Password cannot be null")
+    private fun hashPassword(password: String): String {
+        return password.let { passwordEncoder.encode(it) }
     }
 }

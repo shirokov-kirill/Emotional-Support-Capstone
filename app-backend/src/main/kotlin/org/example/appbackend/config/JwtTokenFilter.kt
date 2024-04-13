@@ -20,20 +20,21 @@ import java.security.Key
 import java.util.Date
 import java.util.*
 import org.slf4j.LoggerFactory
+import org.example.appbackend.repository.AuthTokenRepository
 
 class JwtTokenFilter(
-        @Value("\${spring.jwt.secret}")
-        private val jwtSecret: String,
-        private val userService: UserService
+    @Value("\${spring.jwt.secret}")
+    private val jwtSecret: String,
+    private val userService: UserService,
+    private val authTokenRepository: AuthTokenRepository
 ) : OncePerRequestFilter() {
 
     private var logger = LoggerFactory.getLogger(JwtTokenFilter::class.java)
 
-   @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(
-            request: HttpServletRequest,
-            response: HttpServletResponse,
-            filterChain: FilterChain
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
     ) {
         val authorizationHeader = request.getHeader("Authorization")
 
@@ -43,13 +44,11 @@ class JwtTokenFilter(
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwtToken = authorizationHeader.substring(7)
             try {
-                // TODO: check in persistent token storage
-                //val session = sessionRepository.findById("jwtToken")
-                //val token = session?.getAttribute("token") as String?
-                //if (token == null) {
-                //    throw IllegalArgumentException("Token not found.")
-                //}
-                userId = extractUserId(jwtToken)
+                if (jwtToken != null && authTokenRepository.existsById(jwtToken)) {
+                    userId = extractUserId(jwtToken)
+                } else {
+                    throw IllegalArgumentException("Invalid JWT token $jwtToken.")
+                }
             } catch (e: IllegalArgumentException) {
                 // Log the error
                 logger.error("Invalid JWT token: ${e.message}")

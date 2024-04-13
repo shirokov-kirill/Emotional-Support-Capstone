@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: 5
       author: vbatraev
       changes:
         - createSequence:
@@ -20,7 +20,7 @@ databaseChangeLog:
                   name: username
                   type: VARCHAR(255)
                   constraints:
-                    nullable: true
+                    nullable: false
               - column:
                   name: password
                   type: VARCHAR(255)
@@ -55,7 +55,7 @@ databaseChangeLog:
                   name: created_at
                   type: TIMESTAMP
                   constraints:
-                    nullable: true
+                    nullable: false
               - column:
                   name: updated_at
                   type: TIMESTAMP
@@ -66,3 +66,10 @@ databaseChangeLog:
                   type: TIMESTAMP
                   constraints:
                     nullable: true
+        - createIndex:
+            tableName: users
+            indexName: idx_username
+            columns:
+              - column:
+                  name: username
+            unique: true
