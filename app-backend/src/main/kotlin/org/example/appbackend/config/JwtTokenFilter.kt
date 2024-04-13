@@ -81,7 +81,7 @@ class JwtTokenFilter(
                 .build()
                 .parseClaimsJws(token)
         } catch (e: JwtException) {
-            throw IllegalArgumentException("Invalid JWT token: ${e.message}")
+            throw IllegalArgumentException("Invalid JWT token: ${e.message}", e)
         }
 
         val claims = claimsJws.body

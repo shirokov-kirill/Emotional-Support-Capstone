@@ -23,9 +23,9 @@ import jakarta.servlet.http.HttpServletRequest
 @RestController
 @RequestMapping("/auth")
 class AuthController(
-        private val userService: UserService,
-        private val authTokenRepository: AuthTokenRepository
-    ) {
+    private val userService: UserService,
+    private val authTokenRepository: AuthTokenRepository
+) {
 
     @Value("\${spring.jwt.secret}")
     private lateinit var jwtSecret: String

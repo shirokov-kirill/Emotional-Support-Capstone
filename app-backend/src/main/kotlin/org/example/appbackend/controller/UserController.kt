@@ -24,7 +24,7 @@ class UserController(
 
     @GetMapping("/{id}")
     fun getUserById(@PathVariable id: Int, authentication: Authentication): UserDto? {
-        // Access check
+        // Access check. To be moved to separate service later when implement share access with doctors feature.
         val userPrincipal = authentication.principal as UserDto
         val authenticatedUserId = userPrincipal.id
         if (authenticatedUserId != id) {
