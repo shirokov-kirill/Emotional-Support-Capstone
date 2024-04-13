@@ -18,7 +18,7 @@ export function Login() {
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [dob, setDob] = useState('');
+    const [dateOfBirth, setDob] = useState('');
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [username, setUsername] = useState('');
@@ -26,14 +26,8 @@ export function Login() {
 
     let navigate = useNavigate();
 
-    const handleLogin = () => {
-        isLoggedIn_ = true;
-        console.log('Login successful');
-        navigate('/home');
-    }
-
     const isFormEmpty = () => {
-        return !name || !surname || !dob || !email || !username || !password || !confirmationPassword;
+        return !name || !surname || !dateOfBirth || !email || !username || !password || !confirmationPassword;
     }
 
     const validateEmail = () => {
@@ -50,8 +44,8 @@ export function Login() {
     }
 
     const isDOBValid = () => {
-        const age = new Date().getFullYear() - new Date(dob).getFullYear();
-        return age >= 13 || dob.length === 0;
+        const age = new Date().getFullYear() - new Date(dateOfBirth).getFullYear();
+        return age >= 13 || dateOfBirth.length === 0;
     }
 
     const isNewUserFormValid = () => {
@@ -66,20 +60,23 @@ export function Login() {
         event.preventDefault();
 
         const userLogin = {
-            email,
+            username,
             password
         };
 
         try {
-            const response = await axios.post('/', userLogin);
+            const response = await axios.post('/api/auth/login', userLogin);
             if (response.status === 200) {
+		const authToken = response.data.token;
+                localStorage.setItem('authToken', authToken); // Save token to local storage
+
                 console.log('User login successfully')
                 console.log(response.data);
+                navigate('/home');
             }
         } catch (error) {
-            console.error('Error during registration', error);
+            console.error('Failed to login', error);
         }
-        navigate('/home');
     };
 
     const onNewUserFormSubmit = async (event) => {
@@ -89,21 +86,26 @@ export function Login() {
             email,
             name,
             surname,
-            dob,
+	        username,
+            dateOfBirth,
             gender,
             password
         };
 
         try {
-            const response = await axios.post('/', userRegistration);
+            const response = await axios.post('/api/users', userRegistration);
             if (response.status === 200) {
                 console.log('User registered successfully')
-                console.log(response.data);
+                const login_response = await axios.post('/api/auth/login', {username, password});
+                if (login_response.status === 200) {
+                    const authToken = response.data.token;
+                    localStorage.setItem('authToken', authToken); // Save token to local storage
+                    navigate('/home');
+                }
             }
         } catch (error) {
             console.error('Error during registration', error);
         }
-        navigate('/home');
     };
 
     return (
@@ -112,22 +114,24 @@ export function Login() {
                 <div className="form-container">
                     <h2>Login</h2>
                     <form onSubmit={onUserLoginSubmit}>
-                        <input type="text" placeholder="email" onChange={e => setUsername(e.target.value)}/>
-                        {!validateEmail() &&
-                            <p className="warning-message">Please enter a valid Email.</p>}
+                        <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
+                        {!username &&
+                            <p className="warning-message">Please enter your username.</p>}
 
                         <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
                         {!isPasswordValid() &&
                             <p className="warning-message">Password must be at least 8 characters long.</p>}
 
                         <div>
-                            {!isLoginFormValid() && <p className="warning-message">Please fill in all the required fields.</p>}
-                            <button type="submit" disabled={!isLoginFormValid()} onClick={handleLogin}>Login</button>
+                            {!isLoginFormValid() &&
+                                <p className="warning-message">Please fill in all the required fields.</p>}
+                            <button type="submit" disabled={!isLoginFormValid()}>Login</button>
                             {/* Handle login is needed to navigate to the home page after the successful login
                             feel free to modify the logic, but please try to remain
-                            that the successfull login leads to navigation to the home page*/}
+                            that the successful login leads to navigation to the home page*/}
                         </div>
                     </form>
+
                     <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
                         Up!
                     </button>

@@ -3,3 +3,5 @@ spring:
     name: app-backend
   liquibase:
     change-log: classpath:db/changelog.yaml
+  jwt:
+    secret: 8elRtZWIZ0586hYwwzy+Mqtvp3GjkvaTo0oFJiaTPHwJEn66sO9VpH6nCW+2r/kw/ua9U5ZpJIUUeqnjHsyE9Q==

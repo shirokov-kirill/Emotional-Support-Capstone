@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/3_add_messages.yml
   - include:
       file: db/changelog/4_add_feedback.yml
+  - include:
+      file: db/changelog/5_add_user.yml
