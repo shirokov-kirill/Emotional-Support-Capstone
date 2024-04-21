@@ -25,7 +25,7 @@ export function Login() {
   let navigate = useNavigate();
 
   const handleLogin = () => {
-    isLoggedIn_ = true;
+    //isLoggedIn_ = true;
     console.log("Login successful");
     navigate("/dashboard");
   };

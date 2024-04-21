@@ -1,4 +1,5 @@
 import Header from "../../Components/Header";
+import AppointmentCard from "../../Components/AppointmentsComponent/AppointmentsCard";
 import { Box } from "@mui/material";
 const Appointment = () => {
   return (
@@ -13,6 +14,9 @@ const Appointment = () => {
           title="APPOINTMENT"
           subtitle="Welcome to your appointment"
         ></Header>
+      </Box>
+      <Box>
+        <AppointmentCard />
       </Box>
     </Box>
   );
