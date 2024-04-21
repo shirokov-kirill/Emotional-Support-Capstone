@@ -1,0 +1,17 @@
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon .icon {
+    position: absolute;
+    top: 47%;
+    right: 15px; 
+    transform: translateY(-50%);
+    width: 20px; 
+    height: 20px;
+}
+
+.icon img {
+    width: 21px; 
+    height: 21px; 
+}

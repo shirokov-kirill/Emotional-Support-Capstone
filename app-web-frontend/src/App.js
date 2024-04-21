@@ -7,7 +7,8 @@ import EmotionAssessmentForm from './MainComponents/Emotion assessment/EmotionAs
 import LoginChoice from "./Login/LoginChoice";
 import HealthProviderLogin from "./Login/HealthProviderLogin";
 import HealthProviderHome from "./Home/HealthProviderHome";
-import ChatsPage from "./MainComponents/Chats/ChatsPage"
+import ChatsPage from "./MainComponents/Chats/ChatsPage";
+import Feedback from './MainComponents/Feedback/Feedback';
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/home/hprovider" element={<HealthProviderHome/>} />
                 <Route path="/calendar" element={<Calendar/>} />
                 <Route path="/chats" element={<ChatsPage/>} />
+                <Route path="/feedback" element={<Feedback/>} />
             </Routes>
         </Router>
     )
