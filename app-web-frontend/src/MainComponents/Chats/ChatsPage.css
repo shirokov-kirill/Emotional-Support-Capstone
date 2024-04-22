@@ -1,0 +1,13 @@
+.chatsPage {
+    margin-top: 50px;
+    height: 90vh;
+}
+
+.chatsLayout {
+    width: 100%;
+    display: flex;
+}
+
+.row-item {
+    display: inline-block;
+}

@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: markprudnikov
+      changes:
+        - createTable:
+            tableName: feedback
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    primaryKeyName: feedback_id_sequence
+              - column:
+                  name: created
+                  type: datetime
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: phone
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: company
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: rating
+                  type: int
+                  constraints:
+                    nullable: true
+              - column:
+                  name: comment
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+        - createSequence:
+            sequenceName: seq_feedback_id
+            startValue: 1
+            incrementBy: 1
