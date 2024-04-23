@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Login } from './Login/Login';
 import Home from './MainComponents/Home/Home';
 import Calendar from './MainComponents/Calendar/Calendar';
-import EmotionAssessmentForm from './MainComponents/Emotion assessment/EmotionAssessmentForm'
+import EmotionAssessmentForm from './MainComponents/Emotion assessment/EmotionAssessmentForm';
 import LoginChoice from "./Login/LoginChoice";
 import HealthProviderLogin from "./Login/HealthProviderLogin";
 import HealthProviderHome from "./Home/HealthProviderHome";
@@ -27,6 +27,5 @@ function App() {
         </Router>
     )
 }
-
 
 export default App;

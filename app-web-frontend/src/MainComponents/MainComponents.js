@@ -15,5 +15,4 @@ const MainComponents = [
     { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList }
 ]
 
-
 export default MainComponents;
