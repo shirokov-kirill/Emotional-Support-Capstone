@@ -4,6 +4,7 @@ import Calendar from './Calendar/Calendar';
 import ChatsPage from './Chats/ChatsPage';
 import Feedback from './Feedback/Feedback';
 import FeedbackList from './Feedback/FeedbackList';
+import CriticalChanges from './CriticalChanges/CriticalChanges';
 
 
 const MainComponents = [
@@ -12,7 +13,8 @@ const MainComponents = [
     { "label": "Calendar", "path": "/calendar", "element": Calendar },
     { "label": "Chats", "path": "/chats", "element": ChatsPage },
     { "label": "Feedback", "path": "/feedback", "element": Feedback },
-    { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList }
+    { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList },
+    { "label": "Changes", "path": "/criticalChanges", "element": CriticalChanges }
 ]
 
 export default MainComponents;
