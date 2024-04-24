@@ -14,6 +14,9 @@ import AppointmentIcon from "@mui/icons-material/Schedule";
 import Appointment from "../scenes/Appointment/Appointment";
 import MainProfile from "../scenes/Profile/MainProfile";
 import Dashboard from "../scenes/Dashboard";
+import DataSharing from "./DataSharing/DataSharing";
+import DataViewing from "./DataViewing/DataViewing";
+import CriticalChanges from './CriticalChanges/CriticalChanges';
 
 
 const MainComponents = [
@@ -26,6 +29,10 @@ const MainComponents = [
     { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList, icon: <FeedbackIcon /> },
     { "label": "Notifications list", "path": "/notifications", "element": Notification },
     { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon /> },
+    { "label": "Home", "path": "/home", "element": Home },
+    { "label": "Sharing Data", "path": "/sharing", "element": DataSharing},
+    {"label": "Viewing Data", "path": "/viewing", "element": DataViewing}
+    { "label": "Changes", "path": "/criticalChanges", "element": CriticalChanges }
 ]
 
 export default MainComponents;
