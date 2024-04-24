@@ -4,7 +4,14 @@ import { Outlet } from "react-router-dom";
 import Topbar from "../Topbar";
 import ProSidebar from "../Sidebar";
 
-const Layout = () => {
+const wrapperStyles = {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '0 16px',
+    width: '100%'
+}
+
+const Layout = ({ children }) => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   return (
@@ -15,13 +22,18 @@ const Layout = () => {
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       />
-      <Box>
-        <Topbar
-          isSidebarOpen={isSidebarOpen}
-          setIsSidebarOpen={setIsSidebarOpen}
-        />
-        <Outlet />
-      </Box>
+        <div style={wrapperStyles}>
+            <Box>
+                <Topbar
+                    isSidebarOpen={isSidebarOpen}
+                    setIsSidebarOpen={setIsSidebarOpen}
+                />
+                <Outlet />
+            </Box>
+            <Box>
+                {children}
+            </Box>
+        </div>
     </Box>
   );
 };
