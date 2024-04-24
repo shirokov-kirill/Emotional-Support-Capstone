@@ -1,4 +1,4 @@
-import { getUserID } from "../utils/UserID"
+import { getUserID, getDoctorID } from "../utils/UserID"
 
 async function getMoodDataFromServer(userId, startDate, endDate) {
     let formatStartDate = dateToIsoWithoutTime(startDate)
@@ -40,6 +40,22 @@ async function getMoodsForTimeFrame(startDate, endDate) {
         currentDate.setDate(currentDate.getDate() + 1);
     }
     return moods;
+}
+
+export async function getCriticalPatientsDataForDoctor() {
+    const doctorId = getDoctorID()
+    const url = `http://localhost:8080/user-mood/getCriticalUsersMoodByDoctor/${doctorId}`;
+    try {
+        const response = await fetch(url);
+        console.log(response);
+        if (!response.ok) {
+            throw new Error('Failed to fetch doctor data');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching doctor data:', error);
+        return {}; // Return an empty array in case of error
+    }
 }
 
 
