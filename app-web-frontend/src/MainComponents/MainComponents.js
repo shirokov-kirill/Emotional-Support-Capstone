@@ -4,6 +4,8 @@ import Calendar from './Calendar/Calendar';
 import ChatsPage from './Chats/ChatsPage';
 import Feedback from './Feedback/Feedback';
 import FeedbackList from './Feedback/FeedbackList';
+import DataSharing from "./DataSharing/DataSharing";
+import DataViewing from "./DataViewing/DataViewing";
 import CriticalChanges from './CriticalChanges/CriticalChanges';
 
 
@@ -14,6 +16,8 @@ const MainComponents = [
     { "label": "Chats", "path": "/chats", "element": ChatsPage },
     { "label": "Feedback", "path": "/feedback", "element": Feedback },
     { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList },
+    { "label": "Sharing Data", "path": "/sharing", "element": DataSharing},
+    {"label": "Viewing Data", "path": "/viewing", "element": DataViewing}
     { "label": "Changes", "path": "/criticalChanges", "element": CriticalChanges }
 ]
 
