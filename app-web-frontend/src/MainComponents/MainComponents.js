@@ -1,4 +1,5 @@
 import Calendar from './Calendar/Calendar';
+import EmotionAssessmentForm from './Emotion assessment/EmotionAssessmentForm';
 import ChatsPage from './Chats/ChatsPage';
 import Feedback from './Feedback/Feedback';
 import FeedbackList from './Feedback/FeedbackList';
@@ -17,6 +18,7 @@ import Dashboard from "../scenes/Dashboard";
 const MainComponents = [
     { "label": "Dashboard", "path": "/dashboard", "element": Dashboard, "icon": <HomeIcon /> },
     { "label": "Calendar", "path": "/calendar", "element": Calendar, icon: <CalendarIcon /> },
+    { "label": "Mood Assessment", "path": "/emotion_assessment", "element": EmotionAssessmentForm, icon: <CalendarIcon />},
     { "label": "Chats", "path": "/chats", "element": ChatsPage, icon: <SmsIcon /> },
     { "label": "Appointments", "path": "/appointment", "element": Appointment, icon: <AppointmentIcon /> },
     { "label": "Feedback", "path": "/feedback", "element": Feedback, icon: <FeedbackIcon /> },
