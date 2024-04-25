@@ -1,0 +1,72 @@
+/* Feedback Form Container */
+.feedback-form {
+    background-color: #FFFFFF;
+    padding: 30px;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 20px;
+}
+
+/* Input and Textarea Styles */
+.feedback-form input[type="text"],
+.feedback-form input[type="email"],
+.feedback-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+/* Submit Button Styles */
+.feedback-form button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.feedback-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Privacy Policy Checkbox Styles */
+.feedback-form .privacy-policy {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.feedback-form .privacy-policy input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.feedback-form .privacy-policy label {
+    font-size: 14px;
+}
+
+/* Star Ratings Styles */
+.star-ratings {
+    margin-bottom: 20px;
+}
+
+/* Additional Feedback Textarea */
+.feedback-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .feedback-form {
+        padding: 20px;
+    }
+}

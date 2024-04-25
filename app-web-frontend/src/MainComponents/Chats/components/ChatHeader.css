@@ -1,0 +1,9 @@
+.chatHeader {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    border-style: solid;
+    border: none;
+    border-bottom: thin solid lightgrey;
+    border-left: thin solid lightgrey;
+}

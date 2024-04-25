@@ -43,7 +43,7 @@ class UserMoodController(
     }
 
     @GetMapping("user-mood/getCriticalUsersMoodByDoctor/{doctorId}")
-    fun getCriticalUsersMoodByDoctorId(@PathVariable("doctorId") doctorId: Int): Map<Int, UserMoodDto> {
+    fun getCriticalUsersMoodByDoctorId(@PathVariable("doctorId") doctorId: Int): List<UserMoodDto> {
         logger.info("Receiving patients of doctor {}", doctorId)
         return userMoodService.getCriticalUsersMoodByDoctorId(doctorId)
     }
