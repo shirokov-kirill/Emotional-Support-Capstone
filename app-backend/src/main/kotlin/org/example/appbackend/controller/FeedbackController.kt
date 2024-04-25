@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@CrossOrigin(origins = ["http://localhost:3000"], maxAge = 3600)
 class FeedbackController(
     private val feedbackRepository: FeedbackRepository,
     private val feedbackEntityMapper: FeedbackEntityMapper

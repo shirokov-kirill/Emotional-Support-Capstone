@@ -3,18 +3,23 @@ package org.example.appbackend.chat
 import org.example.appbackend.AppBackendApplication
 import org.example.appbackend.Url
 import org.example.appbackend.createDoctor
+import org.example.appbackend.createUser
+import org.example.appbackend.loginUser
 import org.example.appbackend.dto.ChatDto
 import org.example.appbackend.dto.MessageDto
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.test.web.server.LocalServerPort
-import org.springframework.http.HttpStatus
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
+import org.springframework.http.*
 import kotlin.random.Random
+import java.time.LocalDate
 import kotlin.test.assertNotNull
-
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = [AppBackendApplication::class]
@@ -27,6 +32,26 @@ class MessagesIntegrationTest {
     @LocalServerPort
     private val port: Int = 0
     private val url get() = Url(port)
+
+    private lateinit var token: String
+
+    @BeforeEach
+    fun setup() {
+        val username = "test_messages_users"
+        val password = "test_messages_password"
+        val userId = createUser(
+            url, restTemplate,
+            username = username,
+            password = password,
+            firstName = "John",
+            lastName = "Doe",
+            email = "john.doe@example.com",
+            dateOfBirth = LocalDate.of(1990, 5, 15),
+            gender = "Male"
+        )
+        token = loginUser(url, restTemplate, username, password)
+ }
+
 
     @Test
     fun `simple messaging scenario`() {
@@ -75,25 +100,50 @@ class MessagesIntegrationTest {
     }
 
     private fun sendMessage(messageDto: MessageDto): MessageDto {
-        val messagesResponse =
-            restTemplate.getForEntity(url.getMessagesByChat(messageDto.chatId), Array<MessageDto>::class.java)
-        println(messagesResponse.body?.asList())
-        val response = restTemplate.postForEntity(url.addMessage, messageDto, MessageDto::class.java)
-        assertEquals(HttpStatus.OK, response.statusCode)
-        val createdMessage = response.body
+        val headers = HttpHeaders()
+        headers.setBearerAuth(token)
+        val requestEntity = HttpEntity(messageDto, headers)
+
+        // Use exchange instead of getForEntity to include the requestEntity with headers
+        val messageResponse: ResponseEntity<Array<MessageDto>> = restTemplate.exchange(
+            url.getMessagesByChat(messageDto.chatId),
+            HttpMethod.GET,
+            requestEntity,
+            Array<MessageDto>::class.java
+        )
+
+        // POST request with the same headers
+        val responseEntity = restTemplate.exchange(
+            url.addMessage,
+            HttpMethod.POST,
+            requestEntity,
+            MessageDto::class.java
+        )
+
+        // Asserting the response and returning the created message
+        assertEquals(HttpStatus.OK, responseEntity.statusCode)
+        val createdMessage = responseEntity.body
         assertNotNull(createdMessage)
         assertEquals(messageDto.chatId, createdMessage.chatId)
         assertEquals(messageDto.senderId, createdMessage.senderId)
         assertEquals(messageDto.content, createdMessage.content)
         assertNotNull(createdMessage.messageOrd)
         assertNull(createdMessage.created)
-        // Because timestamp is set after the transaction finalizes
-        // In the following requests, the timestamp will be set
+
         return createdMessage
     }
 
     private fun verifyChatState(chatId: Int, expectedMessages: List<MessageDto>) {
-        val messagesResponse = restTemplate.getForEntity(url.getMessagesByChat(chatId), Array<MessageDto>::class.java)
+        val headers = HttpHeaders()
+        headers.set("Authorization", "Bearer $token")
+        val requestEntity = HttpEntity<Any>(headers)
+
+        val messagesResponse: ResponseEntity<Array<MessageDto>> = restTemplate.exchange(
+            url.getMessagesByChat(chatId),
+            HttpMethod.GET,
+            requestEntity,
+            Array<MessageDto>::class.java
+        )
         assertEquals(HttpStatus.OK, messagesResponse.statusCode)
         val messages = messagesResponse.body?.asList()?.reversed()
         // reversed() is used because the messages are sorted in ascending order by default
@@ -119,8 +169,16 @@ class MessagesIntegrationTest {
     }
 
     private fun createChat(userId: Int, doctorId: Int): Int {
-        val chatDto = ChatDto(null, userId, doctorId)
-        val response = restTemplate.postForEntity(url.addChat, chatDto, ChatDto::class.java)
+        val headers = HttpHeaders()
+        headers.set("Authorization", "Bearer $token")
+        val requestEntity = HttpEntity(ChatDto(null, userId, doctorId), headers)
+        val response: ResponseEntity<ChatDto> = restTemplate.exchange(
+            url.addChat,
+            HttpMethod.POST,
+            requestEntity,
+            ChatDto::class.java
+        )
+        // Assert the status code
         assertEquals(HttpStatus.OK, response.statusCode)
         val createdChat = response.body
         assertNotNull(createdChat)

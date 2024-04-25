@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: vbatraev
+      changes:
+        - createTable:
+            tableName: jwt_tokens
+            columns:
+              - column:
+                  name: token
+                  type: VARCHAR(255)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
