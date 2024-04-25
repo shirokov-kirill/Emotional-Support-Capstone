@@ -1,7 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Notification.css';
 
-const Notification = ({ title, message }) => {
+const Notification = ({ title, message, action, buttonText }) => {
     return (
         <div className="notification">
             <h3>{title}</h3>
@@ -9,7 +10,7 @@ const Notification = ({ title, message }) => {
                 <i className="info-icon">i</i>
                 <p>{message}</p>
                 <div className="notification-actions">
-                    <button className="action-button">Click to action</button>
+                    {action && <button className="action-button" onClick={action}>{buttonText ? buttonText : ""}</button>}
                 </div>
             </div>
         </div>
@@ -28,10 +29,11 @@ export const ExampleNotification = () => {
 export const MoodAssessmentNotification = () => {
     const title = "Mood Assessment";
     const message = "Please complete your mood assessment for today.";
+    const navigate = useNavigate();
 
     const NeedToNotify = () => {
         const now = new Date();
-        
+
         if (localStorage.getItem('lastAssessmentDate') === now.toDateString()) {
             console.log('Already assessed today');
             return false;
@@ -41,6 +43,6 @@ export const MoodAssessmentNotification = () => {
     }
 
     return (
-        NeedToNotify() && <Notification title={title} message={message} />
+        NeedToNotify() && <Notification title={title} message={message} action={() => navigate("/emotion_assessment")} buttonText="To mood assessment"/>
     );
 };
