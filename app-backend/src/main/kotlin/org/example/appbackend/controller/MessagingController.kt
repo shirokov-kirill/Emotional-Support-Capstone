@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@CrossOrigin(origins = ["http://localhost:3000"])
 class MessagingController(
     private val chatService: ChatService,
     private val messageService: MessageService
