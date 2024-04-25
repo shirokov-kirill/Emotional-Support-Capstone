@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import axios from "axios";
 
 function Footer() {
     return (
@@ -10,9 +11,9 @@ function Footer() {
     );
 }
 
-function LoginChoice() {
+function ResetPassword() {
     let navigate = useNavigate();
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmationPassword, setConfirmationPassword] = useState("");
 
@@ -26,6 +27,24 @@ function LoginChoice() {
     );
     };
 
+    const onResetPasswordSubmit = async (event) => {
+        event.preventDefault();
+
+        const resetPasswordInfo = {
+            username,
+            password,
+        };
+
+        try {
+            const response = await axios.post('/api/users/password/update', resetPasswordInfo);
+            if (response.status === 200) {
+                console.log('Reset password successfully')
+            }
+        } catch (error) {
+            console.error('Error during password reset', error);
+        }
+    };
+
     return (
         <div className="App">
             <div className="form-container">
@@ -35,25 +54,28 @@ function LoginChoice() {
                 <form>
                     <input
                     type="text"
-                    placeholder="Email"
-                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Username"
+                    onChange={(e) => setUsername(e.target.value)}
                     />
 
                     <input
                         type="password"
                         placeholder="New password"
                         onChange={(e) => setPassword(e.target.value)}
+                        style={isPasswordValid() ? {} : { border: "1px solid lightcoral" }}
                     />
 
                     <input
                         type="password"
                         placeholder="Confirm password"
                         onChange={(e) => setConfirmationPassword(e.target.value)}
+                        style={isPasswordSame() ? {} : { border: "1px solid lightcoral" }}
                     />
 
                     <div>
                     <button
                         type="submit"
+                        onClick={(e) => onResetPasswordSubmit(e)}
                     >
                         Continue
                     </button>
@@ -69,4 +91,4 @@ function LoginChoice() {
     );
 }
 
-export default LoginChoice;
+export default ResetPassword;
