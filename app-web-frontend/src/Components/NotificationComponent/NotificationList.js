@@ -1,13 +1,11 @@
 import React from 'react';
-import './Notification.css';
-import MoodAssessmentNotification from './Notifications/MoodAssessmentNotification';
-
-// notificationList = [MoodAssessmentNotification];
+import {ExampleNotification, MoodAssessmentNotification} from './Notifications';
 
 const NotificationList = () => {
     return (
         <div>
             <MoodAssessmentNotification/>
+            <ExampleNotification/>
         </div>
     );
 }
