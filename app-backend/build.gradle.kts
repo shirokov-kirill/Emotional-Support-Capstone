@@ -31,7 +31,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
-    implementation("org.springframework.session:spring-session-jdbc")
     implementation("org.springframework.security:spring-security-config")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.liquibase:liquibase-core:4.26.0")
