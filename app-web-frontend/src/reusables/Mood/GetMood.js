@@ -1,9 +1,9 @@
-import { getUserID, getDoctorID } from "../utils/UserID"
+import { getUserAuthToken } from "../utils/AuthToken"
 
-async function getMoodDataFromServer(userId, startDate, endDate) {
+async function getMoodDataFromServer(authToken, startDate, endDate) {
     let formatStartDate = dateToIsoWithoutTime(startDate)
     let formatEndDate = dateToIsoWithoutTime(endDate)
-    const url = `http://localhost:8080/user-mood/getByUser/${userId}/timeframe?start=${formatStartDate}&end=${formatEndDate}`;
+    const url = `http://localhost:8080/user-mood/getByUser/${authToken}/timeframe?start=${formatStartDate}&end=${formatEndDate}`;
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -17,8 +17,8 @@ async function getMoodDataFromServer(userId, startDate, endDate) {
 }
 
 async function getMoodsForTimeFrame(startDate, endDate) {
-    const userId = getUserID()
-    const moodData = await getMoodDataFromServer(userId, startDate, endDate);
+    const authToken = getUserAuthToken()
+    const moodData = await getMoodDataFromServer(authToken, startDate, endDate);
     const moods = [];
 
     let currentDate = new Date(startDate);
@@ -43,8 +43,8 @@ async function getMoodsForTimeFrame(startDate, endDate) {
 }
 
 export async function getCriticalPatientsDataForDoctor() {
-    const doctorId = getDoctorID()
-    const url = `http://localhost:8080/user-mood/getCriticalUsersMoodByDoctor/${doctorId}`;
+    const authToken = getUserAuthToken()
+    const url = `http://localhost:8080/user-mood/getCriticalUsersMoodByDoctor/${authToken}`;
     try {
         const response = await fetch(url);
         console.log(response);

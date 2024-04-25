@@ -71,7 +71,7 @@ class JwtTokenFilter(
         filterChain.doFilter(request, response)
     }
 
-    private fun extractUserId(token: String): Int {
+    fun extractUserId(token: String): Int {
         val keyBytes = jwtSecret.toByteArray(Charsets.UTF_8) // Correct encoding to Byte array
         val key: Key = Keys.hmacShaKeyFor(keyBytes)
 
