@@ -15,4 +15,6 @@ interface UserService{
     fun getUserByUsername(username: String): UserDto
 
     fun authenticateUser(username: String, password: String): UserDto
+
+    fun updatePassword(username: String, password: String): UserDto
 }
