@@ -74,9 +74,9 @@ export default class Calendar extends Component {
             <div>
                 <div className="calendar">
                     <div className="calendar-header">
-                        <button onClick={this.goToPreviousMonth}>{'◄'}</button>
+                        <button onClick={this.goToPreviousMonth}>{'<'}</button>
                         <h2>{this.months[this.state.currentDay.getMonth()]} {this.state.currentDay.getFullYear()}</h2>
-                        <button onClick={this.goToNextMonth}>{'►'}</button>
+                        <button onClick={this.goToNextMonth}>{'>'}</button>
                     </div>
                     <div className="calendar-body">
                         <div className="table-header">
