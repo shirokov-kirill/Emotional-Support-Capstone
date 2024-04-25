@@ -1,8 +1,9 @@
 .calendar {
   width: 900px;
-  height: 600px;
+  height: 80vh;
   display: flex;
   flex-direction: column;
+  margin: auto; /* Center the calendar horizontally */
   /* margin-top: 20px; */
 }
 
@@ -29,7 +30,7 @@
 }
 
 .weekday {
-  width: 100px;
+  width: 13.89%;
   text-align: center;
 }
 
@@ -43,8 +44,8 @@
 }
 
 .calendar-day {
-  width: 125px;
-  height: 75px;
+  width: 13.89%;
+  height: 20%;
   position: relative;
   border: 1px solid #a6a6a6;
 }
@@ -66,4 +67,11 @@
 .selected p {
   color: #cc0000;
   font-weight: bold;
+}
+
+body:has(.calendar) {
+    background-color: #F3F4F6;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
 }
