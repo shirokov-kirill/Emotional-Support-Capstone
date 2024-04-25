@@ -151,14 +151,14 @@ export function Login() {
                 <h2>Sign Up</h2>
                 <form onSubmit={onNewUserFormSubmit}>
                     <div className="horizontal-form">
-                                <div className="form-column first-column">
+                                <div className="horizontal-column first-column">
                                     <input
                                     type="text"
                                     placeholder="Name"
                                     onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
-                                <div className="form-column">
+                                <div className="horizontal-column">
                                 <input
                                 type="text"
                                 placeholder="Surname"
@@ -167,14 +167,14 @@ export function Login() {
                                 </div>
                     </div>
                     <div className="horizontal-form">
-                                <div className="form-column first-column">
+                                <div className="horizontal-column first-column">
                                 <input
                                 type="text"
                                 placeholder="Username"
                                 onChange={(e) => setUsername(e.target.value)}
                                 />
                                 </div>
-                                <div className="form-column">
+                                <div className="horizontal-column">
                                 <input
                                 type="date"
                                 placeholder="1990-01-01"
