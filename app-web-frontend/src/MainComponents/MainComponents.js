@@ -2,7 +2,7 @@ import Calendar from './Calendar/Calendar';
 import ChatsPage from './Chats/ChatsPage';
 import Feedback from './Feedback/Feedback';
 import FeedbackList from './Feedback/FeedbackList';
-import Notification from "../Components/NotificationComponent/Notification";
+import NotificationList from "../Components/NotificationComponent/NotificationList";
 import HomeIcon from "@mui/icons-material/Cottage";
 import CalendarIcon from "@mui/icons-material/CalendarMonth";
 import SmsIcon from "@mui/icons-material/Sms";
@@ -21,7 +21,7 @@ const MainComponents = [
     { "label": "Appointments", "path": "/appointment", "element": Appointment, icon: <AppointmentIcon /> },
     { "label": "Feedback", "path": "/feedback", "element": Feedback, icon: <FeedbackIcon /> },
     { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList, icon: <FeedbackIcon /> },
-    { "label": "Notifications list", "path": "/notifications", "element": Notification },
+    { "label": "Notifications list", "path": "/notifications", "element": NotificationList },
     { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon /> }
 ]
 
