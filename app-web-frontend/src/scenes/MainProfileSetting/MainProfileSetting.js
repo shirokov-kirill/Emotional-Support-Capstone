@@ -1,6 +1,6 @@
 import Header from "../../Components/Header";
 import { Box } from "@mui/material";
-import AccountSettings from "../../Components/ProfileSetting/Setting";
+import AccountSettings from "../../Components/ProfileSettings/Settings";
 const MainProfileSetting = () => {
   return (
     <Box m="1px">
