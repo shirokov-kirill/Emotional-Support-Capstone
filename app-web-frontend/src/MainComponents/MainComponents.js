@@ -9,12 +9,13 @@ import SmsIcon from "@mui/icons-material/Sms";
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import ProfileIcon from "@mui/icons-material/Person2";
 import AppointmentIcon from "@mui/icons-material/Schedule";
+import CoPresentIcon from '@mui/icons-material/CoPresent';
+import IosShareIcon from '@mui/icons-material/IosShare';
 import Appointment from "../scenes/Appointment/Appointment";
 import MainProfile from "../scenes/Profile/MainProfile";
 import Dashboard from "../scenes/Dashboard";
 import DataSharing from "./DataSharing/DataSharing";
 import DataViewing from "./DataViewing/DataViewing";
-
 
 const MainComponents = [
     { "label": "Dashboard", "path": "/dashboard", "element": Dashboard, "icon": <HomeIcon /> },
@@ -24,8 +25,8 @@ const MainComponents = [
     { "label": "Feedback", "path": "/feedback", "element": Feedback, icon: <FeedbackIcon /> },
     { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList, icon: <FeedbackIcon /> },
     { "label": "Notifications list", "path": "/notifications", "element": NotificationList },
-    {"label": "Data Sharing", "path": "/datasharing", "element": DataSharing },
-    {"label": "Data Viewing", "path": "/dataviewing", "element": DataViewing },
+    {"label": "Data Sharing", "path": "/datasharing", "element": DataSharing, icon: <IosShareIcon /> },
+    {"label": "Data Viewing", "path": "/dataviewing", "element": DataViewing, icon: <CoPresentIcon /> },
     { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon /> }
 ]
 
