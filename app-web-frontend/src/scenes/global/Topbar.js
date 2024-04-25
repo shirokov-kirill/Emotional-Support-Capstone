@@ -6,7 +6,12 @@ import NotificationsIcon from "@mui/icons-material/CircleNotifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PersonIcon from "@mui/icons-material/Person";
 import LightModeIcon from "@mui/icons-material/NightlightTwoTone";
-const Topbar = () => {
+import { Link, useLocation } from 'react-router-dom';
+
+const Topbar = ({ selected, setSelected }) => {
+  const location = useLocation();
+  const isSelected = (path) => location.pathname === path;
+
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
       {/* Search Bar*/}
@@ -21,13 +26,13 @@ const Topbar = () => {
         <IconButton>
           <LightModeIcon />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={() => setSelected("/notifications")} component={Link} to="/notifications" color={isSelected("/notifications") ? "primary" : "default"}>
           <NotificationsIcon />
         </IconButton>
         <IconButton>
           <SettingsIcon />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={() => setSelected("/profile")} component={Link} to="/profile" color={isSelected("/profile") ? "primary" : "default"}>
           <PersonIcon />
         </IconButton>
       </Box>
