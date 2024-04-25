@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class ChatWithMessagesServiceImpl(
-    val messageService: MessageService,
-    val chatService: ChatService,
-    val userService: UserService,
-    val doctorService: DoctorCredentialsService
+    private val messageService: MessageService,
+    private val chatService: ChatService,
+    private val userService: UserService,
+    private val doctorService: DoctorCredentialsService
 ) : ChatWithMessagesService {
 
     companion object {
