@@ -1,10 +1,7 @@
 import React from 'react';
 import './Notification.css';
 
-const Notification = () => {
-    const title = "Sample Notification Title";
-    const message = "This is a sample message for the notification component.";
-
+const Notification = ({ title, message }) => {
     return (
         <div className="notification">
             <h3>{title}</h3>
@@ -17,6 +14,6 @@ const Notification = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Notification;
