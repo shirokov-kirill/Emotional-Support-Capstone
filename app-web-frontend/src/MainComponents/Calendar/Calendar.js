@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './Calendar.css';
 import CalendarDays from './Calendar days/CalendarDays';
 import getMoodsForTimeFrame from "../../reusables/Mood/GetMood";
@@ -38,14 +38,14 @@ export default class Calendar extends Component {
   }
 
   componentDidMount() {
-    this.fetchMoods();
+    this.fetchMoods().then( moods =>
+        this.setState({ moods })
+    );
   }
 
   async fetchMoods() {
     try {
-
-      const moods = await getMoods(this.state.currentDay);
-      this.setState({ moods });
+      return await getMoods(this.state.currentDay);
     } catch (error) {
       console.error('Error fetching moods:', error);
     }
@@ -55,15 +55,17 @@ export default class Calendar extends Component {
     this.setState(prevState => (
         {
       currentDay: new Date(prevState.currentDay.getFullYear(), prevState.currentDay.getMonth() - 1, 1),
-    }));
-    this.componentDidMount();
+    }), () => {
+      this.componentDidMount();
+    });
   }
 
   goToNextMonth = () => {
     this.setState(prevState => ({
       currentDay: new Date(prevState.currentDay.getFullYear(), prevState.currentDay.getMonth() + 1, 1),
-    }));
-    this.componentDidMount();
+    }), () => {
+      this.componentDidMount();
+    });
   }
 
   render() {
