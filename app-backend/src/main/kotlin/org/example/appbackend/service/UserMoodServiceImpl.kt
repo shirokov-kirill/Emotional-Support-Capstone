@@ -75,9 +75,9 @@ class UserMoodServiceImpl(
      * @return A map of user IDs to UserMoodDto objects.
      */
     @Transactional
-    override fun getCriticalUsersMoodByDoctorId(doctorId: Int): Map<Int, UserMoodDto> {
+    override fun getCriticalUsersMoodByDoctorId(doctorId: Int): List<UserMoodDto> {
         val doctorChats = chatRepository.findByDoctorId(doctorId)
-        val userIdToMoodDto = mutableMapOf<Int, UserMoodDto>()
+        val userIdToMoodDto = mutableListOf<UserMoodDto>()
         val today = LocalDateTime.now().toLocalDate().atStartOfDay()
         val tomorrow = today.plusDays(1)
         for (doctorChat in doctorChats) {
@@ -85,12 +85,10 @@ class UserMoodServiceImpl(
             val userMoods = userMoodRepository.findByUserIdAndCreatedBetween(chatDto.userId, today, tomorrow).map {
                 userMoodMapper.entityToDto(it)
             }
-            if (userMoods.isNotEmpty()) {
-                val userMood = userMoods[0]
+            // TODO think about do we need unique userMoods
+            for (userMood in userMoods) {
                 if (UserMoodService.isMoodCritical(userMood)) {
-                    userMood.userId?.let {
-                        userIdToMoodDto[it] = userMood
-                    }
+                    userIdToMoodDto.add(userMood)
                 }
             }
         }

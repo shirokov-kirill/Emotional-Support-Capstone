@@ -4,18 +4,18 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Login } from './Login/Login';
-import HeaderLayout from './header/Header';
 import MainComponents from './MainComponents/MainComponents.js';
 import LoginChoice from "./Login/LoginChoice";
 import HealthProviderLogin from "./Login/HealthProviderLogin";
 import HealthProviderHome from "./Home/HealthProviderHome";
+import Layout from "./scenes/global/Layout";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
-      <HeaderLayout>
+      <Layout>
         <Routes>
             <Route path="/" element={<LoginChoice/>}/>
             <Route path="/user" element={<Login/>}/>
@@ -25,7 +25,7 @@ root.render(
             <Route key={index + 1} path={component.path} element={<component.element />} />
           ))}
         </Routes>
-      </HeaderLayout>
+      </Layout>
     </Router>
   </React.StrictMode>
 );
