@@ -12,6 +12,8 @@ import AppointmentIcon from "@mui/icons-material/Schedule";
 import Appointment from "../scenes/Appointment/Appointment";
 import MainProfile from "../scenes/Profile/MainProfile";
 import Dashboard from "../scenes/Dashboard";
+import DataSharing from "./DataSharing/DataSharing";
+import DataViewing from "./DataViewing/DataViewing";
 
 
 const MainComponents = [
@@ -22,6 +24,8 @@ const MainComponents = [
     { "label": "Feedback", "path": "/feedback", "element": Feedback, icon: <FeedbackIcon /> },
     { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList, icon: <FeedbackIcon /> },
     { "label": "Notifications list", "path": "/notifications", "element": NotificationList },
+    {"label": "Data Sharing", "path": "/datasharing", "element": DataSharing },
+    {"label": "Data Viewing", "path": "/dataviewing", "element": DataViewing },
     { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon /> }
 ]
 
