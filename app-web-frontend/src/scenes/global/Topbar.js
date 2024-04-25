@@ -29,7 +29,7 @@ const Topbar = ({ selected, setSelected }) => {
         <IconButton onClick={() => setSelected("/notifications")} component={Link} to="/notifications" color={isSelected("/notifications") ? "primary" : "default"}>
           <NotificationsIcon />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={() => setSelected("/setting")} component={Link} to="/setting" color={isSelected("/setting") ? "primary" : "default"}>
           <SettingsIcon />
         </IconButton>
         <IconButton onClick={() => setSelected("/profile")} component={Link} to="/profile" color={isSelected("/profile") ? "primary" : "default"}>
