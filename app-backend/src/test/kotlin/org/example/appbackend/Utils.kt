@@ -22,6 +22,9 @@ class Url(val port: Int) {
     fun getChatsByUser(userId: Int) = "$root/chats/user/$userId"
     fun getChatsByDoctor(doctorId: Int) = "$root/chats/doctor/$doctorId"
     fun getMessagesByChat(chatId: Int) = "$root/messages/$chatId"
+    val shareUserMood = "$root/user-mood/share"
+    val createMood get() = "$root/user-mood/create"
+    fun getAllowedUserMood(userId: Int, doctorId: Int) = "$root/user-mood/get-allowed/$userId/$doctorId"
 }
 
 fun createDoctor(

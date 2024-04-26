@@ -1,6 +1,7 @@
 package org.example.appbackend.controller
 
 import org.example.appbackend.dto.CreateUserMoodDto
+import org.example.appbackend.dto.ShareMoodTimeFrameWithDoctorsDto
 import org.example.appbackend.dto.UpdateUserMoodDto
 import org.example.appbackend.dto.UserMoodDto
 import org.example.appbackend.service.UserMoodService
@@ -58,5 +59,20 @@ class UserMoodController(
     fun deleteUserMood(@PathVariable("id") id: Int) {
         logger.info("Deleting user mood with id: {}", id)
         userMoodService.delete(id)
+    }
+
+    @PostMapping("user-mood/share")
+    fun shareMoodTimeFrameWithDoctors(@RequestBody dto: ShareMoodTimeFrameWithDoctorsDto): List<Int> {
+        logger.info("Receiving user mood sharing timeframe: {}", dto)
+        return userMoodService.shareTimeFrame(dto)
+    }
+
+    @GetMapping("user-mood/get-allowed/{userId}/{doctorId}")
+    fun getUserMoodByFrame(
+        @PathVariable("userId") userId: Int,
+        @PathVariable("doctorId") doctorId: Int,
+    ): List<UserMoodDto> {
+        logger.info("Receiving allowed user moods: {}", userId)
+        return userMoodService.getAllowedUserMoods(userId, doctorId)
     }
 }
