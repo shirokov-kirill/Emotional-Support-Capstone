@@ -1,6 +1,7 @@
 package org.example.appbackend.service
 
 import org.example.appbackend.dto.CreateUserMoodDto
+import org.example.appbackend.dto.ShareMoodTimeFrameWithDoctorsDto
 import org.example.appbackend.dto.UpdateUserMoodDto
 import org.example.appbackend.dto.UserMoodDto
 import java.time.LocalDate
@@ -13,6 +14,8 @@ interface UserMoodService {
     fun getUserMoodForTimeFrame(userId: Int, startDate: LocalDate, endDate: LocalDate): Map<LocalDate, UserMoodDto>
     fun getCriticalUsersMoodByDoctorId(doctorId: Int): List<UserMoodDto>
     fun delete(id: Int)
+    fun shareTimeFrame(dto: ShareMoodTimeFrameWithDoctorsDto): List<Int>
+    fun getAllowedUserMoods(userId: Int, doctorId: Int): List<UserMoodDto>
 
     companion object {
 
