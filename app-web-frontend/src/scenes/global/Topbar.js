@@ -8,7 +8,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import LightModeIcon from "@mui/icons-material/NightlightTwoTone";
 import { Link, useLocation } from 'react-router-dom';
 
-const Topbar = ({ selected, setSelected }) => {
+const Topbar = (props) => {
   const location = useLocation();
   const isSelected = (path) => location.pathname === path;
 
@@ -26,15 +26,21 @@ const Topbar = ({ selected, setSelected }) => {
         <IconButton>
           <LightModeIcon />
         </IconButton>
-        <IconButton onClick={() => setSelected("/notifications")} component={Link} to="/notifications" color={isSelected("/notifications") ? "primary" : "default"}>
-          <NotificationsIcon />
-        </IconButton>
-        <IconButton onClick={() => setSelected("/setting")} component={Link} to="/setting" color={isSelected("/setting") ? "primary" : "default"}>
-          <SettingsIcon />
-        </IconButton>
-        <IconButton onClick={() => setSelected("/profile")} component={Link} to="/profile" color={isSelected("/profile") ? "primary" : "default"}>
-          <PersonIcon />
-        </IconButton>
+        <Link to="/notifications" onClick={() => props.setSelected("/notifications")}>
+          <IconButton color={isSelected("/notifications") ? "primary" : "default"}>
+            <NotificationsIcon />
+          </IconButton>
+        </Link>
+        <Link to="/setting" onClick={() => props.setSelected("/setting")}>
+          <IconButton color={isSelected("/setting") ? "primary" : "default"}>
+            <SettingsIcon />
+          </IconButton>
+        </Link>
+        <Link to="/profile" onClick={() => props.setSelected("/profile")}>
+          <IconButton color={isSelected("/profile") ? "primary" : "default"}>
+            <PersonIcon />
+          </IconButton>
+        </Link>
       </Box>
     </Box>
   );

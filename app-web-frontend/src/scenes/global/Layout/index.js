@@ -14,6 +14,7 @@ const wrapperStyles = {
 const Layout = ({ children }) => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [selected, setSelected] = useState("");
   return (
     <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
       <ProSidebar
@@ -21,12 +22,16 @@ const Layout = ({ children }) => {
         drawerWidth="250px"
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
+        selected={selected}
+        setSelected={setSelected}
       />
         <div style={wrapperStyles}>
             <Box>
                 <Topbar
                     isSidebarOpen={isSidebarOpen}
                     setIsSidebarOpen={setIsSidebarOpen}
+                    selected={selected}
+                    setSelected={setSelected}
                 />
                 <Outlet />
             </Box>
