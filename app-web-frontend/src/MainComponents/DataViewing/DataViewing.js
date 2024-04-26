@@ -1,72 +1,66 @@
-import React, { useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './DataViewing.css'
+import {SERVER_ADDRESS} from "../../setupInfo";
+import axios from "axios";
 
 function DataViewing() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [patients, setPatients] = useState([]);
+    const doctorId = 1;
 
-    const dummy_patients = [
+    const patients_list = [
         {
             id: 1,
-            name: 'Evgeniia Kirillova',
-            data: [
-                { date: '2024-01-01', emoji: '😊', color: 'green' },
-                { date: '2024-01-02', emoji: '😃', color: 'blue' },
-                { date: '2024-01-03', emoji: '😁', color: 'orange' },
-                // Add more data as needed
-            ]
+            name: 'First Patient'
         },
         {
             id: 2,
-            name: 'Mikhail Savrasov',
-            data: [
-                { date: '2024-01-01', emoji: '😊', color: 'green' },
-                { date: '2024-01-02', emoji: '😃', color: 'blue' },
-                { date: '2024-01-03', emoji: '😁', color: 'orange' },
-                // Add more data as needed
-            ]
-        },
-        {
-            id: 3,
-            name: 'Egor Lebedev',
-            data: [
-                { date: '2024-01-01', emoji: '😊', color: 'green' },
-                { date: '2024-01-02', emoji: '😃', color: 'blue' },
-                { date: '2024-01-03', emoji: '😁', color: 'orange' },
-                // Add more data as needed
-            ]
-        },
-        // Add more patients as needed
-    ];
+            name: 'Second Patient'
+        }
+    ]
+
 
     useEffect(() => {
         // Fetch patient data from your API endpoint
         fetchPatients();
     }, []);
 
+
+
     const fetchPatients = async () => {
         try {
-            // Replace 'api/patients' with your actual API endpoint
-            const response = await fetch('api/patients');
-            if (!response.ok) {
-                throw new Error('Failed to fetch patient data');
-            }
-            const data = await response.json();
-            setPatients(data);
+            // const response = await axios.get(SERVER_ADDRESS + '/patients');
+            //
+            // if (response.status !== 200) {
+            //     throw new Error('Failed to fetch patient data');
+            // }
+            //
+            // setPatients(response.data);
+            setPatients(patients_list);
+
         } catch (error) {
             console.error('Error fetching patient data:', error);
-            // Handle error appropriately, e.g., show error message to the user
-            setPatients(dummy_patients)
+            setPatients(patients_list);
+            console.log(patients);
         }
     };
 
 
-    const handlePatientClick = (patient) => {
-        setSelectedPatient(patient);
+    const handlePatientClick = async (patient) => {
+        // setSelectedPatient(patient);
+        try {
+            const response = await axios.get(SERVER_ADDRESS + `/user-mood/get-allowed/${patient.id}/${doctorId}`);
+            if (response.status !== 200) {
+                throw new Error('Failed to fetch patient data');
+            }
+            setSelectedPatient({...patient, data: response.data});
+        } catch (error) {
+            console.error('Error fetching patient data:', error);
+        }
     };
 
 
@@ -76,9 +70,16 @@ function DataViewing() {
 
 
     const getEmojiAndColorForDate = (date) => {
-        if (selectedPatient) {
-            const dataEntry = selectedPatient.data.find(entry => entry.date === formatDate(date));
-            return dataEntry ? { emoji: dataEntry.emoji, color: dataEntry.color } : null;
+        console.log(date)
+        const formattedDate = formatDate(date);
+        const dataEntry = selectedPatient.data.find(entry => {
+            const entryObject = JSON.parse(entry);
+            console.log(entryObject)
+            return formatDate(entryObject['created']) === formattedDate;
+        });
+        if (dataEntry) {
+            const entryObject = JSON.parse(dataEntry);
+            return {emoji: entryObject.emoji, color: entryObject.color};
         }
         return null;
     };
@@ -88,16 +89,16 @@ function DataViewing() {
         return date.toISOString().split('T')[0];
     };
 
-    const filteredPatients = dummy_patients.filter(patient =>
+    const filteredPatients = patients.filter(patient =>
         patient.name.toLowerCase().split(" ").some(word => word.startsWith(searchTerm.toLowerCase()))
     );
 
-    const tileContent = ({ date, view }) => {
+    const tileContent = ({date, view}) => {
         const emojiAndColor = getEmojiAndColorForDate(date);
         if (emojiAndColor && view === 'month') {
             return (
-                <span role="img" aria-label="Emoji" style={{ color: emojiAndColor.color }}>
-                <span style={{ color: emojiAndColor.color }}>{emojiAndColor.emoji}</span>
+                <span role="img" aria-label="Emoji" style={{color: emojiAndColor.color}}>
+                <span style={{color: emojiAndColor.color}}>{emojiAndColor.emoji}</span>
             </span>
             );
         }
