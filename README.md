@@ -10,3 +10,6 @@ The script deploys 3 Docker containers:
 * DB
 
 Recommended minimal configuration for the Linux machine: 2 Cores and 4 GB RAM.
+
+## Work done
+List of all the work done during the implementation Sprints is [here](https://docs.google.com/presentation/d/1uyN3Xe7WYpE58yw565GDzBhU4o4cmOs2Ut65KAcG2X8/edit?usp=sharing)
