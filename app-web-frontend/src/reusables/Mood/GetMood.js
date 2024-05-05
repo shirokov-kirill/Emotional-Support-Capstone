@@ -1,9 +1,10 @@
 import { getUserID, getDoctorID } from "../utils/UserID"
+import { SERVER_ADDRESS } from "../../setupInfo";
 
 async function getMoodDataFromServer(userId, startDate, endDate) {
     let formatStartDate = dateToIsoWithoutTime(startDate)
     let formatEndDate = dateToIsoWithoutTime(endDate)
-    const url = `http://localhost:8080/user-mood/getByUser/${userId}/timeframe?start=${formatStartDate}&end=${formatEndDate}`;
+    const url = `${SERVER_ADDRESS}/user-mood/getByUser/${userId}/timeframe?start=${formatStartDate}&end=${formatEndDate}`;
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -44,7 +45,7 @@ async function getMoodsForTimeFrame(startDate, endDate) {
 
 export async function getCriticalPatientsDataForDoctor() {
     const doctorId = getDoctorID()
-    const url = `http://localhost:8080/user-mood/getCriticalUsersMoodByDoctor/${doctorId}`;
+    const url = `${SERVER_ADDRESS}/user-mood/getCriticalUsersMoodByDoctor/${doctorId}`;
     try {
         const response = await fetch(url);
         console.log(response);
