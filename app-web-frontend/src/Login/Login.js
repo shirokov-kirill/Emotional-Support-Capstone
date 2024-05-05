@@ -23,6 +23,7 @@ export function Login() {
     const [surname, setSurname] = useState('');
     const [username, setUsername] = useState('');
     const [gender, setGender] = useState('');
+    const [showFormValidWarning, setShowFormValidWarning] = useState(false);
 
     let navigate = useNavigate();
 
@@ -58,6 +59,13 @@ export function Login() {
 
     const onUserLoginSubmit = async (event) => {
         event.preventDefault();
+
+        if (!isLoginFormValid()) {
+            setShowFormValidWarning(true);
+            return;
+        } else {
+            setShowFormValidWarning(false);
+        }
 
         const userLogin = {
             username,
@@ -112,102 +120,156 @@ export function Login() {
         <div className="App">
             {isLogin ? (
                 <div className="form-container">
-                    <h2>Login</h2>
+                    <div className="title">
+                        <h2>Login</h2>
+                        <h4>to get started</h4>
+                    </div>
                     <form onSubmit={onUserLoginSubmit}>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        {!username &&
-                            <p className="warning-message">Please enter your username.</p>}
-
                         <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
-                        {!isPasswordValid() &&
-                            <p className="warning-message">Password must be at least 8 characters long.</p>}
+                        <button id="forgot-password-button" className="text-button" onClick={() => navigate("/password_reset")}>
+                            Forgot Password?
+                        </button>
 
                         <div>
-                            {!isLoginFormValid() &&
+                            {showFormValidWarning &&
                                 <p className="warning-message">Please fill in all the required fields.</p>}
-                            <button type="submit" disabled={!isLoginFormValid()}>Login</button>
-                            {/* Handle login is needed to navigate to the home page after the successful login
-                            feel free to modify the logic, but please try to remain
-                            that the successful login leads to navigation to the home page*/}
+                            <button type="submit">Continue</button>
                         </div>
                     </form>
 
-                    <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
-                        Up!
+                    <button className="text-button signup-button" onClick={() => setIsLogin(false)}>
+                        New user? Register!
                     </button>
-                </div>
+
+                    <button className="text-button back-to-role" onClick={() => navigate("/")}>
+                        Back to role choice
+                    </button>
+                            </div>
             ) : (
-                <div className="form-container" style={{textAlign: 'left'}}>
-                    <h2>Sign Up</h2>
-                    <form onSubmit={onNewUserFormSubmit}>
-                        <input type="text" placeholder="Name" onChange={e => setName(e.target.value)}/>
-                        <input type="text" placeholder="Surname" onChange={e => setSurname(e.target.value)}/>
-                        <input
-                            type="date"
-                            placeholder="Date of Birth"
-                            onChange={e => setDob(e.target.value)}
-                            style={isDOBValid() ? {} : {border: '1px solid lightcoral'}}
-                        />
-                        {!isDOBValid() &&
-                            <p className="warning-message">You must be at least 13 years old to register.</p>}
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            onChange={e => setEmail(e.target.value)}
-                            style={validateEmail() ? {} : {border: '1px solid lightcoral'}}
-
-                        />
-                        {!validateEmail() && <p className="warning-message">Please enter a valid Email.</p>}
-                        <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <select
-                            className="mySelectStyle"
-                            value={gender}
-                            onChange={e => setGender(e.target.value)}
-                        >
-                            <option value="">Select gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            onChange={e => setPassword(e.target.value)}
-                            style={isPasswordValid() ? {} : {border: '1px solid lightcoral'}}
-                        />
-
-                        {!isPasswordValid() &&
-                            <p className="warning-message">Password must be at least 8 characters long.</p>}
-
-                        <input
-                            type="password"
-                            placeholder="Confirm Password"
-                            onChange={e => setConfirmationPassword(e.target.value)}
-                            style={isPasswordSame() ? {} : {border: '1px solid lightcoral'}}
-                        />
-
-                        {!isPasswordSame() &&
-                            <p className="warning-message">Passwords must match the confirmation password.</p>}
-
-                        <div>
-                            {!isNewUserFormValid() &&
-                                <p className="warning-message">Please fill in all the required fields.</p>}
-                            <button type="submit" disabled={!isNewUserFormValid()}>Sign Up</button>
-                        </div>
-
+            <div className="form-container signup" style={{ textAlign: "left" }}>
+                <h2>Sign Up</h2>
+                <form onSubmit={onNewUserFormSubmit}>
+                    <div className="horizontal-form">
+                                <div className="horizontal-column first-column">
+                                    <input
+                                    type="text"
+                                    placeholder="Name"
+                                    onChange={(e) => setName(e.target.value)}
+                                    />
+                                </div>
+                                <div className="horizontal-column">
+                                <input
+                                type="text"
+                                placeholder="Surname"
+                                onChange={(e) => setSurname(e.target.value)}
+                                />
+                                </div>
+                    </div>
+                    <div className="horizontal-form">
+                                <div className="horizontal-column first-column">
+                                <input
+                                type="text"
+                                placeholder="Username"
+                                onChange={(e) => setUsername(e.target.value)}
+                                />
+                                </div>
+                                <div className="horizontal-column">
+                                <input
+                                type="date"
+                                placeholder="1990-01-01"
+                                onChange={(e) => setDob(e.target.value)}
+                                style={isDOBValid() ? {} : { border: "1px solid lightcoral" }}
+                                className="custom-date-picker"
+                                />
+                                {!isDOBValid() && (
+                                <p className="warning-message">
+                                    Must be 13+ to register
+                                </p>
+                                )}
+                                </div>
+                    </div>
+                    <form class="gender-select">
+                        <label class="gender-option">
+                            <input type="radio" name="gender" value="male" onChange={(e) => setGender(e.target.value)}/>
+                            <span class="checkmark"></span> Male
+                        </label>
+                        <label class="gender-option">
+                            <input type="radio" name="gender" value="female" onChange={(e) => setGender(e.target.value)}/>
+                            <span class="checkmark"></span> Female
+                        </label>
+                        <label class="gender-option">
+                            <input type="radio" name="gender" value="other" onChange={(e) => setGender(e.target.value)}/>
+                            <span class="checkmark"></span> Other
+                        </label>
                     </form>
-                    <button className="switch-form-button" onClick={() => setIsLogin(true)}>Back to Login</button>
+
+                    <input
+                    type="email"
+                    placeholder="Email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    style={validateEmail() ? {} : { border: "1px solid lightcoral" }}
+                    />
+                    {!validateEmail() && (
+                    <p className="warning-message">Please enter a valid Email.</p>
+                    )}
+
+                    <input
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    style={
+                        isPasswordValid() ? {} : { border: "1px solid lightcoral" }
+                    }
+                    />
+
+                    {!isPasswordValid() && (
+                    <p className="warning-message">
+                        Password must be at least 8 characters long.
+                    </p>
+                    )}
+
+                    <input
+                    type="password"
+                    placeholder="Confirm Password"
+                    onChange={(e) => setConfirmationPassword(e.target.value)}
+                    style={isPasswordSame() ? {} : { border: "1px solid lightcoral" }}
+                    />
+
+                    {!isPasswordSame() && (
+                    <p className="warning-message">
+                        Passwords must match the confirmation password.
+                    </p>
+                    )}
+
+                    <div>
+                    {showFormValidWarning && (
+                        <p className="warning-message">
+                        Please fill in all the required fields.
+                        </p>
+                    )}
+                    <button type="submit" disabled={!isNewUserFormValid()}>
+                        Sign Up
+                    </button>
+                    </div>
+                </form>
+                <button
+                    className="text-button signup-button"
+                    onClick={() => setIsLogin(true)}
+                >
+                    Back to Login
+                </button>
                 </div>
-            )}
-            <Footer/>
-        </div>
-    );
-}
+                    )}
+                    <Footer/>
+                </div>
+        );
+    }
 
 
 
-// this logic isn't great, but this functiion is needed for the header to work
-// TODO: refactor this
-export function isLoggedIn() {
-    return true;
-}
+    // this logic isn't great, but this functiion is needed for the header to work
+    // TODO: refactor this
+    export function isLoggedIn() {
+        return true;
+    }

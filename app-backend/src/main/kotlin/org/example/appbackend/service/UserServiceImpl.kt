@@ -65,6 +65,15 @@ class UserServiceImpl(
         }
     }
 
+    override fun updatePassword(username: String, password: String): UserDto {
+        val user = userRepository.findByUsername(username) ?:
+            throw IllegalArgumentException("User not found with username: $username")
+        user.password = hashPassword(password)
+        userRepository.save(user)
+
+        return userMapper.entityToDto(user)
+    }
+
     private fun hashPassword(password: String): String {
         return password.let { passwordEncoder.encode(it) }
     }
