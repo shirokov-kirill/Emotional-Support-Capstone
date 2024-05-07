@@ -18,4 +18,9 @@ class DoctorCredentialsServiceImpl(
 
         return doctorCredentialsMapper.entityToDto(credentials)
     }
+
+    override fun getDoctorById(doctorId: Int): DoctorCredentialsDto {
+        val doctor = doctorCredentialsRepository.findById(doctorId).orElseThrow { IllegalArgumentException("Doctor not found with id: $doctorId") }
+        return doctorCredentialsMapper.entityToDto(doctor)
+    }
 }
