@@ -1,13 +1,18 @@
-import { getUserID, getDoctorID } from "../utils/UserID"
 import { SERVER_ADDRESS } from "../../setupInfo";
 import { getUserAuthToken } from "../utils/AuthToken"
 
 async function getMoodDataFromServer(authToken, startDate, endDate) {
     let formatStartDate = dateToIsoWithoutTime(startDate)
     let formatEndDate = dateToIsoWithoutTime(endDate)
-    const url = `${SERVER_ADDRESS}/user-mood/getByUser/${authToken}/timeframe?start=${formatStartDate}&end=${formatEndDate}`;
+    const url = `${SERVER_ADDRESS}/user-mood/getByUser/timeframe?start=${formatStartDate}&end=${formatEndDate}`;
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            },
+            mode: 'no-cors'
+        });
+        console.log(response)
         if (!response.ok) {
             throw new Error('Failed to fetch mood data');
         }
@@ -45,11 +50,14 @@ async function getMoodsForTimeFrame(startDate, endDate) {
 }
 
 export async function getCriticalPatientsDataForDoctor() {
-    const doctorId = getDoctorID()
     const authToken = getUserAuthToken()
     const url = `${SERVER_ADDRESS}/user-mood/getCriticalUsersMoodByDoctor/${authToken}`;
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            }
+        });
         console.log(response);
         if (!response.ok) {
             throw new Error('Failed to fetch doctor data');
