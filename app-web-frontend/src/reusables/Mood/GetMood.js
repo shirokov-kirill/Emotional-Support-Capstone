@@ -51,7 +51,7 @@ async function getMoodsForTimeFrame(startDate, endDate) {
 
 export async function getCriticalPatientsDataForDoctor() {
     const authToken = getUserAuthToken()
-    const url = `${SERVER_ADDRESS}/user-mood/getCriticalUsersMoodByDoctor/${authToken}`;
+    const url = `${SERVER_ADDRESS}/user-mood/getCriticalUsersMoodByDoctor`;
     try {
         const response = await fetch(url, {
             headers: {
