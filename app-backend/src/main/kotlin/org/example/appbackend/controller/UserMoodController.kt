@@ -35,16 +35,16 @@ class UserMoodController(
      * @param endDateTime the end date and time of the time frame (excluded).
      * @return a map representing the user mood for each date in the time frame, where the key is the date and the value is the corresponding UserMoodDto.
      */
-    @GetMapping("user-mood/getByUser/{authToken}/timeframe")
-    fun getUserMoodByTimeFrame(@PathVariable("authToken") authToken: String,
+    @GetMapping("user-mood/getByUser/timeframe")
+    fun getUserMoodByTimeFrame(@RequestHeader("Authorization") authToken: String,
                                @RequestParam("start") startDateTime: LocalDate,
                                @RequestParam("end") endDateTime: LocalDate): Map<LocalDate, UserMoodDto> {
         logger.info("Receiving user mood for timeframe: {} to {}", startDateTime, endDateTime)
         return userMoodService.getUserMoodForTimeFrame(authToken, startDateTime, endDateTime)
     }
 
-    @GetMapping("user-mood/getCriticalUsersMoodByDoctor/{authToken}")
-    fun getCriticalUsersMoodByDoctorId(@PathVariable("authToken") authToken: String): List<UserMoodDto> {
+    @GetMapping("user-mood/getCriticalUsersMoodByDoctor")
+    fun getCriticalUsersMoodByDoctorId(@RequestHeader("Authorization") authToken: String): List<UserMoodDto> {
         logger.info("Receiving patients of doctor {}", authToken)
         return userMoodService.getCriticalUsersMoodByDoctorToken(authToken)
     }

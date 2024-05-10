@@ -6,10 +6,10 @@ import getMoodsForTimeFrame from "../../reusables/Mood/GetMood";
 
 function findStartAndEndDate(date) {
     let startDate = new Date(date.getFullYear(), date.getMonth(), 1);
-    // startDate = startDate.setDate(startDate.getDate() - startDate.getDay());
+    startDate = startDate.setDate(startDate.getDate() - startDate.getDay());
 
     let endDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-    // endDate = endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
+    endDate = endDate.setDate(endDate.getDate() + (7 - endDate.getDay()));
 
     return {
         startDate: startDate,
