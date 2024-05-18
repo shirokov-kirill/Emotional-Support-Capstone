@@ -1,13 +1,34 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Login } from './Login/Login';
+import MainComponents from './MainComponents/MainComponents.js';
+import LoginChoice from "./Login/LoginChoice";
+import HealthProviderLogin from "./Login/HealthProviderLogin";
+import HealthProviderHome from "./Home/HealthProviderHome";
+import Layout from "./scenes/global/Layout";
+import ResetPassword from "./Login/ResetPassword";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Layout>
+        <Routes>
+            <Route path="/" element={<LoginChoice/>}/>
+            <Route path="/user" element={<Login/>}/>
+            <Route path="/hprovider" element={<HealthProviderLogin/>}/>
+            <Route path="/password_reset" element={<ResetPassword/>}/>
+            <Route path="/home/hprovider" element={<HealthProviderHome/>}/>
+          {MainComponents.map((component, index) => (
+            <Route key={index + 1} path={component.path} element={<component.element />} />
+          ))}
+        </Routes>
+      </Layout>
+    </Router>
   </React.StrictMode>
 );
 

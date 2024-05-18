@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jwt:
+    secret: 8elRtZWIZ0586hYwwzy+Mqtvp3GjkvaTo0oFJiaTPHwJEn66sO9VpH6nCW+2r/kw/ua9U5ZpJIUUeqnjHsyE9Q==

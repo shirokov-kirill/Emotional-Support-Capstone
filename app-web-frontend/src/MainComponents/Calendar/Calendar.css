@@ -1,0 +1,88 @@
+.calendar {
+    width: 900px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.calendar-header {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+
+.calendar-header button {
+    border: none;
+    background: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 125px;
+    align-items: center;
+}
+
+.calendar-body {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-header {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.weekday {
+    width: 13.89%;
+    text-align: center;
+}
+
+.table-content {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.calendar-day {
+  width: 13.89%;
+  height: 20%;
+  position: relative;
+  border: 1px solid #a6a6a6;
+}
+
+.calendar-day:hover {
+    background-color: rgba(0, 0, 0, .10);
+}
+
+.calendar-day p {
+    position: absolute;
+    right: 10px;
+    color: #a6a6a6;
+}
+
+.current p {
+    color: #000000;
+}
+
+.selected p {
+  color: #cc0000;
+  font-weight: bold;
+}
+
+body:has(.calendar) {
+    background-color: #F3F4F6;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+}

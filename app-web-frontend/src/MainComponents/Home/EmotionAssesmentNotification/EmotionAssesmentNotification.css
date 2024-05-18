@@ -1,0 +1,14 @@
+.notification-container {
+    position: fixed;
+    top: 50px;
+    right: 0px;
+    background-color: darkorange;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.notification-container h3 {
+    font-size: 10px;
+    margin: 0;
+    color: white;
+}
