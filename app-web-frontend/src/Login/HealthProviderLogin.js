@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import { SERVER_ADDRESS } from "../setupInfo";
 
 function Footer() {
     return (
@@ -66,7 +67,7 @@ function HealthProviderLogin() {
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/register', hProviderLogin);
+            const response = await axios.post('${SERVER_ADDRESS}/register', hProviderLogin);
             if (response.status === 200) {
                 navigate('/home/hprovider');
                 console.log('User login successfully')
@@ -94,7 +95,7 @@ function HealthProviderLogin() {
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/register', hpRegistration);
+            const response = await axios.post('${SERVER_ADDRESS}/register', hpRegistration);
             if (response.status === 200) {
                 navigate('/home/hprovider');
                 console.log('User registered successfully')

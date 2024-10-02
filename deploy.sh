@@ -105,6 +105,8 @@ create_env() {
 		sed -i "s/POSTGRES_USER=.*/POSTGRES_USER=$DB_USER/" $ENV_FILE
 		sed -i "s/POSTGRES_PASSWORD=.*/POSTGRES_PASSWORD=$DB_PASSWORD/" $ENV_FILE
 	fi
+	IP=$(hostname -I | cut -d' ' -f1)
+	sed -i "s/POSTGRES_IP=.*/POSTGRES_IP=$IP/" $ENV_FILE
 	echo ".env file has been generated with random credentials."
     fi
 }
@@ -164,6 +166,12 @@ create_application_conf() {
     sed -i "s/secret: mySecret/secret: $escaped_secret_key/" "$CONFIG_FILE"
 }
 
+# Function to set SERVER_ADDRESS for API calls on frontend
+update_setupinfo() {
+    source $ENV_FILE
+    sed -i "s|export const SERVER_ADDRESS = 'http://' + SERVER_ADDRESS_LINE|export const SERVER_ADDRESS = 'https://$DOMAIN_NAME/api'|g" app-web-frontend/src/setupInfo.js 
+}
+
 # Function to generate self-signed SSL certificates
 generate_ssl() {
     source $ENV_FILE
@@ -219,7 +227,7 @@ main() {
     generate_ssl
     create_ngnix_conf
     create_application_conf
-
+    update_setupinfo
     deploy
 }
 

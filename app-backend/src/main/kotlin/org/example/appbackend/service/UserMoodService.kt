@@ -11,8 +11,8 @@ interface UserMoodService {
     fun create(dto: CreateUserMoodDto): UserMoodDto
     fun get(id: Int): UserMoodDto
     fun update(dto: UpdateUserMoodDto): UserMoodDto
-    fun getUserMoodForTimeFrame(userId: Int, startDate: LocalDate, endDate: LocalDate): Map<LocalDate, UserMoodDto>
-    fun getCriticalUsersMoodByDoctorId(doctorId: Int): List<UserMoodDto>
+    fun getUserMoodForTimeFrame(authToken: String, startDate: LocalDate, endDate: LocalDate): Map<LocalDate, UserMoodDto>
+    fun getCriticalUsersMoodByDoctorToken(authToken: String): List<UserMoodDto>
     fun delete(id: Int)
     fun shareTimeFrame(dto: ShareMoodTimeFrameWithDoctorsDto): List<Int>
     fun getAllowedUserMoods(userId: Int, doctorId: Int): List<UserMoodDto>
