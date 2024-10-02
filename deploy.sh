@@ -219,12 +219,14 @@ deploy() {
 }
 
 main() {
-    # Skip Docker check if running in CI environment
-    echo "CI variable: $CI"
-    if [ "$CI" != "true" ]; then
-        check_docker
+    echo "GITHUB_ACTIONS variable: $GITHUB_ACTIONS"
+
+    # Skip Docker check if running in GitHub Actions CI environment
+    if [ "$GITHUB_ACTIONS" = "true" ]; then
+        echo "GitHub Actions CI environment detected. Skipping Docker package checks..."
     else
-        echo "CI environment detected. Skipping Docker package checks..."
+        echo "Non-CI environment detected. Running Docker package checks..."
+        check_docker
     fi
 
     create_env
