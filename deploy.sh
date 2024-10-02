@@ -220,7 +220,7 @@ deploy() {
 
 main() {
     # Skip Docker check if running in CI environment
-    if [ -z "$CI" ]; then
+    if [ "$CI" != "true" ]; then
         check_docker
     else
         echo "CI environment detected. Skipping Docker package checks..."
