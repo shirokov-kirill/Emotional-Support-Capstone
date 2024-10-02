@@ -3,10 +3,10 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - development
+      - main
   pull_request:
     branches:
-      - development
+      - main
 
 jobs:
   build:
@@ -21,19 +21,25 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
 
-      # Step 3: Make the deploy.sh script executable
+      # Step 3: Install Docker Compose and Buildx Plugins
+      - name: Install Docker Compose and Buildx Plugins
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose-plugin docker-buildx-plugin
+
+      # Step 4: Make the deploy.sh script executable
       - name: Make deploy script executable
         run: chmod +x ./deploy.sh
 
-      # Step 4: Run the deploy.sh script
+      # Step 5: Run the deploy.sh script
       - name: Run deploy script
         run: ./deploy.sh
 
-      # Step 5: Ensure all containers are running (Optional, only if you want to check this)
+      # Step 6: Ensure all containers are running (Optional)
       - name: Ensure containers are running
         run: docker-compose ps
 
-      # Step 6: Clean up after the build (Optional)
+      # Step 7: Clean up after the build (Optional)
       - name: Clean up
-        if: always()  # This step will run even if earlier steps fail
+        if: always()
         run: docker-compose down
