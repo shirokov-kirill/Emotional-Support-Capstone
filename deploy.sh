@@ -161,7 +161,7 @@ create_application_conf() {
 
     # Escape special characters in the secret key
     escaped_secret_key=$(printf '%s\n' "$secret_key" | sed 's/[\/&]/\\&/g')
-    
+
     # Replace placeholder in configuration file with the secret key
     sed -i "s/secret: mySecret/secret: $escaped_secret_key/" "$CONFIG_FILE"
 }
@@ -169,7 +169,7 @@ create_application_conf() {
 # Function to set SERVER_ADDRESS for API calls on frontend
 update_setupinfo() {
     source $ENV_FILE
-    sed -i "s|export const SERVER_ADDRESS = 'http://' + SERVER_ADDRESS_LINE|export const SERVER_ADDRESS = 'https://$DOMAIN_NAME/api'|g" app-web-frontend/src/setupInfo.js 
+    sed -i "s|export const SERVER_ADDRESS = 'http://' + SERVER_ADDRESS_LINE|export const SERVER_ADDRESS = 'https://$DOMAIN_NAME/api'|g" app-web-frontend/src/setupInfo.js
 }
 
 # Function to generate self-signed SSL certificates
@@ -219,10 +219,13 @@ deploy() {
 }
 
 main() {
-    check_docker
-    
-#    pull_current_branch
-    
+    # Skip Docker check if running in CI environment
+    if [ -z "$CI" ]; then
+        check_docker
+    else
+        echo "CI environment detected. Skipping Docker package checks..."
+    fi
+
     create_env
     generate_ssl
     create_ngnix_conf
