@@ -219,8 +219,6 @@ deploy() {
 }
 
 main() {
-    # check_docker
-
     create_env
     generate_ssl
     create_ngnix_conf
