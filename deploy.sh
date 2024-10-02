@@ -220,6 +220,7 @@ deploy() {
 
 main() {
     # Skip Docker check if running in CI environment
+    echo "CI variable: $CI"
     if [ "$CI" != "true" ]; then
         check_docker
     else
