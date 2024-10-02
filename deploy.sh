@@ -40,7 +40,7 @@ check_apt() {
     for pkg in "${packages[@]}"; do
         if ! dpkg -l | grep -qw "$pkg"; then
             echo "$pkg is not installed."
-	    $docker_packages_installed = 0
+	    docker_packages_installed=0
         fi
     done
 }
@@ -52,7 +52,7 @@ check_rpm() {
     for pkg in "${packages[@]}"; do
         if ! $manager list installed "$pkg" &> /dev/null; then
             echo "$pkg is not installed."
-	    $docker_packages_installed = 0
+	    docker_packages_installed=0
         fi
     done
 }
