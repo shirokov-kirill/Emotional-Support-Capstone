@@ -90,7 +90,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ### Deployment instruction
 
 If you want to use a local version of the application, you can deploy our application. 
->>>>>>> main
 To deploy the application in Docker containers on a Linux machine with Docker installed, follow these steps:
 
 1. Navigate inside the repository.
@@ -102,9 +101,6 @@ The script deploys 3 Docker containers:
 - Web app with Nginx: The Nginx serves the web app requests and proxies API requests sent to /api to the backend container.
 - Backend: The backend processes data and interacts with the database.
 - DB: The database container that stores all app-related data.
-
-Recommended minimal configuration for the Linux machine:  
-2 Cores and 4 GB RAM.
 
 ---
 
