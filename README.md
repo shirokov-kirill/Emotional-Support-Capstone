@@ -43,29 +43,3 @@ Key privacy features:
 - **Secure storage** of all personal and health-related data.
 
 Thank you for using Harmony! We’re here to help you manage your mental well-being with ease.
-
-
-## 🛠️ Deployment instruction
-
-If you want to use a local version of the application, you can deploy our application. 
-To deploy the application in Docker containers on a Linux machine with Docker installed, follow these steps:
-
-1. Navigate inside the repository.
-2. Execute: `chmod +x deploy.sh`.
-3. Run the deploy script: `./deploy.sh`.
-
-The script deploys 3 Docker containers:
-
-- **Web app with Nginx**: The Nginx serves the web app requests and proxies API requests sent to `/api` to the backend container.
-- **Backend**: The backend processes data and interacts with the database.
-- **DB**: The database container that stores all app-related data.
-
-**Recommended minimal configuration for the Linux machine**:  
-2 Cores and 4 GB RAM.
-
----
-
-## 📝 Work Done
-
-A list of all the work completed during the implementation sprints is available [here](https://docs.google.com/presentation/d/1uyN3Xe7WYpE58yw565GDzBhU4o4cmOs2Ut65KAcG2X8/edit?usp=sharing).
-
