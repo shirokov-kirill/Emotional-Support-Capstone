@@ -1,48 +1,35 @@
-name: CI Pipeline
+name: Test
 
 on:
   push:
     branches:
-      - main
+      - development
   pull_request:
     branches:
-      - main
+      - development
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      # Step 2: Set up Docker
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-      # Step 3: Install Docker Compose
-      - name: Install Docker Compose
-        run: |
-          DOCKER_COMPOSE_VERSION=2.20.2
-          sudo curl -L "https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-          docker-compose --version
+      - name: Set up Gradlew
+        run: chmod +x ./gradlew
+        working-directory: ./app-backend
 
-      # Step 4: Make the deploy.sh script executable
-      - name: Make deploy script executable
-        run: chmod +x ./deploy.sh
+      - name: Build
+        run: ./gradlew build -x test
+        working-directory: ./app-backend
 
-      # Step 5: Run the deploy.sh script
-      - name: Run deploy script
-        run: ./deploy.sh
-
-      # Step 6: Ensure all containers are running (Optional)
-      - name: Ensure containers are running
-        run: docker-compose ps
-
-      # Step 7: Clean up after the build (Optional)
-      - name: Clean up
-        if: always()
-        run: docker-compose down
+      - name: Run Test
+        run: ./gradlew test
+        working-directory: ./app-backend
