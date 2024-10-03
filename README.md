@@ -1,4 +1,8 @@
 # Emotional-Support-Capstone
+
+Use our Emotional Support app to keep track your mental health and interact without your mental health professional!
+See our [user manual](/blob/main/USER_MANUAL.md) for more details.
+
 # Deployment
 To deploy the application in Docker containers on a Linux machine with Docker installed, follow these steps:
 * Navigate inside the repository
