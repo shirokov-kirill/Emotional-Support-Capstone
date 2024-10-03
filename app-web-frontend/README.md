@@ -1,6 +1,23 @@
-# Getting Started with Create React App
+# Emotional-Support App --- Web Front-End
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Documentation URLs for our stack:
+
+- [@fullcalendar](https://fullcalendar.io/docs)
+- [axios](https://axios-http.com/docs/intro)
+- [bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- [bootstrap-icons](https://icons.getbootstrap.com/)
+- [bootswatch](https://bootswatch.com/)
+- [emoji-mart](https://www.npmjs.com/package/emoji-mart)
+- [react](https://react.dev/)
+- [react-color](https://casesandberg.github.io/react-color/)
+- [react-dom](https://react.dev/reference/react-dom)
+- [react-router-dom](https://reactrouter.com/en/main)
+- [react-scripts](https://create-react-app.dev/docs/getting-started/)
+- [startbootstrap-sb-admin-2](https://startbootstrap.com/theme/sb-admin-2)
+- [styled-components](https://styled-components.com/docs)
+- [web-vitals](https://www.npmjs.com/package/web-vitals)
 
 ## Available Scripts
 
