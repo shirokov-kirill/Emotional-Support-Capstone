@@ -30,7 +30,7 @@ Harmony App is a simple, easy-to-use tool designed to help you monitor your mood
 
 ## 📲 Getting Started
 
-All you need is to simply follow the [link](https://emotionalsupport.life/) and start using it right now! For more detailed instructions on use, please refer to the user manual
+All you need is to simply follow the [link](https://emotionalsupport.life/) and start using it right now! For more detailed instructions on use, please refer to the [user manual]((USER_MANUAL.md))
 
 
 ## 🔒 User Data Privacy
