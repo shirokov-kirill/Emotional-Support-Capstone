@@ -7,9 +7,6 @@ Welcome to **Harmony App**, your personal mood-tracking calendar! With Harmony, 
 - [Key Features](#key-features)
 - [Getting Started](#getting-started)
 - [User Data Privacy](#user-data-privacy)
-- [FAQs](#faqs)
-- [Support](#support)
-- [Emotional-Support-Capstone](#emotional-support-capstone)
 - [Deployment](#deployment)
 - [Work Done](#work-done)
 
@@ -33,7 +30,7 @@ Harmony App is a simple, easy-to-use tool designed to help you monitor your mood
 
 ## 📲 Getting Started
 
-All you need is to simply follow the [https://emotionalsupport.life/](link) and start using it right now! For more detailed instructions on use, please refer to the user manual
+All you need is to simply follow the [link](https://emotionalsupport.life/) and start using it right now! For more detailed instructions on use, please refer to the user manual
 
 
 ## 🔒 User Data Privacy
