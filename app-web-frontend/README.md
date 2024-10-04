@@ -86,6 +86,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
+=======
 
 ### Deployment instruction
 
@@ -101,6 +102,9 @@ The script deploys 3 Docker containers:
 - Web app with Nginx: The Nginx serves the web app requests and proxies API requests sent to /api to the backend container.
 - Backend: The backend processes data and interacts with the database.
 - DB: The database container that stores all app-related data.
+
+### Design document
+Design doc for this project can be found using this [link](https://docs.google.com/document/d/1tLmdbdnuuRnF7SUbGfO45MOjKO2PW5i-jn86VXZddpE/edit).
 
 ---
 

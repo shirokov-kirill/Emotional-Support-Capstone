@@ -8,6 +8,7 @@ Welcome to **Harmony App**, your personal mood-tracking calendar! With Harmony, 
 - [Getting Started](#getting-started)
 - [User Data Privacy](#user-data-privacy)
 - [Deployment](#deployment)
+- [Design document](#design-document)
 - [Work Done](#work-done)
 
 ---
