@@ -64,9 +64,6 @@ The script deploys 3 Docker containers:
 **Recommended minimal configuration for the Linux machine**:  
 2 Cores and 4 GB RAM.
 
-## Design document
-Design doc for this project can be found using this [link](https://docs.google.com/document/d/1tLmdbdnuuRnF7SUbGfO45MOjKO2PW5i-jn86VXZddpE/edit) 
-
 ---
 
 ## 📝 Work Done
