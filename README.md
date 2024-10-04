@@ -33,7 +33,7 @@ Harmony App is a simple, easy-to-use tool designed to help you monitor your mood
 
 All you need is to simply follow the [link](https://emotionalsupport.life/) and start using it right now! For more detailed instructions on use, please refer to the [user manual](https://github.com/shirokov-kirill/Emotional-Support-Capstone/blob/main/USER_MANUAL.md)
 
-## Deployment
+## :wrench: Deployment
 To deploy the application in Docker containers on a Linux machine with Docker installed, follow these steps:
 
 1. Navigate inside the repository
