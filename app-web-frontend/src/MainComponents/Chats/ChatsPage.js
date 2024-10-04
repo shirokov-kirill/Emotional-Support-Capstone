@@ -1,8 +1,9 @@
-import { useState } from "react";
+import {useCallback, useLayoutEffect, useState} from "react";
 import "./ChatsPage.css"
 import ChatsList from "./components/ChatsList";
 import ChatView from "./components/ChatView";
 import ChatHeader from "./components/ChatHeader";
+import axios from "axios";
 
 function ChatsPage() {
   const chatsInitial = [
@@ -14,19 +15,19 @@ function ChatsPage() {
       },
       messages: [
         {
-          from: 1, // userID of sender
-          time: "11:04",
-          text: "Hello!"
+          senderId: 1, // userID of sender
+          created: "11:04",
+          content: "Hello!"
         },
         {
-          from: 1, 
-          time: "11:05",
-          text: "How are you?"
+          senderId: 1,
+          created: "11:05",
+          content: "How are you?"
         },
         {
-          from: 0, // my userID
-          time: "11:07",
-          text: "Good morning! Fine, thank you, Leonard!"
+          senderId: 0, // my userID
+          created: "11:07",
+          content: "Good morning! Fine, thank you, Leonard!"
         }
       ]
     },
@@ -38,19 +39,19 @@ function ChatsPage() {
       },
       messages: [
         {
-          from: 2, // userID of sender
-          time: "11:04",
-          text: "Hello!"
+          senderId: 2, // userID of sender
+          created: "11:04",
+          content: "Hello!"
         },
         {
-          from: 2, 
-          time: "11:05",
-          text: "How are you?"
+          senderId: 2,
+          created: "11:05",
+          content: "How are you?"
         },
         {
-          from: 0, // my userID
-          time: "11:07",
-          text: "Good morning! Fine, thank you, Sheldon!"
+          senderId: 0, // my userID
+          created: "11:07",
+          content: "Good morning! Fine, thank you, Sheldon!"
         }
       ]
     },
@@ -62,52 +63,83 @@ function ChatsPage() {
       },
       messages: [
         {
-          from: 3, // userID of sender
-          time: "11:04",
-          text: "Hello!"
+          senderId: 3, // userID of sender
+          created: "11:04",
+          content: "Hello!"
         },
         {
-          from: 3, 
-          time: "11:05",
-          text: "How are you?"
+          senderId: 3,
+          created: "11:05",
+          content: "How are you?"
         },
         {
-          from: 0, // my userID
-          time: "11:10",
-          text: "Good morning! Fine, thank you, Radjesh!"
+          senderId: 0, // my userID
+          created: "11:10",
+          content: "Good morning! Fine, thank you, Radjesh!"
         }
       ]
     }
   ]
+
   let [position, setPosition] = useState(0);
   let [chats, setChats] = useState(chatsInitial)
   const myId = 0;
+  const chatId = 5;
   const myIcon = "https://via.placeholder.com/30";
 
-  const onSendMessage = (message) => {
+
+  const fetchChat = useCallback( async () => {
+    let response = await axios.get(`http://localhost:8080/messages/${chatId}`);
+    const result = {
+      messages: response.data.reverse(),
+      user: chatsInitial[0].user
+    }
+    setChats([result])
+  }, [])
+
+  useLayoutEffect(() => {
+    fetchChat()
+  }, [fetchChat]);
+
+
+
+  const onSendMessage = async (message) => {
     // TODO server connection
-    let chatsCopy = [...chats]
-    chatsCopy[position].messages.push({from: myId, time: "now", text: message})
-    console.log(chatsCopy)
-    setChats(chatsCopy)
+    const messageObj = {
+      chatId: 5,
+      senderId: myId,
+      content: message
+    }
+
+    try {
+      const response = await axios.post('http://localhost:8080/messages', messageObj);
+      console.log(response)
+      if (response.status === 200) {
+        console.log('Message successfully sent')
+        console.log(response.data);
+        await fetchChat()
+      }
+    } catch (error) {
+      console.error('Failed to send message', error);
+    }
   }
 
   return (
-    <div className="chatsPage">
-      <ChatHeader author={position !== -1 ? chats[position].user.author : "Select chat"}/>
-      <div className="chatsLayout">
-        <ChatsList className="row-item" messages={chats.map(it => new Map(
-          [
-            ["url", it.user.url],
-            ["author", it.user.author],
-            ["time", it.messages.length > 0 ? it.messages[it.messages.length - 1].time : "now"]
-          ]))
-        } position={position} onPositionChange={(i) => {
-          setPosition(i)
+      <div className="chatsPage">
+        <ChatHeader author={position !== -1 ? chats[position].user.author : "Select chat"}/>
+        <div className="chatsLayout">
+          <ChatsList className="row-item" messages={chats.map(it => new Map(
+              [
+                ["url", it.user.url],
+                ["author", it.user.author],
+                ["time", it.messages.length > 0 ? it.messages[it.messages.length - 1].time : "now"]
+              ]))
+          } position={position} onPositionChange={(i) => {
+            setPosition(i)
           }}/>
-        <ChatView className="row-item" userMap={new Map([[myId, ["me", myIcon]], [chats[position].user.id, ["other", chats[position].user.url]]])} messages={chats[position].messages} onSendMessage={onSendMessage}/>
+          <ChatView className="row-item" userMap={new Map([[myId, ["me", myIcon]], [chats[position].user.id, ["other", chats[position].user.url]]])} messages={chats[position].messages} onSendMessage={onSendMessage}/>
+        </div>
       </div>
-    </div>
   );
 }
 
