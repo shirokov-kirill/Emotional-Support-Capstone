@@ -1,6 +1,23 @@
-# Getting Started with Create React App
+# Emotional-Support App --- Web Front-End
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Documentation URLs for our stack:
+
+- [@fullcalendar](https://fullcalendar.io/docs)
+- [axios](https://axios-http.com/docs/intro)
+- [bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- [bootstrap-icons](https://icons.getbootstrap.com/)
+- [bootswatch](https://bootswatch.com/)
+- [emoji-mart](https://www.npmjs.com/package/emoji-mart)
+- [react](https://react.dev/)
+- [react-color](https://casesandberg.github.io/react-color/)
+- [react-dom](https://react.dev/reference/react-dom)
+- [react-router-dom](https://reactrouter.com/en/main)
+- [react-scripts](https://create-react-app.dev/docs/getting-started/)
+- [startbootstrap-sb-admin-2](https://startbootstrap.com/theme/sb-admin-2)
+- [styled-components](https://styled-components.com/docs)
+- [web-vitals](https://www.npmjs.com/package/web-vitals)
 
 ## Available Scripts
 
@@ -69,5 +86,28 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-# Design document
+=======
+
+### Deployment instruction
+
+If you want to use a local version of the application, you can deploy our application. 
+To deploy the application in Docker containers on a Linux machine with Docker installed, follow these steps:
+
+1. Navigate inside the repository.
+2. Execute: chmod +x deploy.sh.
+3. Run the deploy script: ./deploy.sh.
+
+The script deploys 3 Docker containers:
+
+- Web app with Nginx: The Nginx serves the web app requests and proxies API requests sent to /api to the backend container.
+- Backend: The backend processes data and interacts with the database.
+- DB: The database container that stores all app-related data.
+
+### Design document
 Design doc for this project can be found using this [link](https://docs.google.com/document/d/1tLmdbdnuuRnF7SUbGfO45MOjKO2PW5i-jn86VXZddpE/edit).
+
+---
+
+### Work Done
+
+A list of all the work completed during the implementation sprints is available [here](https://docs.google.com/presentation/d/1uyN3Xe7WYpE58yw565GDzBhU4o4cmOs2Ut65KAcG2X8/edit?usp=sharing).
