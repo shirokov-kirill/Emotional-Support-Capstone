@@ -72,6 +72,8 @@ export function Login() {
             password
         };
 
+        localStorage.setItem('userType', 'user');
+        localStorage.setItem('authToken', 'FIXME');
         try {
             const response = await axios.post('/api/auth/login', userLogin);
             if (response.status === 200) {
@@ -99,6 +101,9 @@ export function Login() {
             gender,
             password
         };
+
+        localStorage.setItem('userType', 'user');
+        localStorage.setItem('authToken', 'FIXME');
 
         try {
             const response = await axios.post('/api/users', userRegistration);
