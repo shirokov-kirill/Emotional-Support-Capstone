@@ -1,4 +1,4 @@
-function isCurrentDate(date) {
+export function isCurrentDate(date) {
   const currentDate = new Date();
   
   return (
@@ -11,7 +11,7 @@ function isCurrentDate(date) {
 
 function CalendarDays(props) {
   let currentDays = [];
-  
+
   for (let i = 0; i < props.moods.length; i++) {
     let date = props.moods[i].date;
     let color = props.moods[i].color;
