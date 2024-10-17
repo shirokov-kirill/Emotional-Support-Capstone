@@ -1,7 +1,7 @@
 import { SERVER_ADDRESS } from "../../setupInfo";
 import { getUserAuthToken } from "../utils/AuthToken"
 
-async function getMoodDataFromServer(authToken, startDate, endDate) {
+export async function getMoodDataFromServer(authToken, startDate, endDate) {
     let formatStartDate = dateToIsoWithoutTime(startDate)
     let formatEndDate = dateToIsoWithoutTime(endDate)
     const url = `${SERVER_ADDRESS}/user-mood/getByUser/timeframe?start=${formatStartDate}&end=${formatEndDate}`;
@@ -23,7 +23,7 @@ async function getMoodDataFromServer(authToken, startDate, endDate) {
     }
 }
 
-async function getMoodsForTimeFrame(startDate, endDate) {
+export async function getMoodsForTimeFrame(startDate, endDate) {
     const authToken = getUserAuthToken()
     const moodData = await getMoodDataFromServer(authToken, startDate, endDate);
     const moods = [];
@@ -70,7 +70,7 @@ export async function getCriticalPatientsDataForDoctor() {
 }
 
 
-function dateToIsoWithoutTime(dateString) {
+export function dateToIsoWithoutTime(dateString) {
     let dateObject = new Date(dateString);
     let isoString = dateObject.toISOString();
     let isoDate = isoString.split('T')[0];
