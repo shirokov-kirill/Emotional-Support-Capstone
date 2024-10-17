@@ -59,6 +59,9 @@ function HealthProviderLogin() {
     }
 
     const onHealthProviderLoginSubmit = async (event) => {
+        localStorage.setItem('userType', 'doctor');
+        localStorage.setItem('authToken', 'FIXME');
+
         event.preventDefault();
 
         const hProviderLogin = {
@@ -94,8 +97,12 @@ function HealthProviderLogin() {
             file
         };
 
+        localStorage.setItem('userType', 'doctor');
+        localStorage.setItem('authToken', 'FIXME');
+
         try {
             const response = await axios.post('${SERVER_ADDRESS}/register', hpRegistration);
+
             if (response.status === 200) {
                 navigate('/home/hprovider');
                 console.log('User registered successfully')
