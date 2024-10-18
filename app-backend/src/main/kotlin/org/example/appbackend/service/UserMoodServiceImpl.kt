@@ -1,7 +1,7 @@
 package org.example.appbackend.service
 
 import jakarta.transaction.Transactional
-import org.example.appbackend.config.SecurityConfig
+import org.example.appbackend.config.JwtTokenFilter
 import org.example.appbackend.dto.CreateUserMoodDto
 import org.example.appbackend.dto.ShareMoodTimeFrameWithDoctorsDto
 import org.example.appbackend.dto.UpdateUserMoodDto
@@ -35,6 +35,7 @@ class UserMoodServiceImpl(
     private val chatMapper: ChatMapper,
     private val userMoodSharingRepository: UserMoodSharingRepository,
     private val userMoodSharingMapper: UserMoodSharingMapper,
+    private val jwtTokenFilter: JwtTokenFilter,
 ) : UserMoodService {
 
     @Transactional
@@ -63,7 +64,7 @@ class UserMoodServiceImpl(
 
     @Transactional
     override fun getUserMoodForTimeFrame(authToken: String, startDate: LocalDate, endDate: LocalDate): Map<LocalDate, UserMoodDto> {
-        val userId = SecurityConfig().jwtTokenFilter().extractUserId(authToken)
+        val userId = jwtTokenFilter.extractUserId(authToken.substring(7))
         val startLocalDateTime = startDate.atStartOfDay()
         val endLocalDateTime = endDate.atStartOfDay()
         val userMoodData = userMoodRepository.findByUserIdAndCreatedBetween(userId, startLocalDateTime, endLocalDateTime)
@@ -76,32 +77,17 @@ class UserMoodServiceImpl(
 
 
     /**
-     * Retrieves a map of user IDs to UserMoodDto objects representing the mood of users
-     * who have had chats with a specific doctor.
+     * Retrieves a list of critical moods of users that share theirs data with doctor
      *
      * @param authToken The auth token of the doctor.
-     * @return A map of user IDs to UserMoodDto objects.
+     * @return A list UserMoodDto objects.
      */
     @Transactional
     override fun getCriticalUsersMoodByDoctorToken(authToken: String): List<UserMoodDto> {
-        val doctorId = SecurityConfig().jwtTokenFilter().extractUserId(authToken)
-        val doctorChats = chatRepository.findByDoctorId(doctorId)
-        val userIdToMoodDto = mutableListOf<UserMoodDto>()
-        val today = LocalDateTime.now().toLocalDate().atStartOfDay()
-        val tomorrow = today.plusDays(1)
-        for (doctorChat in doctorChats) {
-            val chatDto = chatMapper.entityToDto(doctorChat)
-            val userMoods = userMoodRepository.findByUserIdAndCreatedBetween(chatDto.userId, today, tomorrow).map {
-                userMoodMapper.entityToDto(it)
-            }
-            // TODO think about do we need unique userMoods
-            for (userMood in userMoods) {
-                if (UserMoodService.isMoodCritical(userMood)) {
-                    userIdToMoodDto.add(userMood)
-                }
-            }
-        }
-        return userIdToMoodDto
+        val doctorId = jwtTokenFilter.extractUserId(authToken.substring(7))
+        return userMoodRepository.findByDoctorId(doctorId)
+            .map { userMoodMapper.entityToDto(it) }
+            .filter { UserMoodService.isMoodCritical(it) }
     }
 
     @Transactional
