@@ -24,6 +24,7 @@ function HealthProviderLogin() {
     const [clinic, setClinic] = useState('');
     const [specialization, setSpecialization] = useState('');
     const [file, setFile] = useState(null);
+    const [showFormValidWarning, setShowFormValidWarning] = useState(false);
 
     let navigate = useNavigate();
 
@@ -53,6 +54,10 @@ function HealthProviderLogin() {
         return isPasswordValid() && isPasswordSame() && validateEmail() && isDOBValid() && !isFormEmpty();
     }
 
+    const isLoginFormValid = () => {
+        return isPasswordValid() && username;
+    }
+
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         setFile(selectedFile);
@@ -61,28 +66,35 @@ function HealthProviderLogin() {
     const onHealthProviderLoginSubmit = async (event) => {
         event.preventDefault();
 
-        const hProviderLogin = {
+        if (!isLoginFormValid()) {
+            setShowFormValidWarning(true);
+            return;
+        } else {
+            setShowFormValidWarning(false);
+        }
+
+        const healthProviderLogin = {
             email,
             password
         };
 
         try {
-            const response = await axios.post('${SERVER_ADDRESS}/register', hProviderLogin);
+            const response = await axios.post('${SERVER_ADDRESS}/register', healthProviderLogin);
             if (response.status === 200) {
                 navigate('/home/hprovider');
-                console.log('User login successfully')
+                console.log('Health Provider login successfully')
                 console.log(response.data);
             }
         } catch (error) {
             navigate('/home/hprovider');
-            console.error('Error during registration', error);
+            console.error('Error during HP registration', error);
         }
     };
 
     const onNewHealthProviderFormSubmit = async (event) => {
         event.preventDefault();
 
-        const hpRegistration = {
+        const healthProviderRegistration = {
             email,
             name,
             surname,
@@ -95,15 +107,15 @@ function HealthProviderLogin() {
         };
 
         try {
-            const response = await axios.post('${SERVER_ADDRESS}/register', hpRegistration);
+            const response = await axios.post('${SERVER_ADDRESS}/register', healthProviderRegistration);
             if (response.status === 200) {
                 navigate('/home/hprovider');
-                console.log('User registered successfully')
+                console.log('Health Provider registered successfully')
                 console.log(response.data);
             }
         } catch (error) {
             navigate('/home/hprovider');
-            console.error('Error during registration', error);
+            console.error('Error during HP registration', error);
         }
     };
 
@@ -111,16 +123,31 @@ function HealthProviderLogin() {
         <div className="App">
             {isLogin ? (
                 <div className="form-container">
-                    <h2>Health Provider Login</h2>
-                    <form>
+                    <div className="title">
+                        <h2 style={{textAlign: 'center'}}>Login</h2>
+                        <h4 style={{textAlign: 'center'}}>to get started</h4>
+                    </div>
+                    <form onSubmit={onHealthProviderLoginSubmit}>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-                        <button type="submit" onClick={onHealthProviderLoginSubmit}>Login</button>
+                        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
+                        <button id="forgot-password-button" className="text-button"
+                                onClick={() => navigate("/password_reset")}>
+                            Forgot Password?
+                        </button>
+
+                        <div>
+                            {showFormValidWarning &&
+                                <p className="warning-message">Please fill in all the required fields.</p>}
+                            <button type="submit">Continue</button>
+                        </div>
                     </form>
-                    <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
-                        Up!
+                    <button className="text-button signup-button" onClick={() => setIsLogin(false)}>
+                        New user? Register!
                     </button>
-                    <Link to='/' style={{ textDecoration: 'underline', marginTop: '10px' }}>Back to role choice</Link>
+
+                    <button className="text-button back-to-role" onClick={() => navigate("/")}>
+                        Back to role choice
+                    </button>
                 </div>
             ) : (
                 <div className="form-container">
