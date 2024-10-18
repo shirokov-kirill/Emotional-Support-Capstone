@@ -27,6 +27,7 @@ class Url(val port: Int) {
     fun getAllowedUserMood(userId: Int, doctorId: Int) = "$root/user-mood/get-allowed/$userId/$doctorId"
     fun getUserMoodTimeFrame(start: LocalDate, end: LocalDate) =
         "$root/user-mood/getByUser/timeframe?start=$start&end=$end"
+    fun getCriticalMood() = "$root/user-mood/getCriticalUsersMoodByDoctor"
 }
 
 fun createDoctor(

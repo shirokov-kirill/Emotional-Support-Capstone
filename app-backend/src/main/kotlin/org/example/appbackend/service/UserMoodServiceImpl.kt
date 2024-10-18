@@ -77,32 +77,17 @@ class UserMoodServiceImpl(
 
 
     /**
-     * Retrieves a map of user IDs to UserMoodDto objects representing the mood of users
-     * who have had chats with a specific doctor.
+     * Retrieves a list of critical moods of users that share theirs data with doctor
      *
      * @param authToken The auth token of the doctor.
-     * @return A map of user IDs to UserMoodDto objects.
+     * @return A list UserMoodDto objects.
      */
     @Transactional
     override fun getCriticalUsersMoodByDoctorToken(authToken: String): List<UserMoodDto> {
         val doctorId = jwtTokenFilter.extractUserId(authToken.substring(7))
-        val doctorChats = chatRepository.findByDoctorId(doctorId)
-        val userIdToMoodDto = mutableListOf<UserMoodDto>()
-        val today = LocalDateTime.now().toLocalDate().atStartOfDay()
-        val tomorrow = today.plusDays(1)
-        for (doctorChat in doctorChats) {
-            val chatDto = chatMapper.entityToDto(doctorChat)
-            val userMoods = userMoodRepository.findByUserIdAndCreatedBetween(chatDto.userId, today, tomorrow).map {
-                userMoodMapper.entityToDto(it)
-            }
-            // TODO think about do we need unique userMoods
-            for (userMood in userMoods) {
-                if (UserMoodService.isMoodCritical(userMood)) {
-                    userIdToMoodDto.add(userMood)
-                }
-            }
-        }
-        return userIdToMoodDto
+        return userMoodRepository.findByDoctorId(doctorId)
+            .map { userMoodMapper.entityToDto(it) }
+            .filter { UserMoodService.isMoodCritical(it) }
     }
 
     @Transactional
