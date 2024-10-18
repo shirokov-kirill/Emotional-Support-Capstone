@@ -8,6 +8,8 @@ import MainComponents from './MainComponents/MainComponents.js';
 import LoginChoice from "./Login/LoginChoice";
 import HealthProviderLogin from "./Login/HealthProviderLogin";
 import HealthProviderHome from "./Home/HealthProviderHome";
+import UserLogin from "./Login/UserLogin";
+import UserHome from "./Home/UserHome";
 import Layout from "./scenes/global/Layout";
 import ResetPassword from "./Login/ResetPassword";
 
@@ -19,9 +21,10 @@ root.render(
       <Layout>
         <Routes>
             <Route path="/" element={<LoginChoice/>}/>
-            <Route path="/user" element={<Login/>}/>
+            <Route path="/user" element={<UserLogin/>}/>
             <Route path="/hprovider" element={<HealthProviderLogin/>}/>
             <Route path="/password_reset" element={<ResetPassword/>}/>
+            <Route path="/home/user" element={<UserHome/>}/>
             <Route path="/home/hprovider" element={<HealthProviderHome/>}/>
           {MainComponents.map((component, index) => (
             <Route key={index + 1} path={component.path} element={<component.element />} />
