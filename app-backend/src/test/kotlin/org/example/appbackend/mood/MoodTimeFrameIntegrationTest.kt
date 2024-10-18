@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -74,7 +75,6 @@ class MoodTimeFrameIntegrationTest {
         return response.body!!
     }
 
-    @Suppress("UNCHECKED_CAST")
     private fun getMoodsFromTimeframe(startDate: LocalDate, endDate: LocalDate, userToken: String): Map<LocalDate, UserMoodDto> {
         val headers = HttpHeaders()
         headers.set("Authorization", "Bearer $userToken")
@@ -84,9 +84,9 @@ class MoodTimeFrameIntegrationTest {
             stringUrl,
             HttpMethod.GET,
             HttpEntity<Any>(headers),
-            Map::class.java,
+            object : ParameterizedTypeReference<Map<LocalDate, UserMoodDto>>() {}
         )
         assertEquals(response.statusCode, HttpStatus.OK)
-        return response.body as Map<LocalDate, UserMoodDto>
+        return response.body ?: error("Body is null")
     }
 }
