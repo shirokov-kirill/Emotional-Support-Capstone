@@ -268,8 +268,7 @@ export function Login() {
 
 
 
-    // this logic isn't great, but this functiion is needed for the header to work
-    // TODO: refactor this
     export function isLoggedIn() {
-        return true;
+        const token = localStorage.getItem('authToken');
+        return token !== null;
     }
