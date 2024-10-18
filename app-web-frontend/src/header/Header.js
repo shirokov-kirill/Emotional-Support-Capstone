@@ -9,7 +9,7 @@ const Header = () => {
   const role = localStorage.getItem("role");
 
   const MainComponents = role === "patient" ? PatientMainComponents : role === "health_provider" ? HealthProviderMainComponents : [];
-  
+
   return (
     <header>
       <nav>

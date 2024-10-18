@@ -186,8 +186,8 @@ export function Login() {
             {isLogin ? (
                 <div className="form-container">
                     <div className="title">
-                        <h2>Login</h2>
-                        <h4>to get started</h4>
+                        <h2 style={{ textAlign: 'center' }}>Login</h2>
+                        <h4 style={{ textAlign: 'center' }}>to get started</h4>
                     </div>
                     <form onSubmit={onUserLoginSubmit}>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
@@ -376,7 +376,8 @@ export function Login() {
 }
 
 
-    export function isLoggedIn() {
-        localStorage.getItem('authToken');
-        return localStorage.getItem('authToken') !== null;
-    }
+
+export function isLoggedIn() {
+    const token = localStorage.getItem('authToken');
+    return token !== null;
+}
