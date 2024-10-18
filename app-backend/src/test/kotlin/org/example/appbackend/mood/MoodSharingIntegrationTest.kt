@@ -1,19 +1,14 @@
 package org.example.appbackend.mood
 
-import org.example.appbackend.AppBackendApplication
-import org.example.appbackend.Url
-import org.example.appbackend.createDoctor
-import org.example.appbackend.createUser
+import org.example.appbackend.*
 import org.example.appbackend.dto.CreateUserMoodDto
 import org.example.appbackend.dto.ShareMoodTimeFrameWithDoctorsDto
 import org.example.appbackend.dto.UserMoodDto
-import org.example.appbackend.loginUser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.client.exchange
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
