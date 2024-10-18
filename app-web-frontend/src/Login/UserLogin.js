@@ -103,9 +103,13 @@ export function UserLogin() {
         try {
             const response = await axios.post('/api/users', userRegistration);
             if (response.status === 200) {
-                navigate('/home/user');
                 console.log('User registered successfully')
-                console.log(response.data);
+                const login_response = await axios.post('/api/auth/login', {username, password});
+                if (login_response.status === 200) {
+                    const authToken = response.data.token;
+                    localStorage.setItem('authToken', authToken);
+                    navigate('/home/user');
+                }
             }
         } catch (error) {
             navigate('/home/user');
