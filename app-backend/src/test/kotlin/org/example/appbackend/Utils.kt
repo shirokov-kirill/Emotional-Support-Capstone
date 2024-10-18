@@ -3,9 +3,7 @@ package org.example.appbackend
 import org.example.appbackend.dto.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.client.postForEntity
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import java.time.LocalDate
 import kotlin.test.assertNotNull
 
@@ -15,10 +13,8 @@ class Url(val port: Int) {
     val addUser get() = "$root/users"
     val login get() = "$root/auth/login"
     val addChat get() = "$root/chats"
-    val addMessage get() = "$root/messages"
     fun getChatsByUser(userId: Int) = "$root/chats/user/$userId"
     fun getChatsByDoctor(doctorId: Int) = "$root/chats/doctor/$doctorId"
-    fun getMessagesByChat(chatId: Int) = "$root/messages/$chatId"
     val shareUserMood = "$root/user-mood/share"
     val createMood get() = "$root/user-mood/create"
     val updateUserMood get() = "$root/user-mood/update"
