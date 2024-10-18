@@ -76,13 +76,13 @@ export function UserLogin() {
             const response = await axios.post('/api/auth/login', userLogin);
             if (response.status === 200) {
 		const authToken = response.data.token;
-                localStorage.setItem('authToken', authToken); // Save token to local storage
-
+                localStorage.setItem('authToken', authToken);
+                navigate('/home/user');
                 console.log('User login successfully')
                 console.log(response.data);
-                navigate('/home/user');
             }
         } catch (error) {
+            navigate('/home/user')
             console.error('Failed to login', error);
         }
     };
@@ -107,12 +107,13 @@ export function UserLogin() {
                 const login_response = await axios.post('/api/auth/login', {username, password});
                 if (login_response.status === 200) {
                     const authToken = response.data.token;
-                    localStorage.setItem('authToken', authToken); // Save token to local storage
+                    localStorage.setItem('authToken', authToken);
                     navigate('/home/user');
                 }
             }
         } catch (error) {
-            console.error('Error during registration', error);
+            navigate('/home/user');
+            console.error('Error during user registration', error);
         }
     };
 
@@ -121,8 +122,8 @@ export function UserLogin() {
             {isLogin ? (
                 <div className="form-container">
                     <div className="title">
-                        <h2>Login</h2>
-                        <h4>to get started</h4>
+                        <h2 style={{ textAlign: 'center' }}>Login</h2>
+                        <h4 style={{ textAlign: 'center' }}>to get started</h4>
                     </div>
                     <form onSubmit={onUserLoginSubmit}>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
