@@ -26,6 +26,7 @@ class Url(val port: Int) {
     fun getAllowedUserMood(authToken: String, userId: Int) = "$root/user-mood/get-allowed/$userId"
     fun getUserMoodTimeFrame(start: LocalDate, end: LocalDate) =
         "$root/user-mood/getByUser/timeframe?start=$start&end=$end"
+    fun getCriticalMood() = "$root/user-mood/getCriticalUsersMoodByDoctor"
 }
 
 interface NameProvider {
