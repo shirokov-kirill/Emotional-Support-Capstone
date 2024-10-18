@@ -13,7 +13,7 @@ function Footer() {
     );
 }
 
-export function Login() {
+export function UserLogin() {
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -80,7 +80,7 @@ export function Login() {
 
                 console.log('User login successfully')
                 console.log(response.data);
-                navigate('/home');
+                navigate('/home/user');
             }
         } catch (error) {
             console.error('Failed to login', error);
@@ -108,7 +108,7 @@ export function Login() {
                 if (login_response.status === 200) {
                     const authToken = response.data.token;
                     localStorage.setItem('authToken', authToken); // Save token to local storage
-                    navigate('/home');
+                    navigate('/home/user');
                 }
             }
         } catch (error) {
