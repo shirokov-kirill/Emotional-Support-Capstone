@@ -25,6 +25,8 @@ class Url(val port: Int) {
     val shareUserMood = "$root/user-mood/share"
     val createMood get() = "$root/user-mood/create"
     fun getAllowedUserMood(userId: Int, doctorId: Int) = "$root/user-mood/get-allowed/$userId/$doctorId"
+    fun getUserMoodTimeFrame(start: LocalDate, end: LocalDate) =
+        "$root/user-mood/getByUser/timeframe?start=$start&end=$end"
 }
 
 fun createDoctor(
