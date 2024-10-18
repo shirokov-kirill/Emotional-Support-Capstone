@@ -1,24 +1,18 @@
 package org.example.appbackend.chat
 
-import org.example.appbackend.AppBackendApplication
-import org.example.appbackend.Url
-import org.example.appbackend.createDoctor
-import org.example.appbackend.createUser
-import org.example.appbackend.loginUser
+import org.example.appbackend.*
 import org.example.appbackend.dto.ChatDto
 import org.example.appbackend.dto.MessageDto
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.test.web.server.LocalServerPort
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.http.*
-import kotlin.random.Random
 import java.time.LocalDate
+import kotlin.random.Random
 import kotlin.test.assertNotNull
 
 @SpringBootTest(
