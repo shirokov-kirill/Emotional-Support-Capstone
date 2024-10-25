@@ -1,71 +1,60 @@
-import { useState } from "react";
-import { Menu, MenuItem } from "react-pro-sidebar";
-import { Sidebar } from "react-pro-sidebar";
-import { Box, IconButton, Typography } from "@mui/material";
-import Item from "../../Components/Item";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import MenuOutlinedIcon from "@mui/icons-material/Menu";
-
-import './Sidebar.css';
 import MainComponents from "../../MainComponents/MainComponents";
-
-const wrapperStyles = {
-  display: 'flex',
-  flexDirection: 'column'
-}
+import "./Sidebar.css"; // Your custom styles
 
 const ProSidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const [selected, setSelected] = useState("Dashboard");
 
+  // Add a state for mobile view
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <Box>
-      <Sidebar collapsed={isSidebarOpen}>
-        <Menu iconShape="square">
-          <div style={wrapperStyles}>
-            {/* LOGO AND MENU ICON */}
-            <MenuItem
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                icon={isSidebarOpen ? <MenuOutlinedIcon /> : undefined}
-                style={{ margin: "10px 0 20px 0", color: "grey" }}
-            >
-              {!isSidebarOpen && (
-                  <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      alignItems="center"
-                      ml="15px"
-                  >
-                    <Typography variant="h6" color="grey">
-                      Harmony App
-                    </Typography>
-                    <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                      <MenuOutlinedIcon />
-                    </IconButton>
-                  </Box>
-              )}
-            </MenuItem>
-            {/* USER*/}
+    <aside
+      className={`custom-sidebar ${isSidebarOpen ? "collapsed" : ""} ${
+        isMobile ? "mobile" : ""
+      }`}
+    >
+      {/* Logo and Menu Icon */}
+      <div className="sidebar-header">
+        <div className="sidebar-logo">
+          {!isSidebarOpen && <h4>Harmony App</h4>}
+        </div>
+        <button
+          className="menu-toggle-button"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          <MenuOutlinedIcon />
+        </button>
+      </div>
 
-            {/* MENU ITEMS */}
-            { !isSidebarOpen && <Box
-                paddingLeft={isSidebarOpen ? undefined : "10%"}
-                paddingBottom="350px"
-            > {
-              MainComponents.map(({ element, label, path, icon }) => (
-                  <Item
-                      title={label}
-                      to={path}
-                      icon={icon}
-                      selected={selected}
-                      setSelected={setSelected}
-                  />
-              ))
-            }
-            </Box>}
+      {/* Menu Items */}
+      <nav className="sidebar-menu">
+        {MainComponents.map(({ label, path, icon }) => (
+          <div
+            key={label}
+            className={`menu-item ${selected === label ? "active" : ""}`}
+            onClick={() => setSelected(label)}
+          >
+            <Link to={path} className="menu-link">
+              <span className="menu-icon">{icon}</span>
+              {!isSidebarOpen && <span className="menu-text">{label}</span>}
+            </Link>
           </div>
-
-        </Menu>
-      </Sidebar>
-    </Box>
+        ))}
+      </nav>
+    </aside>
   );
 };
+
 export default ProSidebar;

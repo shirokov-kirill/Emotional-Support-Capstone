@@ -5,11 +5,11 @@ import Topbar from "../Topbar";
 import ProSidebar from "../Sidebar";
 
 const wrapperStyles = {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '0 16px',
-    width: '100%'
-}
+  display: "flex",
+  flexDirection: "column",
+  padding: "0 16px",
+  width: "100%",
+};
 
 const Layout = ({ children }) => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
@@ -25,20 +25,18 @@ const Layout = ({ children }) => {
         selected={selected}
         setSelected={setSelected}
       />
-        <div style={wrapperStyles}>
-            <Box>
-                <Topbar
-                    isSidebarOpen={isSidebarOpen}
-                    setIsSidebarOpen={setIsSidebarOpen}
-                    selected={selected}
-                    setSelected={setSelected}
-                />
-                <Outlet />
-            </Box>
-            <Box>
-                {children}
-            </Box>
-        </div>
+      <div style={wrapperStyles}>
+        <Box>
+          <Topbar
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
+            selected={selected}
+            setSelected={setSelected}
+          />
+          <Outlet />
+        </Box>
+        <Box>{children}</Box>
+      </div>
     </Box>
   );
 };
