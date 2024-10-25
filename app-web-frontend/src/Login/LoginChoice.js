@@ -24,7 +24,7 @@ function LoginChoice() {
     return (
         <div className="App">
             <div className="form-container">
-                <h2>Please choose how you want to log in:</h2>
+                <h3 className='option-text'>Select your preferred login method</h3>
                 <button className="switch-form-button" onClick={handlePageLoginUser}>Log in as a user</button>
                 <button className="switch-form-button" onClick={handlePageLoginHealthProvider}>Log in as a health
                     provider

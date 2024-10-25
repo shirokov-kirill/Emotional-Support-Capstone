@@ -1,11 +1,18 @@
-import { getUserID, getDoctorID } from "../utils/UserID"
+import { SERVER_ADDRESS } from "../../setupInfo";
+import { getUserAuthToken } from "../utils/AuthToken"
 
-async function getMoodDataFromServer(userId, startDate, endDate) {
+async function getMoodDataFromServer(authToken, startDate, endDate) {
     let formatStartDate = dateToIsoWithoutTime(startDate)
     let formatEndDate = dateToIsoWithoutTime(endDate)
-    const url = `http://localhost:8080/user-mood/getByUser/${userId}/timeframe?start=${formatStartDate}&end=${formatEndDate}`;
+    const url = `${SERVER_ADDRESS}/user-mood/getByUser/timeframe?start=${formatStartDate}&end=${formatEndDate}`;
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            },
+            mode: 'no-cors'
+        });
+        console.log(response)
         if (!response.ok) {
             throw new Error('Failed to fetch mood data');
         }
@@ -17,8 +24,8 @@ async function getMoodDataFromServer(userId, startDate, endDate) {
 }
 
 async function getMoodsForTimeFrame(startDate, endDate) {
-    const userId = getUserID()
-    const moodData = await getMoodDataFromServer(userId, startDate, endDate);
+    const authToken = getUserAuthToken()
+    const moodData = await getMoodDataFromServer(authToken, startDate, endDate);
     const moods = [];
 
     let currentDate = new Date(startDate);
@@ -27,7 +34,7 @@ async function getMoodsForTimeFrame(startDate, endDate) {
         // Find mood data for the current date
         const moodInfo = moodData[currentDateISO];
 
-        const default_color = "grey"
+        const default_color = "#DCDCDC"
         const default_emoji = "😐"
         let color = (currentDateISO in moodData && moodInfo.color !== undefined) ? moodInfo.color : default_color;
         let emoji = (currentDateISO in moodData && moodInfo.emoji !== undefined) ? moodInfo.emoji : default_emoji;
@@ -43,10 +50,14 @@ async function getMoodsForTimeFrame(startDate, endDate) {
 }
 
 export async function getCriticalPatientsDataForDoctor() {
-    const doctorId = getDoctorID()
-    const url = `http://localhost:8080/user-mood/getCriticalUsersMoodByDoctor/${doctorId}`;
+    const authToken = getUserAuthToken()
+    const url = `${SERVER_ADDRESS}/user-mood/getCriticalUsersMoodByDoctor`;
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            }
+        });
         console.log(response);
         if (!response.ok) {
             throw new Error('Failed to fetch doctor data');

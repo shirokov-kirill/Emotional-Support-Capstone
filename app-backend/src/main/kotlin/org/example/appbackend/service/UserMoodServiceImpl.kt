@@ -1,16 +1,21 @@
 package org.example.appbackend.service
 
 import jakarta.transaction.Transactional
+import org.example.appbackend.config.SecurityConfig
 import org.example.appbackend.dto.CreateUserMoodDto
+import org.example.appbackend.dto.ShareMoodTimeFrameWithDoctorsDto
 import org.example.appbackend.dto.UpdateUserMoodDto
 import org.example.appbackend.dto.UserMoodDto
+import org.example.appbackend.dto.UserMoodSharingDto
 import org.example.appbackend.entity.UserMood
 import org.example.appbackend.exception.UserMoodIdNotAssignedException
 import org.example.appbackend.exception.UserMoodNotFoundException
 import org.example.appbackend.mapper.ChatMapper
 import org.example.appbackend.mapper.UserMoodMapper
 import org.example.appbackend.repository.ChatRepository
+import org.example.appbackend.mapper.UserMoodSharingMapper
 import org.example.appbackend.repository.UserMoodRepository
+import org.example.appbackend.repository.UserMoodSharingRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -27,7 +32,9 @@ class UserMoodServiceImpl(
     private val userMoodRepository: UserMoodRepository,
     private val chatRepository: ChatRepository,
     private val userMoodMapper: UserMoodMapper,
-    private val chatMapper: ChatMapper
+    private val chatMapper: ChatMapper,
+    private val userMoodSharingRepository: UserMoodSharingRepository,
+    private val userMoodSharingMapper: UserMoodSharingMapper,
 ) : UserMoodService {
 
     @Transactional
@@ -55,7 +62,8 @@ class UserMoodServiceImpl(
     }
 
     @Transactional
-    override fun getUserMoodForTimeFrame(userId: Int, startDate: LocalDate, endDate: LocalDate): Map<LocalDate, UserMoodDto> {
+    override fun getUserMoodForTimeFrame(authToken: String, startDate: LocalDate, endDate: LocalDate): Map<LocalDate, UserMoodDto> {
+        val userId = SecurityConfig().jwtTokenFilter().extractUserId(authToken)
         val startLocalDateTime = startDate.atStartOfDay()
         val endLocalDateTime = endDate.atStartOfDay()
         val userMoodData = userMoodRepository.findByUserIdAndCreatedBetween(userId, startLocalDateTime, endLocalDateTime)
@@ -71,11 +79,12 @@ class UserMoodServiceImpl(
      * Retrieves a map of user IDs to UserMoodDto objects representing the mood of users
      * who have had chats with a specific doctor.
      *
-     * @param doctorId The ID of the doctor.
+     * @param authToken The auth token of the doctor.
      * @return A map of user IDs to UserMoodDto objects.
      */
     @Transactional
-    override fun getCriticalUsersMoodByDoctorId(doctorId: Int): List<UserMoodDto> {
+    override fun getCriticalUsersMoodByDoctorToken(authToken: String): List<UserMoodDto> {
+        val doctorId = SecurityConfig().jwtTokenFilter().extractUserId(authToken)
         val doctorChats = chatRepository.findByDoctorId(doctorId)
         val userIdToMoodDto = mutableListOf<UserMoodDto>()
         val today = LocalDateTime.now().toLocalDate().atStartOfDay()
@@ -118,4 +127,21 @@ class UserMoodServiceImpl(
 
     @Transactional
     override fun delete(id: Int) = userMoodRepository.deleteById(id)
+
+    @Transactional
+    override fun shareTimeFrame(dto: ShareMoodTimeFrameWithDoctorsDto): List<Int> {
+        return dto.doctorsIds.map { doctorId ->
+            val singleDoctorDto = UserMoodSharingDto(dto.userId, doctorId, dto.timeFrameStart, dto.timeFrameEnd)
+            val entity = userMoodSharingMapper.dtoToEntity(singleDoctorDto)
+            val now = LocalDateTime.now()
+            entity.created = now
+            entity.updated = now
+            userMoodSharingRepository.save(entity).id ?: error("id not found")
+        }
+    }
+
+    @Transactional
+    override fun getAllowedUserMoods(userId: Int, doctorId: Int): List<UserMoodDto> {
+        return userMoodRepository.findByUserIdAndDoctorId(userId, doctorId).map { userMoodMapper.entityToDto(it) }
+    }
 }

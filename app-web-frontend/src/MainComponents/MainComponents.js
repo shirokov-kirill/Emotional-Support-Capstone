@@ -1,19 +1,24 @@
 import Calendar from "./Calendar/Calendar";
+import EmotionAssessmentForm from "./Emotion assessment/EmotionAssessmentForm";
 import ChatsPage from "./Chats/ChatsPage";
 import Feedback from "./Feedback/Feedback";
 import FeedbackList from "./Feedback/FeedbackList";
-import Notification from "../Components/NotificationComponent/Notification";
+import NotificationList from "../Components/NotificationComponent/NotificationList";
 import HomeIcon from "@mui/icons-material/Cottage";
 import CalendarIcon from "@mui/icons-material/CalendarMonth";
 import SmsIcon from "@mui/icons-material/Sms";
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import ProfileIcon from "@mui/icons-material/Person2";
 import AppointmentIcon from "@mui/icons-material/Schedule";
+import ShareIcon from "@mui/icons-material/Share";
+import CoPresentIcon from "@mui/icons-material/CoPresent";
+import IosShareIcon from "@mui/icons-material/IosShare";
 import Appointment from "../scenes/Appointment/Appointment";
 import MainProfile from "../scenes/Profile/MainProfile";
 import Dashboard from "../scenes/Dashboard";
-import MainProfileSetting from "../scenes/MainProfileSetting/MainProfileSetting";
-import SettingsIcon from "@mui/icons-material/Settings";
+import Share from "./Share/Share";
+import DataSharing from "./DataSharing/DataSharing";
+import DataViewing from "./DataViewing/DataViewing";
 
 const MainComponents = [
   {
@@ -26,6 +31,12 @@ const MainComponents = [
     label: "Calendar",
     path: "/calendar",
     element: Calendar,
+    icon: <CalendarIcon />,
+  },
+  {
+    label: "Mood Assessment",
+    path: "/emotion_assessment",
+    element: EmotionAssessmentForm,
     icon: <CalendarIcon />,
   },
   { label: "Chats", path: "/chats", element: ChatsPage, icon: <SmsIcon /> },
@@ -47,22 +58,29 @@ const MainComponents = [
     element: FeedbackList,
     icon: <FeedbackIcon />,
   },
+  { label: "Share", path: "/share", element: Share, icon: <ShareIcon /> },
   {
     label: "Notifications list",
     path: "/notifications",
-    element: Notification,
+    element: NotificationList,
+  },
+  {
+    label: "Data Sharing",
+    path: "/datasharing",
+    element: DataSharing,
+    icon: <IosShareIcon />,
+  },
+  {
+    label: "Data Viewing",
+    path: "/dataviewing",
+    element: DataViewing,
+    icon: <CoPresentIcon />,
   },
   {
     label: "Profile",
     path: "/profile",
     element: MainProfile,
     icon: <ProfileIcon />,
-  },
-  {
-    label: "Setting",
-    path: "/setting",
-    element: MainProfileSetting,
-    icon: <SettingsIcon />,
   },
 ];
 

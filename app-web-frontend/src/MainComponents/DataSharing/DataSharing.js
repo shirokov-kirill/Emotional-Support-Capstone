@@ -1,29 +1,21 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './DataSharing.css';
+import {SERVER_ADDRESS} from "../../setupInfo";
+import axios from "axios";
 
 function DataSharing() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedDoctors, setSelectedDoctors] = useState([]);
     const [dateRange, setDateRange] = useState([]);
+    const userId = 1;
+
 
     const doctors = [
         {
             id: 1,
-            name: "Evgeniia Kirillova"
-        },
-        {
-            id: 2,
-            name: "Mikhail Savrasov"
-        },
-        {
-            id: 3,
-            name: "Egor Lebedev"
-        },
-        {
-            id: 4,
-            name: "John Doe"
+            name: "Name Surname"
         }
     ];
 
@@ -42,9 +34,26 @@ function DataSharing() {
         }
     };
 
-    const handleSubmit = () => {
-        // TODO: Send selected doctors and data range to backend
-        console.log("Selected doctors:", selectedDoctors);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const requestBody = {
+            userId: userId,
+            doctorsIds: selectedDoctors.map(doctor => doctor.id),
+            timeFrameStart: dateRange[0],
+            timeFrameEnd: dateRange[1]
+        };
+
+        try {
+            const response = await axios.post(SERVER_ADDRESS + '/user-mood/share', requestBody);
+
+            if (response.status === 200) {
+                console.log('Data shared successfully');
+                console.log(response.data);
+            }
+        } catch (error) {
+            console.error('Error while sending request:', error);
+        }
     };
 
     const filteredDoctors = doctors.filter(doctor =>

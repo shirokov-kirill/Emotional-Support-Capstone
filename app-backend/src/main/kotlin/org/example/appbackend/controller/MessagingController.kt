@@ -1,8 +1,10 @@
 package org.example.appbackend.controller
 
 import org.example.appbackend.dto.ChatDto
+import org.example.appbackend.dto.ChatWithMessagesDto
 import org.example.appbackend.dto.MessageDto
 import org.example.appbackend.service.ChatService
+import org.example.appbackend.service.ChatWithMessagesService
 import org.example.appbackend.service.MessageService
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
@@ -10,7 +12,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class MessagingController(
     private val chatService: ChatService,
-    private val messageService: MessageService
+    private val messageService: MessageService,
+    private val chatWithMessagesService: ChatWithMessagesService
 ) {
     private val logger = LoggerFactory.getLogger(MessagingController::class.java)
 
@@ -39,8 +42,8 @@ class MessagingController(
     }
 
     @GetMapping("/messages/{chatId}")
-    fun getMessagesByChatId(@PathVariable chatId: Int): List<MessageDto> {
+    fun getMessagesByChatId(@PathVariable chatId: Int): ChatWithMessagesDto {
         logger.info("Fetching messages for chat ID: {}", chatId)
-        return messageService.getAllMessagesByChatId(chatId)
+        return chatWithMessagesService.getChatWithMessagesAndProfiles(chatId)
     }
 }

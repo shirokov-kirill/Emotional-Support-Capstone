@@ -40,7 +40,7 @@ check_apt() {
     for pkg in "${packages[@]}"; do
         if ! dpkg -l | grep -qw "$pkg"; then
             echo "$pkg is not installed."
-	    $docker_packages_installed = 0
+	    docker_packages_installed=0
         fi
     done
 }
@@ -52,7 +52,7 @@ check_rpm() {
     for pkg in "${packages[@]}"; do
         if ! $manager list installed "$pkg" &> /dev/null; then
             echo "$pkg is not installed."
-	    $docker_packages_installed = 0
+	    docker_packages_installed=0
         fi
     done
 }
@@ -105,6 +105,8 @@ create_env() {
 		sed -i "s/POSTGRES_USER=.*/POSTGRES_USER=$DB_USER/" $ENV_FILE
 		sed -i "s/POSTGRES_PASSWORD=.*/POSTGRES_PASSWORD=$DB_PASSWORD/" $ENV_FILE
 	fi
+	IP=$(hostname -I | cut -d' ' -f1)
+	sed -i "s/POSTGRES_IP=.*/POSTGRES_IP=$IP/" $ENV_FILE
 	echo ".env file has been generated with random credentials."
     fi
 }
@@ -147,9 +149,27 @@ create_application_conf() {
     else
 	    DB_HOST=$(hostname -I | cut -d' ' -f1)
     fi
+    echo "DB_HOST: $DB_HOST"
     sed -i "s/localhost:5432\/postgres/${DB_HOST}:${POSTGRES_PORT}\/${POSTGRES_DB}/" $CONFIG_FILE
     sed -i "s/username: postgres/username: ${POSTGRES_USER}/" $CONFIG_FILE
     sed -i "s/password: postgres/password: ${POSTGRES_PASSWORD}/" $CONFIG_FILE
+
+    # Generate JWT secret
+    openssl rand -out key.bin 64
+    openssl base64 -in key.bin -out key.base64
+    secret_key=$(openssl rand -base64 64 | tr -d '\n')
+
+    # Escape special characters in the secret key
+    escaped_secret_key=$(printf '%s\n' "$secret_key" | sed 's/[\/&]/\\&/g')
+
+    # Replace placeholder in configuration file with the secret key
+    sed -i "s/secret: mySecret/secret: $escaped_secret_key/" "$CONFIG_FILE"
+}
+
+# Function to set SERVER_ADDRESS for API calls on frontend
+update_setupinfo() {
+    source $ENV_FILE
+    sed -i "s|export const SERVER_ADDRESS = 'http://' + SERVER_ADDRESS_LINE|export const SERVER_ADDRESS = 'https://$DOMAIN_NAME/api'|g" app-web-frontend/src/setupInfo.js
 }
 
 # Function to generate self-signed SSL certificates
@@ -199,15 +219,21 @@ deploy() {
 }
 
 main() {
-    check_docker
-    
-#    pull_current_branch
-    
+    echo "GITHUB_ACTIONS variable: $GITHUB_ACTIONS"
+
+    # Skip Docker check if running in GitHub Actions CI environment
+    if [ "$GITHUB_ACTIONS" = "true" ]; then
+        echo "GitHub Actions CI environment detected. Skipping Docker package checks..."
+    else
+        echo "Non-CI environment detected. Running Docker package checks..."
+        check_docker
+    fi
+
     create_env
     generate_ssl
     create_ngnix_conf
     create_application_conf
-
+    update_setupinfo
     deploy
 }
 
