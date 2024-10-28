@@ -93,7 +93,7 @@ function HealthProviderLogin() {
         } catch (error) {
             setLoginsCount(loginsCount + 1)
             validateLoginsCount()
-            navigate('/home/hprovider');
+            //navigate('/home/hprovider');
             console.error('Error during registration', error);
         }
     };
