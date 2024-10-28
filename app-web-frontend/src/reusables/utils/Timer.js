@@ -8,8 +8,6 @@ const Timer = (props) => {
     const timeoutId = React.useRef(null);
     const [timer, setTimer] = React.useState(initialTimer);
 
-    console.log(initialTimer)
-
     const countTimer = () => {
         if (timer <= 0) {
             localStorage.removeItem(storageId);
