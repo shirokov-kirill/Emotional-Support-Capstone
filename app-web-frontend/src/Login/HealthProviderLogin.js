@@ -134,7 +134,7 @@ function HealthProviderLogin() {
                     <form>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
                         <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-                        <button type="submit" onClick={onHealthProviderLoginSubmit}>Login</button>
+                        <button type="submit" onClick={onHealthProviderLoginSubmit} disabled={showMultipleLoginTimerCountdown}>Login</button>
                         {showMultipleLoginTimerCountdown &&
                             <Timer id="timer-countdown" text={'Next login in:'} numberOfSeconds={localStorage.getItem(timerInStorageId) ?? 120} storageIdString={timerInStorageId} onTimerEnds={onMultipleLoginsTimerEnds}/>
                         }
