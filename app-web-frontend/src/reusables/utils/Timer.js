@@ -1,18 +1,24 @@
 import * as React from 'react'
 
-const Timer = (numberOfSeconds, storageIdString) => {
-    const initialTimer = parseInt(localStorage.getItem("timer") ?? numberOfSeconds);
+const Timer = (props) => {
+    const initialTimer = parseInt(localStorage.getItem("timer") ?? props['numberOfSeconds']);
+    const text = props['text'];
+    const storageId = props['storageIdString'];
+    const onTimerEnds = props['onTimerEnds'];
     const timeoutId = React.useRef(null);
     const [timer, setTimer] = React.useState(initialTimer);
 
-    const countTimer = React.useCallback(() => {
+    console.log(initialTimer)
+
+    const countTimer = () => {
         if (timer <= 0) {
-            localStorage.removeItem(storageIdString);
+            localStorage.removeItem(storageId);
+            onTimerEnds();
         } else {
             setTimer(timer - 1);
-            localStorage.setItem(storageIdString, timer);
+            localStorage.setItem(storageId, timer.toString());
         }
-    }, [timer]);
+    };
 
     React.useEffect(() => {
         timeoutId.current = window.setTimeout(countTimer, 1000);
@@ -20,7 +26,7 @@ const Timer = (numberOfSeconds, storageIdString) => {
         return () => window.clearTimeout(timeoutId.current);
     }, [timer, countTimer]);
 
-    return <div align="center">Timer :{timer}</div>;
+    return <div id={props['id']} align="center">{text} {timer}</div>;
 }
 
 export default Timer
