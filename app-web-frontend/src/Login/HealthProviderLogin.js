@@ -3,6 +3,7 @@ import './Login.css';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import { SERVER_ADDRESS } from "../setupInfo";
+import Timer from "../reusables/utils/Timer";
 
 function Footer() {
     return (
@@ -13,6 +14,7 @@ function Footer() {
 }
 
 function HealthProviderLogin() {
+    const timerInStorageId = "HealthProviderLoginTimer";
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -24,6 +26,8 @@ function HealthProviderLogin() {
     const [clinic, setClinic] = useState('');
     const [specialization, setSpecialization] = useState('');
     const [file, setFile] = useState(null);
+    const [loginsCount, setLoginsCount] = useState(0);
+    const [showMultipleLoginTimerCountdown, setShowMultipleLoginTimerCountdown] = useState(localStorage.getItem(timerInStorageId) != null);
 
     let navigate = useNavigate();
 
@@ -58,6 +62,19 @@ function HealthProviderLogin() {
         setFile(selectedFile);
     }
 
+    const validateLoginsCount = () => {
+        if(loginsCount >= 3 || localStorage.getItem(timerInStorageId) != null) {
+            setShowMultipleLoginTimerCountdown(true)
+        } else {
+            setShowMultipleLoginTimerCountdown(false)
+        }
+    }
+
+    const onMultipleLoginsTimerEnds = () => {
+        setLoginsCount(0)
+        validateLoginsCount()
+    }
+
     const onHealthProviderLoginSubmit = async (event) => {
         event.preventDefault();
 
@@ -74,6 +91,8 @@ function HealthProviderLogin() {
                 console.log(response.data);
             }
         } catch (error) {
+            setLoginsCount(loginsCount + 1)
+            validateLoginsCount()
             navigate('/home/hprovider');
             console.error('Error during registration', error);
         }
@@ -116,6 +135,9 @@ function HealthProviderLogin() {
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
                         <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
                         <button type="submit" onClick={onHealthProviderLoginSubmit}>Login</button>
+                        {showMultipleLoginTimerCountdown &&
+                            <Timer id="timer-countdown" text={'Next login in:'} numberOfSeconds={localStorage.getItem(timerInStorageId) ?? 120} storageIdString={timerInStorageId} onTimerEnds={onMultipleLoginsTimerEnds}/>
+                        }
                     </form>
                     <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
                         Up!
