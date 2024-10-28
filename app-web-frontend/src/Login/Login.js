@@ -153,7 +153,7 @@ export function Login() {
                         <div>
                             {showFormValidWarning &&
                                 <p className="warning-message">Please fill in all the required fields.</p>}
-                            <button type="submit">Continue</button>
+                            <button type="submit" disabled={showMultipleLoginTimerCountdown}>Continue</button>
                             {showMultipleLoginTimerCountdown &&
                                 <Timer id="timer-countdown" text={'Next login in:'} numberOfSeconds={localStorage.getItem(timerInStorageId) ?? 120} storageIdString={timerInStorageId} onTimerEnds={onMultipleLoginsTimerEnds}/>
                             }

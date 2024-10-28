@@ -14,6 +14,14 @@ body {
   bottom: 0;
 }
 
+.form-container button[type="submit"]:disabled {
+  background-color: #888888;
+}
+
+.form-container button[type="submit"]:disabled:hover {
+  background-color: #888888;
+}
+
 .warning-message {
   color: grey;
   text-align: left;
