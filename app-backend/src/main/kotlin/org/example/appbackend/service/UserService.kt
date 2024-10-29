@@ -2,6 +2,7 @@ package org.example.appbackend.service
 
 import org.example.appbackend.dto.UserDto
 import org.example.appbackend.dto.CreateUserDto
+import org.example.appbackend.dto.UserLoginsDto
 import org.example.appbackend.entity.User
 import org.example.appbackend.mapper.UserMapper
 import org.example.appbackend.repository.UserRepository
@@ -13,6 +14,8 @@ interface UserService{
     fun getUserById(userId: Int): UserDto
 
     fun getUserByUsername(username: String): UserDto
+
+    fun loginHistory(userId: Int): UserLoginsDto
 
     fun authenticateUser(username: String, password: String): UserDto
 
