@@ -69,7 +69,7 @@ class AuthController(
             return ResponseEntity(responseDto, HttpStatus.OK)
         } catch (e: Exception) {
             // Return 401 Unauthorized status code if authentication fails
-            logger.error("Error authenticating user: {}", e.message)
+            logger.error("Error authenticating doctor: {}", e.message)
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
         }
     }

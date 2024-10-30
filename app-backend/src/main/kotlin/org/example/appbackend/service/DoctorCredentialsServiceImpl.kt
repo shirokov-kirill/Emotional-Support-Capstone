@@ -19,9 +19,18 @@ class DoctorCredentialsServiceImpl(
     private var logger = LoggerFactory.getLogger(DoctorCredentialsServiceImpl::class.java)
 
     override fun register(dto: RegisterDoctorCredentialsDto): DoctorCredentialsDto {
-        val doctorCredentials = doctorCredentialsMapper.registerDtoToEntity(dto)
-        val credentials = doctorCredentialsRepository.save(doctorCredentials)
+        logger.info("Create user: {}", dto.username)
+        val existingUser = doctorCredentialsRepository.findByUsername(dto.username)
+        if (existingUser != null) {
+            logger.info("User with such username already exists: {}", existingUser.username)
+            return doctorCredentialsMapper.entityToDto(existingUser)
+        }
 
+        val hashedPassword = hashPassword(dto.password)
+
+        var user = doctorCredentialsMapper.registerDtoToEntity(dto)
+        user.password = hashedPassword
+        val credentials = doctorCredentialsRepository.save(user)
         return doctorCredentialsMapper.entityToDto(credentials)
     }
 
@@ -33,7 +42,7 @@ class DoctorCredentialsServiceImpl(
     override fun authenticateUser(username: String, password: String): DoctorCredentialsDto {
         try {
             // Load user details by username
-            logger.info("Authenticate user: $username")
+            logger.info("Authenticate doctor: $username")
             val user = doctorCredentialsRepository.findByUsername(username)
 
             // Check if the provided password matches the stored password
@@ -45,5 +54,9 @@ class DoctorCredentialsServiceImpl(
             logger.error("Error authenticating user: {}", ex.message)
             throw ex
         }
+    }
+
+    private fun hashPassword(password: String): String {
+        return password.let { passwordEncoder.encode(it) }
     }
 }
