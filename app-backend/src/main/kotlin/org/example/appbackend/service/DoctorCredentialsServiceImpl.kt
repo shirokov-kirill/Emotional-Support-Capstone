@@ -19,10 +19,10 @@ class DoctorCredentialsServiceImpl(
     private var logger = LoggerFactory.getLogger(DoctorCredentialsServiceImpl::class.java)
 
     override fun register(dto: RegisterDoctorCredentialsDto): DoctorCredentialsDto {
-        logger.info("Create user: {}", dto.username)
+        logger.info("Create doctor: {}", dto.username)
         val existingUser = doctorCredentialsRepository.findByUsername(dto.username)
         if (existingUser != null) {
-            logger.info("User with such username already exists: {}", existingUser.username)
+            logger.info("Doctor with such username already exists: {}", existingUser.username)
             return doctorCredentialsMapper.entityToDto(existingUser)
         }
 
@@ -51,7 +51,7 @@ class DoctorCredentialsServiceImpl(
             }
             return doctorCredentialsMapper.entityToDto(user)
         } catch (ex: Exception) {
-            logger.error("Error authenticating user: {}", ex.message)
+            logger.error("Error authenticating doctor: {}", ex.message)
             throw ex
         }
     }

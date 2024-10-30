@@ -8,5 +8,7 @@ data class RegisterDoctorCredentialsDto(
     val firstName: String?,
     val lastName: String?,
     val email: String?,
-    val dateOfBirth: LocalDate?
+    val dateOfBirth: LocalDate?,
+    val clinic: String?,
+    val specialisation: String?,
 )

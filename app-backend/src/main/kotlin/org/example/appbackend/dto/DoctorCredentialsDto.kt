@@ -1,5 +1,6 @@
 package org.example.appbackend.dto
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class DoctorCredentialsDto(
@@ -9,6 +10,7 @@ data class DoctorCredentialsDto(
     val firstName: String?,
     val lastName: String?,
     val email: String?,
+    val dateOfBirth: LocalDate?,
     val clinic: String?,
     val specialisation: String?,
 )

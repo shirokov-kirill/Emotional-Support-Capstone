@@ -1,6 +1,7 @@
 package org.example.appbackend.entity
 
 import jakarta.persistence.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Entity
@@ -22,13 +23,13 @@ class DoctorCredentials {
     var password: String? = null
 
     @Column(name = "name")
-    var name: String? = null
+    var firstName: String? = null
 
     @Column(name = "surname")
-    var surname: String? = null
+    var lastName: String? = null
 
     @Column(name = "birth_date")
-    var birthDate: LocalDateTime? = null
+    var dateOfBirth: LocalDate? = null
 
     @Column(name = "email")
     var email: String? = null
