@@ -22,13 +22,13 @@ function HealthProviderLogin() {
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [clinic, setClinic] = useState('');
-    const [specialization, setSpecialization] = useState('');
+    const [specialisation, setSpecialisation] = useState('');
     const [file, setFile] = useState(null);
 
     let navigate = useNavigate();
 
     const isFormEmpty = () => {
-        return !firstName || !lastName || !dateOfBirth || !email || !username || !password || !confirmationPassword || !clinic || !specialization;
+        return !firstName || !lastName || !dateOfBirth || !email || !username || !password || !confirmationPassword || !clinic || !specialisation;
     }
 
     const validateEmail = () => {
@@ -90,7 +90,9 @@ function HealthProviderLogin() {
             firstName,
             lastName,
             email,
-            dateOfBirth
+            dateOfBirth,
+            clinic,
+            specialisation
         };
 
         try {
@@ -150,7 +152,7 @@ function HealthProviderLogin() {
                         {!validateEmail() && <p className="warning-message">Please enter a valid Email.</p>}
                         <input type="text" placeholder="Clinic" onChange={e => setClinic(e.target.value)}/>
                         <input type="text" placeholder="Specialization"
-                               onChange={e => setSpecialization(e.target.value)}/>
+                               onChange={e => setSpecialisation(e.target.value)}/>
                         <div>
                             <label htmlFor="fileInput">Upload Certification:</label>
                             <input
