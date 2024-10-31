@@ -7,4 +7,5 @@ import java.time.LocalDateTime
 
 interface UserRepository : CrudRepository<User, Int> {
     fun findByUsername(username: String): User?
+    fun findByEmail(email: String): User?
 }
