@@ -12,6 +12,21 @@ function Footer() {
     );
 }
 
+const PasswordStrength = {
+    WEAK: {
+        message: 'Your password is weak. Try adding more characters and mixing letters, numbers, and special symbols.',
+        color: 'red'
+    },
+    FAIR: {
+        message: 'Your password is fair. It can be stronger by adding special characters and ensuring it is at least 12 characters.',
+        color: 'orange'
+    },
+    STRONG: {
+        message: 'Your password is strong and secure.',
+        color: 'green'
+    }
+};
+
 function HealthProviderLogin() {
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
@@ -42,6 +57,21 @@ function HealthProviderLogin() {
 
     const isPasswordSame = () => {
         return password === confirmationPassword || confirmationPassword.length === 0;
+    }
+
+    const calculatePasswordStrength = () => {
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumbers = /\d/.test(password);
+        const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        if (hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChars) {
+            return PasswordStrength.STRONG;
+        } else if (hasUpperCase && hasLowerCase && hasNumbers && password.length >= 12) {
+            return PasswordStrength.FAIR;
+        } else {
+            return PasswordStrength.WEAK;
+        }
     }
 
     const isDOBValid = () => {
@@ -164,6 +194,14 @@ function HealthProviderLogin() {
                             onChange={e => setPassword(e.target.value)}
                             style={isPasswordValid() ? {} : {border: '1px solid lightcoral'}}
                         />
+                        {isPasswordValid() && password.length !== 0 && (() => {
+                            const strength = calculatePasswordStrength(password);
+                            return (
+                                <p className="warning-message" style={{ color: strength.color }}>
+                                    {strength.message}
+                                </p>
+                            );
+                        })()}
                         {!isPasswordValid() &&
                             <p className="warning-message">Password must be at least 8 characters long.</p>}
                         <input

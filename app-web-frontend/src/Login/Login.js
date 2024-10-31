@@ -13,6 +13,21 @@ function Footer() {
     );
 }
 
+const PasswordStrength = {
+    WEAK: {
+        message: 'Your password is weak. Try adding more characters and mixing letters, numbers, and special symbols.',
+        color: 'red'
+    },
+    FAIR: {
+        message: 'Your password is fair. It can be stronger by adding special characters and ensuring it is at least 12 characters.',
+        color: 'orange'
+    },
+    STRONG: {
+        message: 'Your password is strong and secure.',
+        color: 'green'
+    }
+};
+
 export function Login() {
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
@@ -287,21 +302,6 @@ export function Login() {
                 </div>
         );
     }
-
-    const PasswordStrength = {
-        WEAK: {
-            message: 'Your password is weak. Try adding more characters and mixing letters, numbers, and special symbols.',
-            color: 'red'
-        },
-        FAIR: {
-            message: 'Your password is fair. It can be stronger by adding special characters and ensuring it is at least 12 characters.',
-            color: 'orange'
-        },
-        STRONG: {
-            message: 'Your password is strong and secure.',
-            color: 'green'
-        }
-    };
 
     // this logic isn't great, but this functiion is needed for the header to work
     // TODO: refactor this
