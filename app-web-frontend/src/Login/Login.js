@@ -49,12 +49,17 @@ export function Login() {
         return age >= 13 || dateOfBirth.length === 0;
     }
 
+    const isUsernameValid = () => {
+        const re = /[0-9a-zA-Z]/;
+        return username.length > 4 && re.test(username)
+    }
+
     const isNewUserFormValid = () => {
-        return isPasswordValid() && isPasswordSame() && validateEmail() && isDOBValid() && !isFormEmpty();
+        return isPasswordValid() && isPasswordSame() && validateEmail() && isDOBValid() && !isFormEmpty() && isUsernameValid();
     }
 
     const isLoginFormValid = () => {
-        return isPasswordValid() && username;
+        return isPasswordValid() && isUsernameValid();
     }
 
     const onUserLoginSubmit = async (event) => {
@@ -173,6 +178,11 @@ export function Login() {
                                 placeholder="Username"
                                 onChange={(e) => setUsername(e.target.value)}
                                 />
+                                    {!isUsernameValid() && (
+                                        <p className="warning-message">
+                                            Has to be 5+ symbols long, no special characters
+                                        </p>
+                                    )}
                                 </div>
                                 <div className="horizontal-column">
                                 <input
