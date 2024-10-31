@@ -78,7 +78,7 @@ export function Login() {
             if (response.status === 200) {
 		const authToken = response.data.token;
                 localStorage.setItem('authToken', authToken); // Save token to local storage
-
+                localStorage.setItem('id', response.data['id'])
                 console.log('User login successfully')
                 console.log(response.data);
                 navigate('/home');
