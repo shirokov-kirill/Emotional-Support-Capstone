@@ -19,6 +19,7 @@ import Dashboard from "../scenes/Dashboard";
 import Share from "./Share/Share"
 import DataSharing from "./DataSharing/DataSharing";
 import DataViewing from "./DataViewing/DataViewing";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const MainComponents = [
     { "label": "Dashboard", "path": "/dashboard", "element": Dashboard, "icon": <HomeIcon /> },
@@ -29,7 +30,7 @@ const MainComponents = [
     { "label": "Feedback", "path": "/feedback", "element": Feedback, icon: <FeedbackIcon /> },
     { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList, icon: <FeedbackIcon /> },
     { "label": "Share", "path": "/share", "element": Share, icon: <ShareIcon /> },
-    { "label": "Notifications list", "path": "/notifications", "element": NotificationList },
+    { "label": "Notifications list", "path": "/notifications", "element": NotificationList, icon: <NotificationsIcon/> },
     {"label": "Data Sharing", "path": "/datasharing", "element": DataSharing, icon: <IosShareIcon /> },
     {"label": "Data Viewing", "path": "/dataviewing", "element": DataViewing, icon: <CoPresentIcon /> },
     { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon /> }

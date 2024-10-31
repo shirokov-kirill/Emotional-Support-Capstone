@@ -25,14 +25,18 @@ const ProSidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             <MenuItem
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                 icon={isSidebarOpen ? <MenuOutlinedIcon /> : undefined}
-                style={{ margin: "10px 0 20px 0", color: "grey" }}
+                style={{
+                  margin: "10px 0", // Keep vertical margins, remove left/right
+                  color: "grey",
+                  paddingLeft: "2px" // Adjust left padding if necessary
+              }}
             >
               {!isSidebarOpen && (
                   <Box
                       display="flex"
                       justifyContent="space-between"
                       alignItems="center"
-                      ml="15px"
+                      ml="30px"
                   >
                     <Typography variant="h6" color="grey">
                       Harmony App
@@ -47,7 +51,7 @@ const ProSidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
             {/* MENU ITEMS */}
             { !isSidebarOpen && <Box
-                paddingLeft={isSidebarOpen ? undefined : "10%"}
+                paddingLeft={isSidebarOpen ? undefined : "2%"}
                 paddingBottom="350px"
             > {
               MainComponents.map(({ element, label, path, icon }) => (
