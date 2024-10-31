@@ -7,6 +7,7 @@ import MenuOutlinedIcon from "@mui/icons-material/Menu";
 
 import './Sidebar.css';
 import MainComponents from "../MainComponents/MainComponents";
+import ComponentType from "../MainComponents/ComponentType";
 
 const wrapperStyles = {
   display: 'flex',
@@ -52,16 +53,18 @@ const ProSidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             {/* MENU ITEMS */}
             { !isSidebarOpen && <Box
                 paddingLeft={isSidebarOpen ? undefined : "2%"}
-                paddingBottom="350px"
             > {
-              MainComponents.map(({ element, label, path, icon }) => (
+              
+              MainComponents.map(({ element, label, path, icon, type }) => (
+                type === ComponentType.Sidebar && (
                   <Item
-                      title={label}
-                      to={path}
-                      icon={icon}
-                      selected={selected}
-                      setSelected={setSelected}
+                    title={label}
+                    to={path}
+                    icon={icon}
+                    selected={selected}
+                    setSelected={setSelected}
                   />
+                ) 
               ))
             }
             </Box>}

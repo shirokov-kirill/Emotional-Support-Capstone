@@ -19,21 +19,26 @@ import Dashboard from "./Dashboard";
 import Share from "./Share/Share"
 import DataSharing from "./DataSharing/DataSharing";
 import DataViewing from "./DataViewing/DataViewing";
+import Settings from "./Settings/Settings";
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Sidebar } from 'react-pro-sidebar';
+import ComponentType from './ComponentType';
 
 const MainComponents = [
-    { "label": "Dashboard", "path": "/dashboard", "element": Dashboard, "icon": <HomeIcon /> },
-    { "label": "Calendar", "path": "/calendar", "element": Calendar, icon: <CalendarIcon /> },
-    { "label": "Mood Assessment", "path": "/emotion_assessment", "element": EmotionAssessmentForm, icon: <CalendarIcon />},
-    { "label": "Chats", "path": "/chats", "element": ChatsPage, icon: <SmsIcon /> },
-    { "label": "Appointments", "path": "/appointment", "element": Appointment, icon: <AppointmentIcon /> },
-    { "label": "Feedback", "path": "/feedback", "element": Feedback, icon: <FeedbackIcon /> },
-    { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList, icon: <FeedbackIcon /> },
-    { "label": "Share", "path": "/share", "element": Share, icon: <ShareIcon /> },
-    { "label": "Notifications list", "path": "/notifications", "element": NotificationList, icon: <NotificationsIcon/> },
-    {"label": "Data Sharing", "path": "/datasharing", "element": DataSharing, icon: <IosShareIcon /> },
-    {"label": "Data Viewing", "path": "/dataviewing", "element": DataViewing, icon: <CoPresentIcon /> },
-    { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon /> }
+    { "label": "Dashboard", "path": "/dashboard", "element": Dashboard, "icon": <HomeIcon />, "type": ComponentType.Sidebar},
+    { "label": "Calendar", "path": "/calendar", "element": Calendar, icon: <CalendarIcon />, "type": ComponentType.Sidebar},
+    { "label": "Mood Assessment", "path": "/emotion_assessment", "element": EmotionAssessmentForm, icon: <CalendarIcon />, "type": ComponentType.Sidebar},
+    { "label": "Chats", "path": "/chats", "element": ChatsPage, icon: <SmsIcon />, "type": ComponentType.Sidebar},
+    { "label": "Appointments", "path": "/appointment", "element": Appointment, icon: <AppointmentIcon />, "type": ComponentType.Sidebar},
+    { "label": "Feedback", "path": "/feedback", "element": Feedback, icon: <FeedbackIcon />, "type": ComponentType.Sidebar},
+    { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList, icon: <FeedbackIcon />, "type": ComponentType.Hide},
+    { "label": "Share", "path": "/share", "element": Share, icon: <ShareIcon />, "type": ComponentType.Sidebar},
+    { "label": "Notifications list", "path": "/notifications", "element": NotificationList, icon: <NotificationsIcon/>, "type": ComponentType.Topbar},
+    {"label": "Data Sharing", "path": "/datasharing", "element": DataSharing, icon: <IosShareIcon />, "type": ComponentType.Sidebar},
+    {"label": "Data Viewing", "path": "/dataviewing", "element": DataViewing, icon: <CoPresentIcon />, "type": ComponentType.Sidebar},
+    {"label": "Settings", "path": "/settings", "element": Settings, icon: <SettingsIcon />, "type": ComponentType.Topbar},
+    { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon />, "type": ComponentType.Topbar}
 ]
 
 export default MainComponents;
