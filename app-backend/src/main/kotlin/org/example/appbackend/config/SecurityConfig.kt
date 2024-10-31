@@ -2,6 +2,7 @@ package org.example.appbackend.config
 
 import jakarta.servlet.http.HttpServletResponse
 import org.example.appbackend.repository.AuthTokenRepository
+import org.example.appbackend.service.DoctorCredentialsService
 import org.example.appbackend.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -24,11 +25,14 @@ class SecurityConfig {
     @Autowired
     private lateinit var authTokenRepository: AuthTokenRepository
 
+    @Autowired
+    private lateinit var doctorService: DoctorCredentialsService
+
     @Value("\${spring.jwt.secret}")
     private lateinit var jwtSecret: String
 
     @Bean
-    fun jwtTokenFilter(): JwtTokenFilter = JwtTokenFilter(jwtSecret, userService, authTokenRepository)
+    fun jwtTokenFilter(): JwtTokenFilter = JwtTokenFilter(jwtSecret, userService, doctorService, authTokenRepository)
 
     @Bean
     fun authenticationEntryPoint(): AuthenticationEntryPoint {
@@ -46,7 +50,6 @@ class SecurityConfig {
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/doctor/register").permitAll()
             .requestMatchers(HttpMethod.POST, "/auth/doctor-login").permitAll()
-            .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
