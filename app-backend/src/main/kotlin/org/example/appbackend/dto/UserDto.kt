@@ -11,6 +11,8 @@ data class UserDto(
         val email: String,
         val dateOfBirth: LocalDate?,
         val gender: String?,
+        val secretQuestion: String?,
+        val secretAnswer: String?,
         val createdAt: LocalDateTime?,
         val updatedAt: LocalDateTime?,
         val deletedAt: LocalDateTime?

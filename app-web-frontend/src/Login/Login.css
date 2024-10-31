@@ -122,6 +122,24 @@ h2 {
 
 }
 
+.form-container select.security-question-dropdown,
+.form-container input.security-answer-input {
+  width: 75%;
+  height: 50px;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 3px solid lightgray;
+  border-radius: 30px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.form-container select.security-question-dropdown:focus,
+.form-container input.security-answer-input:focus {
+  border: 1px solid #1E3A8A;
+}
+
 .text-button {
   background: none;
   border: none;

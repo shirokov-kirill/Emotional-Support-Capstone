@@ -56,10 +56,12 @@ fun createUser(
     lastName: String? = null,
     email: String,
     dateOfBirth: LocalDate? = null,
-    gender: String? = null
+    gender: String? = null,
+    securityQuestion: String? = null,
+    securityAnswer: String? = null
 ): Int {
     // Create a user
-    val userCredentials = CreateUserDto(username, password, firstName, lastName, email, dateOfBirth, gender)
+    val userCredentials = CreateUserDto(username, password, firstName, lastName, email, dateOfBirth, gender, securityQuestion, securityAnswer)
     val response = restTemplate.postForEntity(url.addUser, userCredentials, UserDto::class.java)
     assertEquals(HttpStatus.OK, response.statusCode)
     val userId = response.body!!.id

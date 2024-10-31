@@ -14,6 +14,13 @@ function Footer() {
     );
 }
 
+const securityQuestions = [
+    "What was the name of your first pet?",
+    "What is your mother's maiden name?",
+    "What was the name of your elementary school?",
+    "In what city were you born?"
+];
+
 export function Login() {
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
@@ -24,12 +31,15 @@ export function Login() {
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [gender, setGender] = useState('');
+    const [securityQuestion, setSecurityQuestion] = useState('');
+    const [securityAnswer, setSecurityAnswer] = useState('');
     const [showFormValidWarning, setShowFormValidWarning] = useState(false);
 
     let navigate = useNavigate();
 
     const isFormEmpty = () => {
-        return !firstName || !lastName || !dateOfBirth || !email || !username || !password || !confirmationPassword;
+        return !firstName || !lastName || !dateOfBirth || !email || !username || !password || !confirmationPassword
+            || !securityQuestion || !securityAnswer;
     }
 
     const validateEmail = () => {
@@ -98,7 +108,9 @@ export function Login() {
 	        username,
             dateOfBirth,
             gender,
-            password
+            password,
+            securityQuestion,
+            securityAnswer
         };
 
         try {
@@ -155,43 +167,43 @@ export function Login() {
                 <h2>Sign Up</h2>
                 <form onSubmit={onNewUserFormSubmit}>
                     <div className="horizontal-form">
-                                <div className="horizontal-column first-column">
-                                    <input
-                                    type="text"
-                                    placeholder="Name"
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                    />
-                                </div>
-                                <div className="horizontal-column">
-                                <input
+                        <div className="horizontal-column first-column">
+                            <input
+                                type="text"
+                                placeholder="Name"
+                                onChange={(e) => setFirstName(e.target.value)}
+                            />
+                        </div>
+                        <div className="horizontal-column">
+                            <input
                                 type="text"
                                 placeholder="Surname"
                                 onChange={(e) => setLastName(e.target.value)}
-                                />
-                                </div>
+                            />
+                        </div>
                     </div>
                     <div className="horizontal-form">
-                                <div className="horizontal-column first-column">
-                                <input
+                        <div className="horizontal-column first-column">
+                            <input
                                 type="text"
                                 placeholder="Username"
                                 onChange={(e) => setUsername(e.target.value)}
-                                />
-                                </div>
-                                <div className="horizontal-column">
-                                <input
+                            />
+                        </div>
+                        <div className="horizontal-column">
+                            <input
                                 type="date"
                                 placeholder="1990-01-01"
                                 onChange={(e) => setDob(e.target.value)}
-                                style={isDOBValid() ? {} : { border: "1px solid lightcoral" }}
+                                style={isDOBValid() ? {} : {border: "1px solid lightcoral"}}
                                 className="custom-date-picker"
-                                />
-                                {!isDOBValid() && (
+                            />
+                            {!isDOBValid() && (
                                 <p className="warning-message">
                                     Must be 13+ to register
                                 </p>
-                                )}
-                                </div>
+                            )}
+                        </div>
                     </div>
                     <form class="gender-select">
                         <label class="gender-option">
@@ -199,62 +211,81 @@ export function Login() {
                             <span class="checkmark"></span> Male
                         </label>
                         <label class="gender-option">
-                            <input type="radio" name="gender" value="female" onChange={(e) => setGender(e.target.value)}/>
+                            <input type="radio" name="gender" value="female"
+                                   onChange={(e) => setGender(e.target.value)}/>
                             <span class="checkmark"></span> Female
                         </label>
                         <label class="gender-option">
-                            <input type="radio" name="gender" value="other" onChange={(e) => setGender(e.target.value)}/>
+                            <input type="radio" name="gender" value="other"
+                                   onChange={(e) => setGender(e.target.value)}/>
                             <span class="checkmark"></span> Other
                         </label>
                     </form>
 
                     <input
-                    type="email"
-                    placeholder="Email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    style={validateEmail() ? {} : { border: "1px solid lightcoral" }}
+                        type="email"
+                        placeholder="Email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        style={validateEmail() ? {} : {border: "1px solid lightcoral"}}
                     />
                     {!validateEmail() && (
-                    <p className="warning-message">Please enter a valid Email.</p>
+                        <p className="warning-message">Please enter a valid Email.</p>
                     )}
 
                     <input
-                    type="password"
-                    placeholder="Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    style={
-                        isPasswordValid() ? {} : { border: "1px solid lightcoral" }
-                    }
+                        type="password"
+                        placeholder="Password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={
+                            isPasswordValid() ? {} : {border: "1px solid lightcoral"}
+                        }
                     />
 
                     {!isPasswordValid() && (
-                    <p className="warning-message">
-                        Password must be at least 8 characters long.
-                    </p>
+                        <p className="warning-message">
+                            Password must be at least 8 characters long.
+                        </p>
                     )}
 
                     <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    onChange={(e) => setConfirmationPassword(e.target.value)}
-                    style={isPasswordSame() ? {} : { border: "1px solid lightcoral" }}
+                        type="password"
+                        placeholder="Confirm Password"
+                        onChange={(e) => setConfirmationPassword(e.target.value)}
+                        style={isPasswordSame() ? {} : {border: "1px solid lightcoral"}}
+                    />
+
+                    <select
+                        onChange={(e) => setSecurityQuestion(e.target.value)}
+                        value={securityQuestion}
+                        className="security-question-dropdown"
+                    >
+                        <option value="" disabled>Select a security question</option>
+                        {securityQuestions.map((question, index) => (
+                            <option key={index} value={question}>{question}</option>
+                        ))}
+                    </select>
+
+                    <input
+                        type="text"
+                        placeholder="Answer to selected security question"
+                        onChange={(e) => setSecurityAnswer(e.target.value)}
                     />
 
                     {!isPasswordSame() && (
-                    <p className="warning-message">
-                        Passwords must match the confirmation password.
-                    </p>
+                        <p className="warning-message">
+                            Passwords must match the confirmation password.
+                        </p>
                     )}
 
                     <div>
-                    {showFormValidWarning && (
-                        <p className="warning-message">
-                        Please fill in all the required fields.
-                        </p>
-                    )}
-                    <button type="submit" disabled={!isNewUserFormValid()}>
-                        Sign Up
-                    </button>
+                        {showFormValidWarning && (
+                            <p className="warning-message">
+                                Please fill in all the required fields.
+                            </p>
+                        )}
+                        <button type="submit" disabled={!isNewUserFormValid()}>
+                            Sign Up
+                        </button>
                     </div>
                 </form>
                 <button
@@ -263,17 +294,16 @@ export function Login() {
                 >
                     Back to Login
                 </button>
-                </div>
-                    )}
-                    <Footer/>
-                </div>
-        );
-    }
+            </div>
+            )}
+            <Footer/>
+        </div>
+    );
+}
 
 
-
-    // this logic isn't great, but this functiion is needed for the header to work
-    // TODO: refactor this
+// this logic isn't great, but this functiion is needed for the header to work
+// TODO: refactor this
     export function isLoggedIn() {
         return true;
     }
