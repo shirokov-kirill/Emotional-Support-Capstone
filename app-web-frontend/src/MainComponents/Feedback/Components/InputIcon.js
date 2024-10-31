@@ -9,6 +9,7 @@ const InputWithIcon = ({ placeholder, iconSrc, val, fun, type}) => {
                 placeholder={placeholder}
                 value={val}
                 onChange={e => fun(e.target.value)}
+                className="feedback-input"
             />
             <span className="icon">
                 <img

@@ -4,6 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import { SERVER_ADDRESS } from "../setupInfo";
 
+
 function Footer() {
     return (
         <footer className="App-footer">
@@ -24,6 +25,11 @@ function HealthProviderLogin() {
     const [clinic, setClinic] = useState('');
     const [specialization, setSpecialization] = useState('');
     const [file, setFile] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     let navigate = useNavigate();
 
@@ -158,12 +164,7 @@ function HealthProviderLogin() {
                         </div>
 
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            onChange={e => setPassword(e.target.value)}
-                            style={isPasswordValid() ? {} : {border: '1px solid lightcoral'}}
-                        />
+                        
                         {!isPasswordValid() &&
                             <p className="warning-message">Password must be at least 8 characters long.</p>}
                         <input
