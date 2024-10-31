@@ -10,6 +10,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.time.LocalDate
+import kotlin.random.Random
 import kotlin.test.assertNotNull
 
 class Url(val port: Int) {
@@ -36,10 +37,12 @@ fun createDoctor(
     name: String? = null,
     surname: String? = null,
     email: String? = null,
-    clinic: String? = null,
-    specialization: String? = null,
+    clinic: String = "default_clinic",
+    specialization: String = "default_specialization",
 ): Int {
-    val doctorCredentials = DoctorCredentialsDto(null, null, username, name, surname, email, clinic, specialization)
+    val id = 123
+    val dob = LocalDate.of(1990, 1, 1)
+    val doctorCredentials = DoctorCredentialsDto(id, null, username, name, surname, email, dob, clinic, specialization)
     val response = restTemplate.postForEntity(url.addDoctor, doctorCredentials, DoctorCredentialsDto::class.java)
     assertEquals(HttpStatus.OK, response.statusCode)
     val createdDoctorCredentials = response.body
