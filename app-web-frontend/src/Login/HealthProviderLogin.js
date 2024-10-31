@@ -17,18 +17,18 @@ function HealthProviderLogin() {
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [dob, setDob] = useState('');
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [clinic, setClinic] = useState('');
-    const [specialization, setSpecialization] = useState('');
+    const [specialisation, setSpecialisation] = useState('');
     const [file, setFile] = useState(null);
 
     let navigate = useNavigate();
 
     const isFormEmpty = () => {
-        return !name || !surname || !dob || !email || !username || !password || !confirmationPassword || !clinic || !specialization;
+        return !firstName || !lastName || !dateOfBirth || !email || !username || !password || !confirmationPassword || !clinic || !specialisation;
     }
 
     const validateEmail = () => {
@@ -45,8 +45,8 @@ function HealthProviderLogin() {
     }
 
     const isDOBValid = () => {
-        const age = new Date().getFullYear() - new Date(dob).getFullYear();
-        return age >= 18 || dob.length === 0; // Assuming doctors must be at least 18 years old
+        const age = new Date().getFullYear() - new Date(dateOfBirth).getFullYear();
+        return age >= 18 || dateOfBirth.length === 0; // Assuming doctors must be at least 18 years old
     }
 
     const isFormValid = () => {
@@ -62,20 +62,22 @@ function HealthProviderLogin() {
         event.preventDefault();
 
         const hProviderLogin = {
-            email,
+            username,
             password
         };
 
         try {
-            const response = await axios.post('${SERVER_ADDRESS}/register', hProviderLogin);
+            const response = await axios.post(SERVER_ADDRESS + '/auth/doctor-login', hProviderLogin);
             if (response.status === 200) {
-                navigate('/home/hprovider');
-                console.log('User login successfully')
+                const authToken = response.data.token;
+                localStorage.setItem('authToken', authToken); // Save token to local storage
+                localStorage.setItem('id', response.data['id'])
+                console.log('Doctor login successfully')
                 console.log(response.data);
+                navigate('/home/hprovider');
             }
         } catch (error) {
-            navigate('/home/hprovider');
-            console.error('Error during registration', error);
+            console.error('Failed to login', error);
         }
     };
 
@@ -83,26 +85,31 @@ function HealthProviderLogin() {
         event.preventDefault();
 
         const hpRegistration = {
-            email,
-            name,
-            surname,
-            dob,
-            password,
             username,
+            password,
+            firstName,
+            lastName,
+            email,
+            dateOfBirth,
             clinic,
-            specialization,
-            file
+            specialisation
         };
 
         try {
-            const response = await axios.post('${SERVER_ADDRESS}/register', hpRegistration);
+            const response = await axios.post(SERVER_ADDRESS + '/doctor/register', hpRegistration);
+
             if (response.status === 200) {
-                navigate('/home/hprovider');
-                console.log('User registered successfully')
-                console.log(response.data);
+                console.log('Doctor registered successfully')
+                const login_response = await axios.post(SERVER_ADDRESS + '/auth/doctor-login', {username, password});
+                if (login_response.status === 200) {
+                    const authToken = login_response.data['token'];
+                    localStorage.setItem('authToken', authToken); // Save token to local storage
+                    localStorage.setItem('id', response.data['id'])
+                    console.log(response.data)
+                    navigate('/home/hprovider');
+                }
             }
         } catch (error) {
-            navigate('/home/hprovider');
             console.error('Error during registration', error);
         }
     };
@@ -126,12 +133,12 @@ function HealthProviderLogin() {
                 <div className="form-container">
                     <h2>Health Provider Sign Up</h2>
                     <form>
-                        <input type="text" placeholder="Name" onChange={e => setName(e.target.value)}/>
-                        <input type="text" placeholder="Surname" onChange={e => setSurname(e.target.value)}/>
+                        <input type="text" placeholder="Name" onChange={e => setFirstName(e.target.value)}/>
+                        <input type="text" placeholder="Surname" onChange={e => setLastName(e.target.value)}/>
                         <input
                             type="date"
                             placeholder="Date of Birth"
-                            onChange={e => setDob(e.target.value)}
+                            onChange={e => setDateOfBirth(e.target.value)}
                             style={isDOBValid() ? {} : {border: '1px solid lightcoral'}}
                         />
                         {!isDOBValid() &&
@@ -145,7 +152,7 @@ function HealthProviderLogin() {
                         {!validateEmail() && <p className="warning-message">Please enter a valid Email.</p>}
                         <input type="text" placeholder="Clinic" onChange={e => setClinic(e.target.value)}/>
                         <input type="text" placeholder="Specialization"
-                               onChange={e => setSpecialization(e.target.value)}/>
+                               onChange={e => setSpecialisation(e.target.value)}/>
                         <div>
                             <label htmlFor="fileInput">Upload Certification:</label>
                             <input
