@@ -8,7 +8,7 @@ import MainComponents from './MainComponents/MainComponents.js';
 import LoginChoice from "./Login/LoginChoice";
 import HealthProviderLogin from "./Login/HealthProviderLogin";
 import HealthProviderHome from "./Home/HealthProviderHome";
-import Layout from "./scenes/global/Layout";
+import Layout from "./global/Layout";
 import ResetPassword from "./Login/ResetPassword";
 
 

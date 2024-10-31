@@ -13,9 +13,9 @@ import AppointmentIcon from "@mui/icons-material/Schedule";
 import ShareIcon from "@mui/icons-material/Share"
 import CoPresentIcon from '@mui/icons-material/CoPresent';
 import IosShareIcon from '@mui/icons-material/IosShare';
-import Appointment from "../scenes/Appointment/Appointment";
-import MainProfile from "../scenes/Profile/MainProfile";
-import Dashboard from "../scenes/Dashboard";
+import Appointment from "./Appointment/Appointment";
+import MainProfile from "./Profile/MainProfile";
+import Dashboard from "./Dashboard";
 import Share from "./Share/Share"
 import DataSharing from "./DataSharing/DataSharing";
 import DataViewing from "./DataViewing/DataViewing";

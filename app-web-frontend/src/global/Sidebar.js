@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Menu, MenuItem } from "react-pro-sidebar";
 import { Sidebar } from "react-pro-sidebar";
 import { Box, IconButton, Typography } from "@mui/material";
-import Item from "../../Components/Item";
+import Item from "../Components/Item";
 import MenuOutlinedIcon from "@mui/icons-material/Menu";
 
 import './Sidebar.css';
-import MainComponents from "../../MainComponents/MainComponents";
+import MainComponents from "../MainComponents/MainComponents";
 
 const wrapperStyles = {
   display: 'flex',
