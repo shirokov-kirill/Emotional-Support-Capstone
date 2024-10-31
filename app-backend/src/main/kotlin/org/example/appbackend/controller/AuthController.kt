@@ -40,7 +40,7 @@ class AuthController(
             // If authentication succeeds, generate an authentication token (JWT) with user ID
             val authToken = generateAuthToken(userDto.id)
             // Return the authentication token in the response
-            val responseDto = LoginResponseDto(authToken)
+            val responseDto = LoginResponseDto(authToken, userDto.id)
             // Store token in the repository
             authTokenRepository.save(AuthToken(authToken, userDto.id))
             logger.info("Logged in successfully.")

@@ -47,6 +47,7 @@ class SecurityConfig {
             .requestMatchers(HttpMethod.POST, "/users").permitAll()
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/doctor/register").permitAll()
+            .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)

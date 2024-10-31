@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './UserProfile.css';
 import avatarImg from './avatar.jpg';
+import axios from "axios";
+import {SERVER_ADDRESS} from "../../setupInfo";
 
 class UserProfile extends Component {
   constructor(props) {
@@ -17,6 +19,46 @@ class UserProfile extends Component {
       postalCode: 'Postal Code',
       country: 'Country',
     };
+
+  }
+
+  componentDidMount() {
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('authToken')
+    if (id && token ) {
+      axios.get(`${SERVER_ADDRESS}/users/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+          .then(response => {
+            console.log(response.data)
+            const userData = response.data;
+
+            let fullName = null;
+            if (userData.firstName && userData.lastName) {
+              fullName = userData.firstName + ' ' + userData.lastName
+            }
+
+            this.setState({
+              name: fullName || 'Full Name',
+              email: userData.email || 'Email',
+              dob: userData.dateOfBirth || 'Date of Birth',
+              permanentAddress: userData.permanentAddress || 'Permanent Address',
+              userName: userData.username || 'User Name',
+              password: userData.password || '**********',
+              presentAddress: userData.presentAddress || 'Present Address',
+              city: userData.city || 'City',
+              postalCode: userData.postalCode || 'Postal Code',
+              country: userData.country || 'Country',
+            });
+          })
+          .catch(error => {
+            console.error('Error fetching user data:', error);
+          });
+    } else {
+      console.error('User ID not found in localStorage');
+    }
   }
 
   handleAvatarClick = () => {
