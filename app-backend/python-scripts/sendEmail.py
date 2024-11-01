@@ -8,8 +8,8 @@ def send_email_to_user(to_address, subject, email_body_html):
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
 
-    sender_email = os.getenv("SENDER_EMAIL")
-    sender_password = os.getenv("SENDER_PASSWORD")
+    sender_password = "qoee mxln acxi occo"
+    sender_email = "emotional.app52@gmail.com"
 
     try:
         msg = MIMEMultipart()
