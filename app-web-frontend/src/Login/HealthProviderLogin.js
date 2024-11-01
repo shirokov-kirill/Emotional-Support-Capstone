@@ -42,6 +42,7 @@ function HealthProviderLogin() {
     const [clinic, setClinic] = useState('');
     const [specialisation, setSpecialisation] = useState('');
     const [file, setFile] = useState(null);
+    const [agreedForRecommendations, setAgreedForRecommendations] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
 
@@ -137,7 +138,8 @@ function HealthProviderLogin() {
             email,
             dateOfBirth,
             clinic,
-            specialisation
+            specialisation,
+            agreedForRecommendations
         };
 
         try {
@@ -183,7 +185,7 @@ function HealthProviderLogin() {
                     <Link to='/' style={{ textDecoration: 'underline', marginTop: '10px' }}>Back to role choice</Link>
                 </div>
             ) : (
-                <div className="form-container">
+                <div className="form-container signup">
                     <h2>Health Provider Sign Up</h2>
                     <form>
                         <input type="text" placeholder="Name" onChange={e => setFirstName(e.target.value)}/>
@@ -250,6 +252,15 @@ function HealthProviderLogin() {
                         />
                         {!isPasswordSame() &&
                             <p className="warning-message">Passwords must match the confirmation password.</p>}
+                        <div className="checkbox-container">
+                            <input
+                                type="checkbox"
+                                id="agreement"
+                                onChange={e => setAgreedForRecommendations(e.target.checked)}
+                            />
+                            <label htmlFor="agreement">I agree that I will appear in patients' recommendations</label>
+                        </div>
+
                         <button type="submit" onClick={onNewHealthProviderFormSubmit} disabled={!isFormValid()}>Sign Up</button>
                     </form>
                     <button className="switch-form-button" onClick={() => setIsLogin(true)}>Back to Login</button>

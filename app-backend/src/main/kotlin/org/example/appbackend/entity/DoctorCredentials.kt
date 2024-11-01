@@ -43,6 +43,9 @@ class DoctorCredentials {
     @Column(name = "specialisation")
     var specialisation: String? = null
 
+    @Column(name = "agreedForRecommendations")
+    var agreedForRecommendations: Boolean? = null
+
 //  TODO    @Column(name = "sertification")
 //    var sertification: LocalDateTime? = null
 }

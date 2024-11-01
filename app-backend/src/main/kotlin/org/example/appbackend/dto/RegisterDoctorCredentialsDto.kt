@@ -11,4 +11,5 @@ data class RegisterDoctorCredentialsDto(
     val dateOfBirth: LocalDate?,
     val clinic: String?,
     val specialisation: String?,
+    val agreedForRecommendations: Boolean?,
 )

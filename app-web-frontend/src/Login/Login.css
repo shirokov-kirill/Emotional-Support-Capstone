@@ -31,6 +31,7 @@ body {
   height: 100vh;
   background: #F3F4F6;
   padding-top: 100px;
+  overflow-y: auto;
 }
 
 .form-container {
@@ -217,4 +218,21 @@ h2 {
 
 .gender-option input:checked ~ .checkmark:after {
   display: block;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  transform: scale(0.5);
+}
+
+.checkbox-container label {
+  font-size: 14px;
 }
