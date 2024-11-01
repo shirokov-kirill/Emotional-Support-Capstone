@@ -29,12 +29,13 @@ const RecommendedDoctorsList = ({ doctors }) => {
                                 primary={
                                     <>
                                         <Typography variant="body1" fontWeight="medium" color="textPrimary">
-                                            {doctor.name}
+                                            {doctor.firstName}
+                                        </Typography>
+                                        <Typography variant="body1" fontWeight="medium" color="textPrimary">
+                                            {doctor.lastName}
                                         </Typography>
                                         <Typography variant="body2" color="textSecondary">
-                                            {doctor.specializations && doctor.specializations.length
-                                                ? doctor.specializations.join(", ")
-                                                : "No specializations listed"}
+                                            {doctor.specialisation || "No specific specialisation"}
                                         </Typography>
                                         <Typography variant="body2" color="textSecondary" mt={0.5}>
                                             {doctor.email || "No email provided"}
