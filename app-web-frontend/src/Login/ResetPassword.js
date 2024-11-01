@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './Login.css';
-import axios from "axios";
-import PasswordInput from './Components/PasswordInput';
+import axios from 'axios';
 
 function Footer() {
     return (
@@ -13,38 +12,24 @@ function Footer() {
 }
 
 function ResetPassword() {
-    let navigate = useNavigate();
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmationPassword, setConfirmationPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
-
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const toggleConfirmationPasswordVisibility = () => {
-        setShowConfirmationPassword(!showConfirmationPassword);
-    };
+    const { token } = useParams();
+    const navigate = useNavigate();
+    const [password, setPassword] = useState('');
+    const [confirmationPassword, setConfirmationPassword] = useState('');
 
     const isPasswordValid = () => {
         return password.length >= 8 || password.length === 0;
-      };
-    
+    };
+
     const isPasswordSame = () => {
-    return (
-        password === confirmationPassword || confirmationPassword.length === 0
-    );
+        return password === confirmationPassword || confirmationPassword.length === 0;
     };
 
     const onResetPasswordSubmit = async (event) => {
         event.preventDefault();
-
-        const resetPasswordInfo = {
-            username,
-            password,
-        };
+        if (password !== confirmationPassword) {
+            return;
+        }
 
         try {
             const response = await axios.post(`/api/reset-password/${token}`, { password });

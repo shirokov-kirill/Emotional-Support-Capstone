@@ -19,13 +19,15 @@ const App = () => {
 
   const roleBasedComponents = role === "patient" ? PatientMainComponents : role === "health_provider" ? HealthProviderMainComponents : [];
 
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginChoice />} />
-        <Route path="/user" element={<Login />} />
-        <Route path="/hprovider" element={<HealthProviderLogin />} />
-        <Route path="/password_reset" element={<ResetPassword />} />
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<LoginChoice/>}/>
+                <Route path="/user" element={<Login/>}/>
+                <Route path="/hprovider" element={<HealthProviderLogin/>}/>
+                <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                <Route path="/forgot-password-confirmation" element={<ForgotPasswordConfirmation/>}/>
+                <Route path="/reset-password/:token" element={<ResetPassword/>}/>
 
         {isAuthenticated ? (
           <Route element={<Layout />}>

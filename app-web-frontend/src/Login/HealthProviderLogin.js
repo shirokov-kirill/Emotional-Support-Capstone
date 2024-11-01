@@ -199,10 +199,12 @@ function HealthProviderLogin() {
                         />
                         <button type="submit" onClick={onHealthProviderLoginSubmit}>Login</button>
                     </form>
-                    <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
-                        Up!
+                    <button className="text-button switch-form-button" onClick={() => setIsLogin(false)}>
+                        Don't have an account? Sign Up!
                     </button>
-                    <Link to='/' style={{ textDecoration: 'underline', marginTop: '10px' }}>Back to role choice</Link>
+                    <button className="text-button back-to-role" onClick={() => navigate('/')}>
+                        Back to role choice
+                    </button>
                 </div>
             ) : (
                 <div className="form-container">

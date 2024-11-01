@@ -185,7 +185,11 @@ export function Login() {
                             showPassword={showPassword}
                             togglePasswordVisibility={togglePasswordVisibility}
                         />
-                        <button id="forgot-password-button" className="text-button" onClick={() => navigate("/password_reset")}>
+                        <button
+                            id="forgot-password-button"
+                            className="text-button"
+                            onClick={() => navigate('/forgot-password', {state: {from: 'user'}})}
+                        >
                             Forgot Password?
                         </button>
 
