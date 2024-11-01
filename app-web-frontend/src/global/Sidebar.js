@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Menu, MenuItem } from "react-pro-sidebar";
 import { Sidebar } from "react-pro-sidebar";
 import { Box, IconButton, Typography } from "@mui/material";
-import Item from "../../Components/Item";
+import Item from "../Components/Item";
 import MenuOutlinedIcon from "@mui/icons-material/Menu";
 
 import './Sidebar.css';
-import MainComponents from "../../MainComponents/MainComponents";
+import { PatientMainComponents, HealthProviderMainComponents } from "../MainComponents/MainComponents";
+import ComponentType from "../MainComponents/ComponentType";
 
 const wrapperStyles = {
   display: 'flex',
@@ -15,6 +16,10 @@ const wrapperStyles = {
 
 const ProSidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const [selected, setSelected] = useState("Dashboard");
+
+  const role = localStorage.getItem("role");
+
+  const MainComponents = role === "patient" ? PatientMainComponents : role === "health_provider" ? HealthProviderMainComponents : [];
 
   return (
     <Box>
@@ -68,4 +73,5 @@ const ProSidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     </Box>
   );
 };
+
 export default ProSidebar;

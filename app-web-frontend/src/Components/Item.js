@@ -12,7 +12,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
     <MenuItem
       active={selected === title}
-      style={{ color: "green" }}
+      style={{ color: "#312E81" }}
       onClick={() => setSelected(title)}
       icon={icon}
     >
