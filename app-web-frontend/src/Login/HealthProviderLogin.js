@@ -53,6 +53,7 @@ function HealthProviderLogin() {
     const toggleConfirmationPasswordVisibility = () => {
         setShowConfirmationPassword(!showConfirmationPassword);
     };
+    const [agreedForRecommendations, setAgreedForRecommendations] = useState(false);
 
     let navigate = useNavigate();
 
