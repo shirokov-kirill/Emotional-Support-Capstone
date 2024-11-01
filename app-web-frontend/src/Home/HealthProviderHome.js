@@ -1,10 +1,10 @@
-import Header from '../header/Header';
+import { PatientHeaderLayout } from '../header/Header';
 
 
 function HealthProviderHome() {
     return (
         <div className="App">
-            <Header/>
+            <PatientHeaderLayout/>
             <h2>Home Page for Health Provider</h2>
         </div>
     )

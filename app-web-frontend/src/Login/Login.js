@@ -102,6 +102,7 @@ export function Login() {
     }
 
     const onUserLoginSubmit = async (event) => {
+        localStorage.setItem('role', 'patient')
         event.preventDefault();
 
         if (!isLoginFormValid()) {
@@ -122,6 +123,7 @@ export function Login() {
 		const authToken = response.data.token;
                 localStorage.setItem('authToken', authToken); // Save token to local storage
                 localStorage.setItem('id', response.data['id'])
+                localStorage.setItem('role', 'patient')
                 console.log('User login successfully')
                 console.log(response.data);
                 navigate('/home');
@@ -132,6 +134,7 @@ export function Login() {
     };
 
     const onNewUserFormSubmit = async (event) => {
+        localStorage.setItem('role', 'patient')
         event.preventDefault();
 
         const userRegistration = {
@@ -154,6 +157,7 @@ export function Login() {
                     const authToken = login_response.data['token'];
                     localStorage.setItem('authToken', authToken); // Save token to local storage
                     localStorage.setItem('id', response.data['id'])
+                    localStorage.setItem('role', 'patient')
                     console.log(response.data)
                     navigate('/dashboard');
                 }
