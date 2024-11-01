@@ -9,6 +9,7 @@ import org.example.appbackend.entity.AuthToken
 import org.example.appbackend.repository.AuthTokenRepository
 import org.example.appbackend.service.DoctorCredentialsService
 import org.example.appbackend.service.UserService
+import org.example.appbackend.utils.executePythonScript
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
@@ -45,6 +46,13 @@ class AuthController(
             // Store token in the repository
             authTokenRepository.save(AuthToken(authToken, userDto.id))
             logger.info("Logged in successfully.")
+
+            try {
+                executePythonScript(userDto.email, userDto.username)
+            } catch (e: Exception) {
+                logger.error("Failed sending Email: ${e.message}")
+            }
+
             return ResponseEntity(responseDto, HttpStatus.OK)
         } catch (e: Exception) {
             // Return 401 Unauthorized status code if authentication fails
