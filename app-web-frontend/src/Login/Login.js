@@ -30,6 +30,8 @@ const PasswordStrength = {
 };
 
 export function Login() {
+    localStorage.setItem("authToken", NaN);
+    localStorage.setItem("role", NaN);
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
