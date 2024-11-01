@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
+import {SERVER_ADDRESS} from "../setupInfo";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -12,11 +13,11 @@ const ForgotPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/forgot-password', { email });
-            setMessage(response.data.message);
-            navigate('/forgot-password-confirmation');
+            // const response = await axios.post(SERVER_ADDRESS + 'forgot-password', { email });
+            // setMessage(response.data.message);
+            navigate('/forgot-password-confirmation', { state: { from: location.state?.from } });
         } catch (error) {
-            setMessage('An error occurred. Please try again.');
+            // setMessage('An error occurred. Please try again.');
         }
     };
 
