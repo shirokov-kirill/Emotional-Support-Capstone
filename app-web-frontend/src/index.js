@@ -10,7 +10,8 @@ import HealthProviderLogin from "./Login/HealthProviderLogin";
 import HealthProviderHome from "./Home/HealthProviderHome";
 import Layout from "./global/Layout";
 import ResetPassword from "./Login/ResetPassword";
-
+import ForgotPassword from './Login/ForgotPassword';
+import ForgotPasswordConfirmation from './Login/ForgotPasswordConfirmation';
 
 const App = () => {
   const role = localStorage.getItem("role");
@@ -18,13 +19,15 @@ const App = () => {
 
   const roleBasedComponents = role === "patient" ? PatientMainComponents : role === "health_provider" ? HealthProviderMainComponents : [];
 
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginChoice />} />
-        <Route path="/user" element={<Login />} />
-        <Route path="/hprovider" element={<HealthProviderLogin />} />
-        <Route path="/password_reset" element={<ResetPassword />} />
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<LoginChoice/>}/>
+                <Route path="/user" element={<Login/>}/>
+                <Route path="/hprovider" element={<HealthProviderLogin/>}/>
+                <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                <Route path="/forgot-password-confirmation" element={<ForgotPasswordConfirmation/>}/>
+                <Route path="/reset-password/:token" element={<ResetPassword/>}/>
 
         <Route element={<Layout />}>
             {PatientMainComponents.map((component, index) => (

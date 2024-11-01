@@ -177,7 +177,7 @@ export function Login() {
                     </div>
                     <form onSubmit={onUserLoginSubmit}>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <PasswordInput 
+                        <PasswordInput
                             value={password}
                             placeholder={"Password"}
                             onChange={e => setPassword(e.target.value)}
@@ -185,7 +185,11 @@ export function Login() {
                             showPassword={showPassword}
                             togglePasswordVisibility={togglePasswordVisibility}
                         />
-                        <button id="forgot-password-button" className="text-button" onClick={() => navigate("/password_reset")}>
+                        <button
+                            id="forgot-password-button"
+                            className="text-button"
+                            onClick={() => navigate('/forgot-password', {state: {from: 'user'}})}
+                        >
                             Forgot Password?
                         </button>
 
@@ -272,7 +276,7 @@ export function Login() {
                     <p className="warning-message">Please enter a valid Email.</p>
                     )}
 
-                    <PasswordInput 
+                    <PasswordInput
                             value={password}
                             placeholder={"Password"}
                             onChange={e => setPassword(e.target.value)}
@@ -294,7 +298,7 @@ export function Login() {
                     </p>
                     )}
 
-                    <PasswordInput 
+                    <PasswordInput
                             value={confirmationPassword}
                             placeholder={"Confirm password"}
                             onChange={e => setConfirmationPassword(e.target.value)}

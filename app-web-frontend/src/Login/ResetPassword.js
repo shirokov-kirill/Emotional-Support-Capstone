@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './Login.css';
-import axios from "axios";
-import PasswordInput from './Components/PasswordInput';
+import axios from 'axios';
 
 function Footer() {
     return (
@@ -13,43 +12,29 @@ function Footer() {
 }
 
 function ResetPassword() {
-    let navigate = useNavigate();
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmationPassword, setConfirmationPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
-
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const toggleConfirmationPasswordVisibility = () => {
-        setShowConfirmationPassword(!showConfirmationPassword);
-    };
+    const { token } = useParams();
+    const navigate = useNavigate();
+    const [password, setPassword] = useState('');
+    const [confirmationPassword, setConfirmationPassword] = useState('');
 
     const isPasswordValid = () => {
         return password.length >= 8 || password.length === 0;
-      };
-    
+    };
+
     const isPasswordSame = () => {
-    return (
-        password === confirmationPassword || confirmationPassword.length === 0
-    );
+        return password === confirmationPassword || confirmationPassword.length === 0;
     };
 
     const onResetPasswordSubmit = async (event) => {
         event.preventDefault();
-
-        const resetPasswordInfo = {
-            username,
-            password,
-        };
+        if (password !== confirmationPassword) {
+            return;
+        }
 
         try {
-            const response = await axios.post('/api/users/password/update', resetPasswordInfo);
+            const response = await axios.post(`/api/reset-password/${token}`, { password });
             if (response.status === 200) {
-                console.log('Reset password successfully')
+                navigate('/login');
             }
         } catch (error) {
             console.error('Error during password reset', error);
@@ -60,47 +45,35 @@ function ResetPassword() {
         <div className="App">
             <div className="form-container">
                 <div className="title">
-                    <h2>Reset password</h2>
+                    <h2>Reset Password</h2>
                 </div>
-                <form>
+                <form onSubmit={onResetPasswordSubmit}>
                     <input
-                    type="text"
-                    placeholder="Username"
-                    onChange={(e) => setUsername(e.target.value)}
+                        type="password"
+                        placeholder="New password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={isPasswordValid() ? {} : { border: '1px solid lightcoral' }}
                     />
 
-                    <PasswordInput 
-                            value={password}
-                            placeholder={"New password"}
-                            onChange={e => setPassword(e.target.value)}
-                            isValid={isPasswordValid()}
-                            showPassword={showPassword}
-                            togglePasswordVisibility={togglePasswordVisibility}
-                    />
-
-                    <PasswordInput 
-                            value={confirmationPassword}
-                            placeholder={"Confirm password"}
-                            onChange={e => setConfirmationPassword(e.target.value)}
-                            isValid={isPasswordSame()}
-                            showPassword={showConfirmationPassword}
-                            togglePasswordVisibility={toggleConfirmationPasswordVisibility}
+                    <input
+                        type="password"
+                        placeholder="Confirm password"
+                        onChange={(e) => setConfirmationPassword(e.target.value)}
+                        style={isPasswordSame() ? {} : { border: '1px solid lightcoral' }}
                     />
 
                     <div>
-                    <button
-                        type="submit"
-                        onClick={(e) => onResetPasswordSubmit(e)}
-                    >
-                        Continue
-                    </button>
+                        <button type="submit">Continue</button>
                     </div>
                 </form>
 
-                <button className="text-button signup-button" onClick={() => navigate("/user")}>
+                <button
+                    className="text-button signup-button"
+                    onClick={() => navigate('/login')}
+                >
                     Back to login
                 </button>
-                </div>
+            </div>
             <Footer />
         </div>
     );
