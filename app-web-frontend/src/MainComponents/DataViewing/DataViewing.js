@@ -114,6 +114,7 @@ function DataViewing() {
                     placeholder="Search patients..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    className="input-text"
                 />
                 <div className="patient-list">
                     {filteredPatients.map(patient => (

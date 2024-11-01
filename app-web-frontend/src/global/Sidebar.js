@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Menu, MenuItem } from "react-pro-sidebar";
 import { Sidebar } from "react-pro-sidebar";
 import { Box, IconButton, Typography } from "@mui/material";
-import Item from "../../Components/Item";
+import Item from "../Components/Item";
 import MenuOutlinedIcon from "@mui/icons-material/Menu";
 
 import './Sidebar.css';
-import MainComponents from "../../MainComponents/MainComponents";
+import MainComponents from "../MainComponents/MainComponents";
+import ComponentType from "../MainComponents/ComponentType";
 
 const wrapperStyles = {
   display: 'flex',
@@ -25,14 +26,18 @@ const ProSidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             <MenuItem
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                 icon={isSidebarOpen ? <MenuOutlinedIcon /> : undefined}
-                style={{ margin: "10px 0 20px 0", color: "grey" }}
+                style={{
+                  margin: "10px 0", // Keep vertical margins, remove left/right
+                  color: "grey",
+                  paddingLeft: "2px" // Adjust left padding if necessary
+              }}
             >
               {!isSidebarOpen && (
                   <Box
                       display="flex"
                       justifyContent="space-between"
                       alignItems="center"
-                      ml="15px"
+                      ml="30px"
                   >
                     <Typography variant="h6" color="grey">
                       Harmony App
@@ -47,17 +52,19 @@ const ProSidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
             {/* MENU ITEMS */}
             { !isSidebarOpen && <Box
-                paddingLeft={isSidebarOpen ? undefined : "10%"}
-                paddingBottom="350px"
+                paddingLeft={isSidebarOpen ? undefined : "2%"}
             > {
-              MainComponents.map(({ element, label, path, icon }) => (
+              
+              MainComponents.map(({ element, label, path, icon, type }) => (
+                type === ComponentType.Sidebar && (
                   <Item
-                      title={label}
-                      to={path}
-                      icon={icon}
-                      selected={selected}
-                      setSelected={setSelected}
+                    title={label}
+                    to={path}
+                    icon={icon}
+                    selected={selected}
+                    setSelected={setSelected}
                   />
+                ) 
               ))
             }
             </Box>}
