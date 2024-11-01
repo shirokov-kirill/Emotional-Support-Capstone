@@ -1,10 +1,6 @@
 package org.example.appbackend
 
-import org.example.appbackend.dto.CreateUserDto
-import org.example.appbackend.dto.UserDto
-import org.example.appbackend.dto.DoctorCredentialsDto
-import org.example.appbackend.dto.LoginRequestDto
-import org.example.appbackend.dto.LoginResponseDto
+import org.example.appbackend.dto.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
@@ -33,7 +29,7 @@ class Url(val port: Int) {
 fun createDoctor(
     url: Url,
     restTemplate: TestRestTemplate,
-    username: String? = null,
+    username: String = "default_username",
     name: String? = null,
     surname: String? = null,
     email: String? = null,
@@ -42,7 +38,7 @@ fun createDoctor(
 ): Int {
     val id = 123
     val dob = LocalDate.of(1990, 1, 1)
-    val doctorCredentials = DoctorCredentialsDto(id, null, username, name, surname, email, dob, clinic, specialization)
+    val doctorCredentials = RegisterDoctorCredentialsDto(username, "password", name, surname, email, dob, clinic, specialization)
     val response = restTemplate.postForEntity(url.addDoctor, doctorCredentials, DoctorCredentialsDto::class.java)
     assertEquals(HttpStatus.OK, response.statusCode)
     val createdDoctorCredentials = response.body
