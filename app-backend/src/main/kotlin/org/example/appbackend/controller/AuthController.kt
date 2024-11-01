@@ -1,7 +1,6 @@
 package org.example.appbackend.controller
 
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
 import org.example.appbackend.dto.LoginRequestDto
 import org.example.appbackend.dto.LoginResponseDto
 import org.example.appbackend.service.UserService
@@ -57,6 +56,23 @@ class AuthController(
         val token = request.getHeader("Authorization")?.substring(7)
         if (token != null && authTokenRepository.existsById(token)) {
             authTokenRepository.deleteByToken(token)
+        }
+        SecurityContextHolder.clearContext()
+        return ResponseEntity("Logged out successfully.", HttpStatus.OK)
+    }
+
+    @PostMapping("/endAllOtherSessions")
+    fun endAllOtherSessions(request: HttpServletRequest): ResponseEntity<Any> {
+        val requestToken = request.getHeader("Authorization")?.substring(7)
+            ?: throw IllegalArgumentException("Invalid JWT token.")
+        val currentToken = authTokenRepository.findByToken(requestToken)
+        if (currentToken != null ) {
+            val tokens =
+                authTokenRepository.findAll().filter { it.userId == userService.getUserById(currentToken.userId).id }
+            for (token in tokens) 
+                if (token.token != currentToken.token)
+                    authTokenRepository.deleteByToken(token.token)
+            
         }
         SecurityContextHolder.clearContext()
         return ResponseEntity("Logged out successfully.", HttpStatus.OK)
