@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {SERVER_ADDRESS} from "../setupInfo";
 
 
 
@@ -35,8 +34,8 @@ export function Login() {
     const [confirmationPassword, setConfirmationPassword] = useState('');
     const [email, setEmail] = useState('');
     const [dateOfBirth, setDob] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
     const [username, setUsername] = useState('');
     const [gender, setGender] = useState('');
     const [showFormValidWarning, setShowFormValidWarning] = useState(false);
@@ -44,7 +43,7 @@ export function Login() {
     let navigate = useNavigate();
 
     const isFormEmpty = () => {
-        return !firstName || !lastName || !dateOfBirth || !email || !username || !password || !confirmationPassword;
+        return !name || !surname || !dateOfBirth || !email || !username || !password || !confirmationPassword;
     }
 
     const validateEmail = () => {
@@ -104,11 +103,11 @@ export function Login() {
         };
 
         try {
-            const response = await axios.post(SERVER_ADDRESS + '/auth/login', userLogin);
+            const response = await axios.post('/api/auth/login', userLogin);
             if (response.status === 200) {
                 const authToken = response.data.token;
                 localStorage.setItem('authToken', authToken); // Save token to local storage
-                localStorage.setItem('id', response.data['id'])
+
                 console.log('User login successfully')
                 console.log(response.data);
                 navigate('/home');
@@ -123,8 +122,8 @@ export function Login() {
 
         const userRegistration = {
             email,
-            firstName,
-            lastName,
+            name,
+            surname,
             username,
             dateOfBirth,
             gender,
@@ -132,17 +131,14 @@ export function Login() {
         };
 
         try {
-            const response = await axios.post(SERVER_ADDRESS + '/users', userRegistration);
-
+            const response = await axios.post('/api/users', userRegistration);
             if (response.status === 200) {
                 console.log('User registered successfully')
-                const login_response = await axios.post(SERVER_ADDRESS + '/auth/login', {username, password});
+                const login_response = await axios.post('/api/auth/login', {username, password});
                 if (login_response.status === 200) {
-                    const authToken = login_response.data['token'];
+                    const authToken = response.data.token;
                     localStorage.setItem('authToken', authToken); // Save token to local storage
-                    localStorage.setItem('id', response.data['id'])
-                    console.log(response.data)
-                    navigate('/dashboard');
+                    navigate('/home');
                 }
             }
         } catch (error) {
@@ -189,14 +185,14 @@ export function Login() {
                                 <input
                                     type="text"
                                     placeholder="Name"
-                                    onChange={(e) => setFirstName(e.target.value)}
+                                    onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
                             <div className="horizontal-column">
                                 <input
                                     type="text"
                                     placeholder="Surname"
-                                    onChange={(e) => setLastName(e.target.value)}
+                                    onChange={(e) => setSurname(e.target.value)}
                                 />
                             </div>
                         </div>
