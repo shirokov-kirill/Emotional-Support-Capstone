@@ -29,6 +29,8 @@ const PasswordStrength = {
 };
 
 function HealthProviderLogin() {
+    localStorage.setItem("authToken", NaN);
+    localStorage.setItem("role", NaN);
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -113,9 +115,11 @@ function HealthProviderLogin() {
                 const authToken = response.data.token;
                 localStorage.setItem('authToken', authToken); // Save token to local storage
                 localStorage.setItem('id', response.data['id'])
+                localStorage.setItem('role', 'health_provider');
                 console.log('Doctor login successfully')
                 console.log(response.data);
-                navigate('/home/hprovider');
+                // navigate('/dashboard');
+                navigate("/home/hprovider")
             }
         } catch (error) {
             console.error('Failed to login', error);
@@ -147,7 +151,8 @@ function HealthProviderLogin() {
                     localStorage.setItem('authToken', authToken); // Save token to local storage
                     localStorage.setItem('id', response.data['id'])
                     console.log(response.data)
-                    navigate('/home/hprovider');
+                    // navigate('/dashboard');
+                    navigate("/home/hprovider")
                 }
             }
         } catch (error) {

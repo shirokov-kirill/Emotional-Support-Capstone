@@ -33,6 +33,8 @@ const PasswordStrength = {
 
 
 export function Login() {
+    localStorage.setItem("authToken", NaN);
+    localStorage.setItem("role", NaN);
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -122,9 +124,10 @@ export function Login() {
 		const authToken = response.data.token;
                 localStorage.setItem('authToken', authToken); // Save token to local storage
                 localStorage.setItem('id', response.data['id'])
+                localStorage.setItem('role', 'patient')
                 console.log('User login successfully')
                 console.log(response.data);
-                navigate('/home');
+                navigate('/dashboard');
             }
         } catch (error) {
             console.error('Failed to login', error);
@@ -154,6 +157,7 @@ export function Login() {
                     const authToken = login_response.data['token'];
                     localStorage.setItem('authToken', authToken); // Save token to local storage
                     localStorage.setItem('id', response.data['id'])
+                    localStorage.setItem('role', 'patient')
                     console.log(response.data)
                     navigate('/dashboard');
                 }
