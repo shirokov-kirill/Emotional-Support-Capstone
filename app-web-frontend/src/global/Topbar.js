@@ -58,12 +58,18 @@
 
 import { Box, IconButton, useTheme, InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import MainComponents from "../MainComponents/MainComponents";
+import { PatientMainComponents, HealthProviderMainComponents } from "../MainComponents/MainComponents";
 import ComponentType from "../MainComponents/ComponentType";
 import { Link } from "react-router-dom";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 const Topbar = () => {
+  const role = localStorage.getItem("role");
+
+  const MainComponents = role === "patient" ? PatientMainComponents : role === "health_provider" ? HealthProviderMainComponents : [];
+
+  console.log(role);
+
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
       {/* Search Bar*/}
