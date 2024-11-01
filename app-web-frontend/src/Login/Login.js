@@ -3,6 +3,8 @@ import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {SERVER_ADDRESS} from "../setupInfo";
+import PasswordInput from './Components/PasswordInput';
+
 
 
 
@@ -29,6 +31,7 @@ const PasswordStrength = {
     }
 };
 
+
 export function Login() {
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
@@ -39,7 +42,17 @@ export function Login() {
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [gender, setGender] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
     const [showFormValidWarning, setShowFormValidWarning] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const toggleConfirmationPasswordVisibility = () => {
+        setShowConfirmationPassword(!showConfirmationPassword);
+    };
 
     let navigate = useNavigate();
 
@@ -160,7 +173,14 @@ export function Login() {
                     </div>
                     <form onSubmit={onUserLoginSubmit}>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
+                        <PasswordInput 
+                            value={password}
+                            placeholder={"Password"}
+                            onChange={e => setPassword(e.target.value)}
+                            isValid={isPasswordValid()}
+                            showPassword={showPassword}
+                            togglePasswordVisibility={togglePasswordVisibility}
+                        />
                         <button id="forgot-password-button" className="text-button" onClick={() => navigate("/password_reset")}>
                             Forgot Password?
                         </button>
@@ -248,13 +268,13 @@ export function Login() {
                     <p className="warning-message">Please enter a valid Email.</p>
                     )}
 
-                    <input
-                    type="password"
-                    placeholder="Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    style={
-                        isPasswordValid() ? {} : { border: "1px solid lightcoral" }
-                    }
+                    <PasswordInput 
+                            value={password}
+                            placeholder={"Password"}
+                            onChange={e => setPassword(e.target.value)}
+                            isValid={isPasswordValid()}
+                            showPassword={showPassword}
+                            togglePasswordVisibility={togglePasswordVisibility}
                     />
                     {isPasswordValid() && password.length !== 0 && (() => {
                     const strength = calculatePasswordStrength(password);
@@ -270,11 +290,13 @@ export function Login() {
                     </p>
                     )}
 
-                    <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    onChange={(e) => setConfirmationPassword(e.target.value)}
-                    style={isPasswordSame() ? {} : { border: "1px solid lightcoral" }}
+                    <PasswordInput 
+                            value={confirmationPassword}
+                            placeholder={"Confirm password"}
+                            onChange={e => setConfirmationPassword(e.target.value)}
+                            isValid={isPasswordSame()}
+                            showPassword={showConfirmationPassword}
+                            togglePasswordVisibility={toggleConfirmationPasswordVisibility}
                     />
 
                     {!isPasswordSame() && (
