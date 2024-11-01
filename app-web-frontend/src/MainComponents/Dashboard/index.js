@@ -5,8 +5,8 @@ import cardImage from "./Images/Pie_chart.png";
 import CustomDashboardCardDoctor from "../../Components/DashboardComponent/CustomDashboardCardDoctor";
 import {useEffect, useState} from "react";
 import {SERVER_ADDRESS} from "../../setupInfo";
-import axios from "axios";
 import RecommendedDoctorsList from "./RecommendedDoctorsList";
+import {getUserAuthToken} from "../../reusables/utils/AuthToken";
 
 const Dashboard = () => {
 
@@ -18,7 +18,14 @@ const Dashboard = () => {
 
     const fetchRecommendedDoctors = async () => {
         try {
-            const response = await axios.get(SERVER_ADDRESS + '/getRecommendedDoctors');
+            const authToken = getUserAuthToken()
+            const url = SERVER_ADDRESS + '/getRecommendedDoctorsByMoods'
+            const response = await fetch(url, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                },
+                mode: 'no-cors'
+            });
 
             if (response.status !== 200) {
                 throw new Error('Failed to fetch patient data');
@@ -30,8 +37,8 @@ const Dashboard = () => {
             console.error('Error fetching relevant doctors', error);
             // Test doctors
             setRecommendedDoctors([
-                { name: "Doctor A", specializations: ["Depressive Disorders", "Anxiety Disorders"], email: "doctor.a@gmail.com" },
-                { name: "Doctor B", specializations: ["PTSD"], email: "doctor.b@gmail.com"  }
+                { firstName: "Gregory", lastName: "House", specialisation: "Depressive Disorders", email: "doctor.house@gmail.com" },
+                { firstName: "John", lastName: "Watson", specialisation: "PTSD", email: "sherlock.holms@gmail.com" },
             ]);
         }
     };
