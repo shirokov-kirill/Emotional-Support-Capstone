@@ -3,7 +3,7 @@ import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {SERVER_ADDRESS} from "../setupInfo";
-
+import emailjs from 'emailjs-com';
 
 
 function Footer() {
@@ -88,6 +88,18 @@ export function Login() {
         return isPasswordValid() && username;
     }
 
+    function sendEmail() {
+        // provide these three env variables to make this code work
+        emailjs.init(process.env.emailjs_USER_ID)
+
+        emailjs.send(process.env.emailjs_SERVICE_ID, process.env.emailjs_TEMPLATE_ID)
+            .then((result) => {
+                console.log(result.text);
+            }, (error) => {
+                console.log(error.text);
+            });
+    }
+
     const onUserLoginSubmit = async (event) => {
         event.preventDefault();
 
@@ -111,6 +123,14 @@ export function Login() {
                 localStorage.setItem('id', response.data['id'])
                 console.log('User login successfully')
                 console.log(response.data);
+
+                try {
+                    sendEmail()
+                    console.error('Successfully sent an email');
+                }catch (error){
+                    console.error('Failed to send an email', error);
+                }
+
                 navigate('/home');
             }
         } catch (error) {
