@@ -12,9 +12,6 @@ RUN gradle build --no-daemon
 # Use a JDK image for the runtime
 FROM openjdk:latest
 
-# Install Python
-RUN apt-get update && apt-get install -y python
-
 # Copy the built jar from the builder stage
 COPY --from=builder /home/gradle/src/build/libs/*.jar /app/backend.jar
 
