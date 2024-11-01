@@ -1,23 +1,16 @@
 package org.example.appbackend.chat
 
-import org.example.appbackend.AppBackendApplication
-import org.example.appbackend.Url
-import org.example.appbackend.createDoctor
-import org.example.appbackend.createUser
-import org.example.appbackend.loginUser
+import org.example.appbackend.*
 import org.example.appbackend.dto.ChatDto
 import org.example.appbackend.dto.MessageDto
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.test.web.server.LocalServerPort
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.http.*
-import kotlin.random.Random
 import java.time.LocalDate
 import kotlin.test.assertNotNull
 
@@ -68,7 +61,7 @@ class MessagesIntegrationTest {
     @Test
     fun `messaging scenario with multiple users`() {
         val doctors = (1..3).map { createDoctor(url, restTemplate) }
-        val users = (1..3).map { Random.nextInt() }
+        val users = (1..3).map { createUser(url, restTemplate) }
         users.forEach { userId ->
             doctors.forEach { doctorId ->
                 testChat(userId, doctorId) { chatId, user, doctor ->
@@ -84,7 +77,7 @@ class MessagesIntegrationTest {
     }
 
     private fun testChat(
-        user: Int = Random.nextInt(),
+        user: Int = createUser(url, restTemplate),
         doctor: Int = createDoctor(url, restTemplate),
         messagesBuilder: (chat: Int, user: Int, doctor: Int) -> List<MessageDto>,
     ) {
