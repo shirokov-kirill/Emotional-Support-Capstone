@@ -89,7 +89,6 @@ export function Login() {
     }
 
     const onUserLoginSubmit = async (event) => {
-        localStorage.setItem('role', 'patient')
         event.preventDefault();
 
         if (!isLoginFormValid()) {
@@ -113,7 +112,7 @@ export function Login() {
                 localStorage.setItem('role', 'patient')
                 console.log('User login successfully')
                 console.log(response.data);
-                navigate('/home');
+                navigate('/dashboard');
             }
         } catch (error) {
             console.error('Failed to login', error);
@@ -121,7 +120,6 @@ export function Login() {
     };
 
     const onNewUserFormSubmit = async (event) => {
-        localStorage.setItem('role', 'patient')
         event.preventDefault();
 
         const userRegistration = {
