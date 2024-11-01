@@ -26,18 +26,14 @@ const App = () => {
         <Route path="/hprovider" element={<HealthProviderLogin />} />
         <Route path="/password_reset" element={<ResetPassword />} />
 
-        {isAuthenticated ? (
-          <Route element={<Layout />}>
-            {role === "health_provider" && (
-              <Route path="/home/hprovider" element={<HealthProviderHome />} />
-            )}
-            {roleBasedComponents.map((component, index) => (
+        <Route element={<Layout />}>
+            {PatientMainComponents.map((component, index) => (
               <Route key={index} path={component.path} element={<component.element />} />
             ))}
-          </Route>
-        ) : (
-          <Route path="*" element={<Navigate to="/" replace />} />
-        )}
+            {HealthProviderMainComponents.map((component, index) => (
+              <Route key={index} path={component.path} element={<component.element />} />
+            ))}
+        </Route>
       </Routes>
     </Router>
   );
