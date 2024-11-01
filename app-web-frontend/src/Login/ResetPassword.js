@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import axios from "axios";
+import PasswordInput from './Components/PasswordInput';
 
 function Footer() {
     return (
@@ -16,6 +17,16 @@ function ResetPassword() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmationPassword, setConfirmationPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const toggleConfirmationPasswordVisibility = () => {
+        setShowConfirmationPassword(!showConfirmationPassword);
+    };
 
     const isPasswordValid = () => {
         return password.length >= 8 || password.length === 0;
@@ -58,18 +69,22 @@ function ResetPassword() {
                     onChange={(e) => setUsername(e.target.value)}
                     />
 
-                    <input
-                        type="password"
-                        placeholder="New password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        style={isPasswordValid() ? {} : { border: "1px solid lightcoral" }}
+                    <PasswordInput 
+                            value={password}
+                            placeholder={"New password"}
+                            onChange={e => setPassword(e.target.value)}
+                            isValid={isPasswordValid()}
+                            showPassword={showPassword}
+                            togglePasswordVisibility={togglePasswordVisibility}
                     />
 
-                    <input
-                        type="password"
-                        placeholder="Confirm password"
-                        onChange={(e) => setConfirmationPassword(e.target.value)}
-                        style={isPasswordSame() ? {} : { border: "1px solid lightcoral" }}
+                    <PasswordInput 
+                            value={confirmationPassword}
+                            placeholder={"Confirm password"}
+                            onChange={e => setConfirmationPassword(e.target.value)}
+                            isValid={isPasswordSame()}
+                            showPassword={showConfirmationPassword}
+                            togglePasswordVisibility={toggleConfirmationPasswordVisibility}
                     />
 
                     <div>

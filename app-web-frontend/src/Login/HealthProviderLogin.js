@@ -3,6 +3,7 @@ import './Login.css';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import { SERVER_ADDRESS } from "../setupInfo";
+import PasswordInput from './Components/PasswordInput';
 
 function Footer() {
     return (
@@ -40,6 +41,16 @@ function HealthProviderLogin() {
     const [specialisation, setSpecialisation] = useState('');
     const [file, setFile] = useState(null);
     const [agreedForRecommendations, setAgreedForRecommendations] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const toggleConfirmationPasswordVisibility = () => {
+        setShowConfirmationPassword(!showConfirmationPassword);
+    };
 
     let navigate = useNavigate();
 
@@ -153,7 +164,14 @@ function HealthProviderLogin() {
                     <h2>Health Provider Login</h2>
                     <form>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+                        <PasswordInput 
+                            value={password}
+                            placeholder={"Password"}
+                            onChange={e => setPassword(e.target.value)}
+                            isValid={isPasswordValid()}
+                            showPassword={showPassword}
+                            togglePasswordVisibility={togglePasswordVisibility}
+                        />
                         <button type="submit" onClick={onHealthProviderLoginSubmit}>Login</button>
                     </form>
                     <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
@@ -197,27 +215,35 @@ function HealthProviderLogin() {
                         </div>
 
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <input
-                            type="password"
-                            placeholder="Password"
+                        <PasswordInput 
+                            value={password}
+                            placeholder={"Password"}
                             onChange={e => setPassword(e.target.value)}
-                            style={isPasswordValid() ? {} : {border: '1px solid lightcoral'}}
+                            isValid={isPasswordValid()}
+                            showPassword={showPassword}
+                            togglePasswordVisibility={togglePasswordVisibility}
                         />
                         {isPasswordValid() && password.length !== 0 && (() => {
-                            const strength = calculatePasswordStrength(password);
-                            return (
-                                <p className="warning-message" style={{ color: strength.color }}>
-                                    {strength.message}
-                                </p>
-                            );
+                        const strength = calculatePasswordStrength(password);
+                        return (
+                            <p className="warning-message" style={{ color: strength.color }}>
+                                {strength.message}
+                            </p>
+                        );
                         })()}
-                        {!isPasswordValid() &&
-                            <p className="warning-message">Password must be at least 8 characters long.</p>}
-                        <input
-                            type="password"
-                            placeholder="Confirm Password"
-                            onChange={e => setConfirmationPassword(e.target.value)}
-                            style={isPasswordSame() ? {} : {border: '1px solid lightcoral'}}
+                        {!isPasswordValid() && (
+                        <p className="warning-message">
+                            Password must be at least 8 characters long.
+                        </p>
+                        )}
+
+                        <PasswordInput 
+                                value={confirmationPassword}
+                                placeholder={"Confirm password"}
+                                onChange={e => setConfirmationPassword(e.target.value)}
+                                isValid={isPasswordSame()}
+                                showPassword={showConfirmationPassword}
+                                togglePasswordVisibility={toggleConfirmationPasswordVisibility}
                         />
                         {!isPasswordSame() &&
                             <p className="warning-message">Passwords must match the confirmation password.</p>}
