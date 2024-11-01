@@ -10,7 +10,8 @@ import HealthProviderLogin from "./Login/HealthProviderLogin";
 import HealthProviderHome from "./Home/HealthProviderHome";
 import Layout from "./global/Layout";
 import ResetPassword from "./Login/ResetPassword";
-
+import ForgotPassword from './Login/ForgotPassword';
+import ForgotPasswordConfirmation from './Login/ForgotPasswordConfirmation';
 
 const App = () => {
   const role = localStorage.getItem("role");

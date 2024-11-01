@@ -52,12 +52,23 @@ function HealthProviderLogin() {
     const toggleConfirmationPasswordVisibility = () => {
         setShowConfirmationPassword(!showConfirmationPassword);
     };
+    const [showFormValidWarning, setShowFormValidWarning] = useState(false);
 
     let navigate = useNavigate();
 
     const isFormEmpty = () => {
-        return !firstName || !lastName || !dateOfBirth || !email || !username || !password || !confirmationPassword || !clinic || !specialisation;
-    }
+        return (
+            !firstName ||
+            !lastName ||
+            !dateOfBirth ||
+            !email ||
+            !username ||
+            !password ||
+            !confirmationPassword ||
+            !clinic ||
+            !specialisation
+        );
+    };
 
     const validateEmail = () => {
         const re = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -103,6 +114,13 @@ function HealthProviderLogin() {
 
     const onHealthProviderLoginSubmit = async (event) => {
         event.preventDefault();
+
+        if (!isLoginFormValid()) {
+            setShowFormValidWarning(true);
+            return;
+        } else {
+            setShowFormValidWarning(false);
+        }
 
         const hProviderLogin = {
             username,
@@ -160,6 +178,10 @@ function HealthProviderLogin() {
         }
     };
 
+    const isLoginFormValid = () => {
+        return isPasswordValid() && username;
+    };
+
     return (
         <div className="App">
             {isLogin ? (
@@ -167,7 +189,7 @@ function HealthProviderLogin() {
                     <h2>Health Provider Login</h2>
                     <form>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <PasswordInput 
+                        <PasswordInput
                             value={password}
                             placeholder={"Password"}
                             onChange={e => setPassword(e.target.value)}
@@ -218,7 +240,7 @@ function HealthProviderLogin() {
                         </div>
 
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <PasswordInput 
+                        <PasswordInput
                             value={password}
                             placeholder={"Password"}
                             onChange={e => setPassword(e.target.value)}
@@ -240,7 +262,7 @@ function HealthProviderLogin() {
                         </p>
                         )}
 
-                        <PasswordInput 
+                        <PasswordInput
                                 value={confirmationPassword}
                                 placeholder={"Confirm password"}
                                 onChange={e => setConfirmationPassword(e.target.value)}
