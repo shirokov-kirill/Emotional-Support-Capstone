@@ -119,7 +119,8 @@ function HealthProviderLogin() {
                 localStorage.setItem('role', 'health_provider');
                 console.log('Doctor login successfully')
                 console.log(response.data);
-                navigate('/dashboard');
+                // navigate('/dashboard');
+                navigate("/home/hprovider")
             }
         } catch (error) {
             console.error('Failed to login', error);
@@ -152,7 +153,8 @@ function HealthProviderLogin() {
                     localStorage.setItem('authToken', authToken); // Save token to local storage
                     localStorage.setItem('id', response.data['id'])
                     console.log(response.data)
-                    navigate('/dashboard');
+                    // navigate('/dashboard');
+                    navigate("/home/hprovider")
                 }
             }
         } catch (error) {
