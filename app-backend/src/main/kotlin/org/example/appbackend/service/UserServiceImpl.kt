@@ -74,6 +74,10 @@ class UserServiceImpl(
         return userMapper.entityToDto(user)
     }
 
+    override fun userWithIdExists(userId: Int): Boolean {
+        return userRepository.findById(userId).isPresent
+    }
+
     private fun hashPassword(password: String): String {
         return password.let { passwordEncoder.encode(it) }
     }

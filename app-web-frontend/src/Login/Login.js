@@ -123,7 +123,6 @@ export function Login() {
             if (response.status === 200) {
 		const authToken = response.data.token;
                 localStorage.setItem('authToken', authToken); // Save token to local storage
-                localStorage.setItem('id', response.data['id'])
                 localStorage.setItem('role', 'patient')
                 console.log('User login successfully')
                 console.log(response.data);
@@ -156,7 +155,6 @@ export function Login() {
                 if (login_response.status === 200) {
                     const authToken = login_response.data['token'];
                     localStorage.setItem('authToken', authToken); // Save token to local storage
-                    localStorage.setItem('id', response.data['id'])
                     localStorage.setItem('role', 'patient')
                     console.log(response.data)
                     navigate('/dashboard');
