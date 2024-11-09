@@ -64,7 +64,7 @@ fun createDoctor(
 ): Int {
     val id = 123
     val dob = LocalDate.of(1990, 1, 1)
-    val doctorCredentials = RegisterDoctorCredentialsDto(username, "password", name, surname, email, dob, clinic, specialization)
+    val doctorCredentials = RegisterDoctorCredentialsDto(username, "password", name, surname, email, dob, clinic, specialization, false)
     val response = restTemplate.postForEntity(url.addDoctor, doctorCredentials, DoctorCredentialsDto::class.java)
     assertEquals(HttpStatus.OK, response.statusCode)
     val createdDoctorCredentials = response.body
