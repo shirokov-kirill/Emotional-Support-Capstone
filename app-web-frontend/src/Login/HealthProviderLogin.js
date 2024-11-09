@@ -133,7 +133,6 @@ function HealthProviderLogin() {
             if (response.status === 200) {
                 const authToken = response.data.token;
                 localStorage.setItem('authToken', authToken); // Save token to local storage
-                localStorage.setItem('id', response.data['id'])
                 localStorage.setItem('role', 'health_provider');
                 console.log('Doctor login successfully')
                 console.log(response.data);
