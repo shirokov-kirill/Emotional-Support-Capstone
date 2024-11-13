@@ -3,8 +3,8 @@
 }
 
 .chatMessagesView {
-    margin-top: 20px;
-    height: 82vh;
+    padding-top: 20px;
+    padding-left: 20px;
     flex-grow: 1;
     overflow-y: auto;
 }

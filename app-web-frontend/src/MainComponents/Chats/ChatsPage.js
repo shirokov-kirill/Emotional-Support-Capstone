@@ -105,7 +105,7 @@ function ChatsPage() {
         } position={position} onPositionChange={(i) => {
           setPosition(i)
           }}/>
-        <ChatView className="row-item" userMap={new Map([[myId, ["me", myIcon]], [chats[position].user.id, ["other", chats[position].user.url]]])} messages={chats[position].messages} onSendMessage={onSendMessage}/>
+        <ChatView className="row-item" userMap={new Map([["me", [myId, myIcon]], ["other", [chats[position].user.id, chats[position].user.url]]])} messages={chats[position].messages} onSendMessage={onSendMessage}/>
       </div>
     </div>
   );

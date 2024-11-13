@@ -10,7 +10,7 @@
   }
   
   .card-container.selected {
-    background-color: #e6f3ff; /* Light blue background for selected state */
+    background-color: rgba(0, 148, 255, 0.2); /* Light blue background for selected state */
   }
   
   .card-avatar {
