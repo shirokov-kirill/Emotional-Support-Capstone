@@ -1,0 +1,46 @@
+.card-container {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 10px;
+    background-color: white;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    max-width: 360px;
+  }
+  
+  .card-container.selected {
+    background-color: #e6f3ff; /* Light blue background for selected state */
+  }
+  
+  .card-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+  }
+  
+  .card-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .card-details {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-name {
+    font-size: 1em;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .card-time {
+    font-size: 0.85em;
+    color: #888;
+  }
