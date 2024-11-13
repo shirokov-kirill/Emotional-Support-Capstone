@@ -35,12 +35,14 @@
   }
   
   .card-name {
-    font-size: 1em;
-    font-weight: 600;
-    color: #333;
+    font-family: 'Montserrat';
+    font-size: 1.125em;
+    font-weight: bold;
+    color: black;
   }
   
   .card-time {
-    font-size: 0.85em;
-    color: #888;
+    font-family: 'Montserrat';
+    font-size: 1.125em;
+    color: black;
   }

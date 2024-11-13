@@ -3,7 +3,6 @@ import "./ChatsPage.css"
 import ChatsList from "./components/ChatsList";
 import ChatView from "./components/ChatView";
 import ChatHeader from "./components/ChatHeader";
-import ChatManagementPanel from "./components/ChatManagemantPanel";
 
 function ChatsPage() {
   const chatsInitial = [
@@ -106,9 +105,8 @@ function ChatsPage() {
         } position={position} onPositionChange={(i) => {
           setPosition(i)
           }}/>
-        <ChatView className="row-item" userMap={new Map([["me", [myId, myIcon]], ["other", [chats[position].user.id, chats[position].user.url]]])} messages={chats[position].messages}/>
+        <ChatView className="row-item" userMap={new Map([["me", [myId, myIcon]], ["other", [chats[position].user.id, chats[position].user.url]]])} messages={chats[position].messages} onSendMessage={onSendMessage}/>
       </div>
-      <ChatManagementPanel className="managementPanel" onSendMessage={onSendMessage}/>
     </div>
   );
 }

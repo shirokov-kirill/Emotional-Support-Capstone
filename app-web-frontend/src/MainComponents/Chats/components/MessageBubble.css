@@ -16,8 +16,8 @@
 }
 
 .avatar {
-  width: 36px;
-  height: 36px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
   overflow: hidden;
   margin-right: 8px;
@@ -43,8 +43,9 @@
 }
 
 .message-time {
-  font-size: 0.75em;
-  color: #888;
+  font-family: 'Montserrat';
+  font-size: 0.875em;
+  color: black;
   margin-bottom: 4px;
 }
 
@@ -59,18 +60,17 @@
 .message-bubble {
   padding: 16px;
   border-radius: 10px;
-  font-size: 0.9em;
-  line-height: 1.4;
+  font-family: 'Montserrat';
+  color: black;
+  font-size: 0.875em;
   word-wrap: break-word;
   max-width: 100%;
 }
 
 .sender-bubble {
   background-color: #f0f0f0;
-  color: #333;
 }
 
 .receiver-bubble {
   background-color: rgba(0, 148, 255, 0.2);
-  color: #333;
 }

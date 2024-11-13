@@ -7,3 +7,11 @@
     border-bottom: thin solid lightgrey;
     border-left: thin solid lightgrey;
 }
+
+.header-name {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #333;
+}

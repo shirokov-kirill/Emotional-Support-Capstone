@@ -4,7 +4,7 @@ function ChatHeader(props) {
   
   return (
     <div className="chatHeader">
-      <b>{props.author}</b>
+      <b className="header-name">{props.author}</b>
     </div>
   );
 }
