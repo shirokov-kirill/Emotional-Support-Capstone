@@ -23,12 +23,12 @@ export const Layout = ({ children }) => {
         setIsSidebarOpen={setIsSidebarOpen}
       />
         <div style={wrapperStyles}>
-            <Box>
+            <Box flex={1} display={"flex"} flexDirection={"column"}>
                 <Topbar
                     isSidebarOpen={isSidebarOpen}
                     setIsSidebarOpen={setIsSidebarOpen}
                 />
-                <Outlet />
+                <Outlet flex={1}/>
             </Box>
             <Box>
                 {children}

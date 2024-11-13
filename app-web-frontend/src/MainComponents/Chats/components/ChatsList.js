@@ -21,7 +21,6 @@ function ChatsList(props) {
         }
 
       </div>
-      <ChatManagementPanel className="managementPanel"/>
     </div>
   );
 }

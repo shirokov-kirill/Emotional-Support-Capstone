@@ -1,5 +1,5 @@
 .chatsList {
-    width: 20vw;
+    flex: 0.2;
     padding-left: 20px;
     padding-top: 20px;
     padding-right: 20px;
@@ -14,9 +14,10 @@
 }
 
 .chatsListView {
+    display: block;
+    flex-direction: column;
     margin-top: 20px;
     width: 400px;
-    height: 75vh;
     flex-grow: 1;
     overflow-y: auto;
 }
