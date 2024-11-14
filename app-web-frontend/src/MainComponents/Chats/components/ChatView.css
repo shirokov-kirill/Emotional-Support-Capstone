@@ -13,8 +13,49 @@
     overflow-y: auto;
 }
 
-.chat-view-section {
+.input-control-panel {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    padding-bottom: 25px;
 }
+
+.message-input-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 12px;
+    border-radius: 30px;
+    margin: 0 20px;
+  }
+  
+  .message-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 5px;
+    font-size: 0.825;
+    color: black;
+  }
+
+  .input-icons-group {
+    padding: 12px;
+  }
+  
+  .input-icon {
+    margin-right: 50px;
+    width: 40px;
+    height: 42px;
+    color: #0094FF;
+    cursor: pointer;
+  }
+  
+  .emoji-icon {
+    color: black; /* Darker color for emoji icon */
+  }
+  
+  .message-input::placeholder {
+    color: #bbb;
+  }

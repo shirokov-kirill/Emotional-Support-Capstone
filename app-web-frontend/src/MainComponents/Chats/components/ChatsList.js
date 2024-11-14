@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./ChatsList.css";
 import ChatsListItem from "./ChatsListItem";
+import { GoBell } from "react-icons/go";
+import { FiPhone } from "react-icons/fi";
+import { RiContactsLine } from "react-icons/ri";
 
 function ChatsList(props) {
   let [searchSubstring, setSearchSubstring] = useState("")
@@ -21,10 +24,19 @@ function ChatsList(props) {
          }
         </div>
       </div>
-      <div className="chats-list-control-panel">
-        <button>Notifications</button>
-        <button>Calls</button>
-        <button>Contacts</button>
+      <div className="bottom-menu-icons">
+        <div className="menu-icon">
+          <GoBell />
+          <span className="icon-text">Notifications</span>
+        </div>
+        <div className="menu-icon">
+          <FiPhone />
+          <span className="icon-text">Calls</span>
+        </div>
+        <div className="menu-icon">
+          <RiContactsLine />
+          <span className="icon-text">Contacts</span>
+        </div>
       </div>
     </div>
   );

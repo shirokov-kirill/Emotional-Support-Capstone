@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./ChatView.css";
 import MessageBubble from "./MessageBubble";
+import { FaRegSmile, FaEllipsisH } from 'react-icons/fa';
+import { GoPaperclip } from "react-icons/go";
+import { HiOutlineMicrophone, HiEllipsisHorizontal } from "react-icons/hi2";
 
 function ChatView(props) {
   let [message, setMessage] = useState("");
@@ -10,15 +13,15 @@ function ChatView(props) {
       <div className="chatMessagesView">
         {props.messages.map(it => <MessageBubble from={it.from} text={it.text} time={it.time} isSender={props.userMap.get("me")[0] === it.from} imageUrl={props.userMap.get("other")[1]}/>)}
       </div>
-      <div className="chat-view-section">
-        <form onSubmit={props.onFormSubmit}>
-            <input style={{width: 50 + 'vw', marginLeft: 30 + 'px'}} onInput={e => setMessage(e.target.value)} value={message}/>
-            <input type="submit" hidden />
-        </form>
-        <div style={{marginRight: 20 + 'px'}}>
-            <button>Microphone</button>
-            <button>Attach</button>
-            <button>More</button>
+      <div className="input-control-panel">
+        <div className="message-input-container">
+          <FaRegSmile className="input-icon emoji-icon" />
+          <input type="text" placeholder="Type a message" className="message-input" />
+        </div>
+        <div className="input-icons-group">
+          <HiOutlineMicrophone className="input-icon"/>
+          <GoPaperclip className="input-icon"/>
+          <HiEllipsisHorizontal className="input-icon" />
         </div>
       </div>
     </div>
