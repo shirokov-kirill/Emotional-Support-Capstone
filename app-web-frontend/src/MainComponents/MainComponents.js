@@ -19,7 +19,7 @@ import Dashboard from "./Dashboard";
 import Share from "./Share/Share"
 import DataSharing from "./DataSharing/DataSharing";
 import DataViewing from "./DataViewing/DataViewing";
-import Settings from "./Settings/Settings";
+import Settings from "../Components/SettingsComponent/Settings";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Sidebar } from 'react-pro-sidebar';

@@ -92,6 +92,23 @@ class AuthController(
         return ResponseEntity("Logged out successfully.", HttpStatus.OK)
     }
 
+    @PostMapping("/endAllOtherSessions")
+    fun endAllOtherSessions(request: HttpServletRequest): ResponseEntity<Any> {
+        val requestToken = request.getHeader("Authorization")?.substring(7)
+            ?: throw IllegalArgumentException("Invalid JWT token.")
+        val currentToken = authTokenRepository.findByToken(requestToken)
+        if (currentToken != null ) {
+            val tokens =
+                authTokenRepository.findAll().filter { it.userId == userService.getUserById(currentToken.userId).id }
+            for (token in tokens) 
+                if (token.token != currentToken.token)
+                    authTokenRepository.deleteByToken(token.token)
+            
+        }
+        SecurityContextHolder.clearContext()
+        return ResponseEntity("Logged out successfully.", HttpStatus.OK)
+    }
+
     // Method to generate authentication token (JWT) with user ID
     private fun generateAuthToken(userId: Int): String {
         val expirationTime = Date(System.currentTimeMillis() + JWT_EXPIRATION_TIME_MS)
