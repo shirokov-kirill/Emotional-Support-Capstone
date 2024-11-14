@@ -25,6 +25,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Sidebar } from 'react-pro-sidebar';
 import ComponentType from './ComponentType';
+import AiRecs from "./AIRecs/AiRecs";
+import {AiFillRobot} from "react-icons/ai";
 import HPMainProfile from "./Profile/HPMainProfile";
 import AiRecs from "./AIRecs/AiRecs";
 import {AiFillRobot} from "react-icons/ai";
