@@ -11,7 +11,7 @@ function ChatView(props) {
   return (
     <div className="chatsView">
       <div className="chatMessagesView">
-        {props.messages.map(it => <MessageBubble from={it.from} text={it.text} time={it.time} isSender={props.userMap.get("me")[0] === it.from} imageUrl={props.userMap.get("other")[1]}/>)}
+        {props.messages.map(it => <MessageBubble from={it.senderId} text={it.content} time={it.created} isSender={props.userMap.get("me")[0] === it.senderId} imageUrl={props.userMap.get("other")[1]}/>)}
       </div>
       <div className="input-control-panel">
         <div className="message-input-container">
