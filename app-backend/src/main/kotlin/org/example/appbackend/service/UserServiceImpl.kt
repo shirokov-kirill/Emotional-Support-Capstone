@@ -2,10 +2,8 @@ package org.example.appbackend.service
 
 import org.example.appbackend.dto.UserDto
 import org.example.appbackend.dto.CreateUserDto
-import org.example.appbackend.dto.UserLoginsDto
-import org.example.appbackend.entity.UserLogin
+import org.example.appbackend.entity.User
 import org.example.appbackend.mapper.UserMapper
-import org.example.appbackend.repository.UserLoginRepository
 import org.example.appbackend.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -15,9 +13,8 @@ import org.slf4j.LoggerFactory
 
 @Service
 class UserServiceImpl(
-    private val userRepository: UserRepository,
-    private val userLoginRepository: UserLoginRepository,
-    private val userMapper: UserMapper
+        private val userRepository: UserRepository,
+        private val userMapper: UserMapper
 ) : UserService {
 
     private val passwordEncoder = BCryptPasswordEncoder()
@@ -49,22 +46,13 @@ class UserServiceImpl(
     }
 
     override fun getUserById(userId: Int): UserDto {
-        val user = userRepository.findById(userId)
-            .orElseThrow { IllegalArgumentException("User not found with id: $userId") }
+        val user = userRepository.findById(userId).orElseThrow { IllegalArgumentException("User not found with id: $userId") }
         return userMapper.entityToDto(user)
     }
 
     override fun getUserByUsername(username: String): UserDto {
-        val user = userRepository.findByUsername(username)
-            ?: throw IllegalArgumentException("User not found with username: $username")
+        val user = userRepository.findByUsername(username) ?: throw IllegalArgumentException("User not found with username: $username")
         return userMapper.entityToDto(user)
-    }
-
-    override fun loginHistory(userId: Int): UserLoginsDto {
-        val user = userRepository.findById(userId)
-            .orElseThrow { IllegalArgumentException("User not found with id: $userId") }
-        val logins = userLoginRepository.findByUser(user).map { it.loginTime }
-        return UserLoginsDto(userMapper.entityToDto(user), logins)
     }
 
     override fun authenticateUser(username: String, password: String): UserDto {
@@ -77,9 +65,6 @@ class UserServiceImpl(
             if (user == null || !passwordEncoder.matches(password, user.password)) {
                 throw BadCredentialsException("Invalid username or password")
             }
-
-            userLoginRepository.save(UserLogin().apply { this.user = user })
-
             return userMapper.entityToDto(user)
         } catch (ex: Exception) {
             logger.error("Error authenticating user: {}", ex.message)
@@ -88,8 +73,8 @@ class UserServiceImpl(
     }
 
     override fun updatePassword(username: String, password: String): UserDto {
-        val user = userRepository.findByUsername(username)
-            ?: throw IllegalArgumentException("User not found with username: $username")
+        val user = userRepository.findByUsername(username) ?:
+            throw IllegalArgumentException("User not found with username: $username")
         user.password = hashPassword(password)
         userRepository.save(user)
 
