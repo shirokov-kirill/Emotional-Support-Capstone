@@ -17,4 +17,6 @@ interface UserService{
     fun authenticateUser(username: String, password: String): UserDto
 
     fun updatePassword(username: String, password: String): UserDto
+
+    fun userWithIdExists(userId: Int): Boolean
 }

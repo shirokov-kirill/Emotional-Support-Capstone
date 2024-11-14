@@ -26,7 +26,14 @@ class UserServiceImpl(
         val existingUser = userRepository.findByUsername(userDto.username)
         if (existingUser != null) {
             logger.info("User with such username already exists: {}", existingUser.username)
-            return userMapper.entityToDto(existingUser)
+            throw BadCredentialsException("User with such username already exists: ${existingUser.username}")
+        }
+
+        // Check if a user with the same email address already exists
+        val existingWithSameEmailUser = userRepository.findByEmail(userDto.email)
+        if (existingWithSameEmailUser != null) {
+            logger.info("User with such email already exists: {}", existingWithSameEmailUser.username)
+            return userMapper.entityToDto(existingWithSameEmailUser)
         }
 
         val hashedPassword = hashPassword(userDto.password)
@@ -72,6 +79,10 @@ class UserServiceImpl(
         userRepository.save(user)
 
         return userMapper.entityToDto(user)
+    }
+
+    override fun userWithIdExists(userId: Int): Boolean {
+        return userRepository.findById(userId).isPresent
     }
 
     private fun hashPassword(password: String): String {

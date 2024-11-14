@@ -4,16 +4,15 @@ import { Link } from "react-router-dom";
 import React from "react";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
-  const isSelected = selected === title;
   const linkStyle = {
     textDecoration: "none",
-    color: isSelected ? "#2D60FF" : "gray",
+    color: "inherit",
   };
 
   return (
     <MenuItem
-      active={isSelected}
-      style={{ color: isSelected ? "#2D60FF" : "gray" }}
+      active={selected === title}
+      style={{ color: "#312E81" }}
       onClick={() => setSelected(title)}
       icon={icon}
     >
@@ -22,6 +21,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
           {title}
         </Link>
       </Typography>
+      {/*<Link to={to}></Link> */}
     </MenuItem>
   );
 };

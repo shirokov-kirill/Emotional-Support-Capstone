@@ -1,8 +1,8 @@
 body {
-  background-color: #f3f4f6;
+  background-color: #F3F4F6;
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .App-footer {
@@ -11,7 +11,7 @@ body {
   text-align: center;
   position: fixed;
   width: 100%;
-  bottom: 0%;
+  bottom: 0;
 }
 
 .warning-message {
@@ -28,13 +28,14 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  min-height: 100vh;
-  background: #f3f4f6;
+  height: 100vh;
+  background: #F3F4F6;
   padding-top: 100px;
+  overflow-y: auto;
 }
 
 .form-container {
-  background-color: #ffffff;
+  background-color: #FFFFFF;
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -43,9 +44,8 @@ body {
   border-radius: 15px;
   width: 80%;
   max-width: 400px;
-  max-height: auto;
   color: #111827;
-  box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56);
+  box-shadow: 0 16px 38px -12px rgba(0,0,0,0.56);
 }
 
 .title {
@@ -74,7 +74,7 @@ h2 {
 }
 
 .form-container input:focus {
-  border: 1px solid #1e3a8a;
+  border: 1px solid #1E3A8A;
 }
 
 .horizontal-column {
@@ -87,7 +87,7 @@ h2 {
 
 .form-container button[type="submit"],
 .switch-form-button {
-  background-color: #2d60ff;
+  background-color: #2D60FF;
   border: none;
   color: white;
   padding: 15px;
@@ -104,7 +104,7 @@ h2 {
 
 .form-container button[type="submit"]:hover,
 .switch-form-button:hover {
-  background-color: #312e81;
+  background-color: #312E81;
 }
 
 .mySelectStyle {
@@ -120,6 +120,7 @@ h2 {
   border-radius: 4px;
   transition: all 0.3 ease 0s;
   margin: 10px 0;
+
 }
 
 .text-button {
@@ -153,9 +154,8 @@ h2 {
 }
 
 .signup {
-  margin-top: -50px;
-  max-width: 500px;
-  max-height: 650px;
+  margin-top: -70px;
+  max-width: 550px;
 }
 
 .gender-select {
@@ -200,7 +200,7 @@ h2 {
 }
 
 .gender-option input:checked ~ .checkmark {
-  background-color: #007bff;
+  background-color: #007BFF;
   border-color: #0056b3;
 }
 
@@ -218,4 +218,21 @@ h2 {
 
 .gender-option input:checked ~ .checkmark:after {
   display: block;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  transform: scale(0.5);
+}
+
+.checkbox-container label {
+  font-size: 14px;
 }
