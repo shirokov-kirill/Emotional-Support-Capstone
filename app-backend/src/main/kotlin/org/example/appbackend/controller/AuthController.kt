@@ -1,28 +1,31 @@
 package org.example.appbackend.controller
 
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.security.Keys
+import jakarta.servlet.http.HttpServletRequest
 import org.example.appbackend.dto.LoginRequestDto
 import org.example.appbackend.dto.LoginResponseDto
+import org.example.appbackend.entity.AuthToken
+import org.example.appbackend.repository.AuthTokenRepository
+import org.example.appbackend.service.DoctorCredentialsService
 import org.example.appbackend.service.UserService
+import org.example.appbackend.utils.executePythonScript
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
-import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
-import io.jsonwebtoken.security.Keys
-import org.example.appbackend.repository.AuthTokenRepository
-import org.example.appbackend.entity.AuthToken
-import jakarta.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/auth")
 class AuthController(
     private val userService: UserService,
+    private val doctorService: DoctorCredentialsService,
     private val authTokenRepository: AuthTokenRepository
 ) {
 
@@ -43,10 +46,38 @@ class AuthController(
             // Store token in the repository
             authTokenRepository.save(AuthToken(authToken, userDto.id))
             logger.info("Logged in successfully.")
+
+            try {
+                executePythonScript(userDto.email, userDto.username)
+            } catch (e: Exception) {
+                logger.error("Failed sending Email: ${e.message}")
+            }
+
             return ResponseEntity(responseDto, HttpStatus.OK)
         } catch (e: Exception) {
             // Return 401 Unauthorized status code if authentication fails
             logger.error("Error authenticating user: {}", e.message)
+            return ResponseEntity(HttpStatus.UNAUTHORIZED)
+        }
+    }
+
+    @PostMapping("/doctor-login")
+    fun doctorLogin(@RequestBody loginRequest: LoginRequestDto): ResponseEntity<Any> {
+        try {
+            // Perform authentication
+            val doctorDto = doctorService.authenticateUser(loginRequest.username, loginRequest.password)
+            logger.info("Logging in ${loginRequest.username}. Credentials match.")
+            // If authentication succeeds, generate an authentication token (JWT) with user ID
+            val authToken = generateAuthToken(doctorDto.id)
+            // Return the authentication token in the response
+            val responseDto = LoginResponseDto(authToken)
+            // Store token in the repository
+            authTokenRepository.save(AuthToken(authToken, doctorDto.id))
+            logger.info("Logged in successfully.")
+            return ResponseEntity(responseDto, HttpStatus.OK)
+        } catch (e: Exception) {
+            // Return 401 Unauthorized status code if authentication fails
+            logger.error("Error authenticating doctor: {}", e.message)
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
         }
     }

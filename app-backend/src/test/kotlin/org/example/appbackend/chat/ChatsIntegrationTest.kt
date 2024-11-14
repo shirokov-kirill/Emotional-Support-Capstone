@@ -1,21 +1,16 @@
 package org.example.appbackend.chat
 
-import org.example.appbackend.AppBackendApplication
-import org.example.appbackend.Url
-import org.example.appbackend.createDoctor
-import org.example.appbackend.createUser
-import org.example.appbackend.loginUser
+import org.example.appbackend.*
 import org.example.appbackend.dto.ChatDto
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.*
 import java.time.LocalDate
-import kotlin.random.Random
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = [AppBackendApplication::class]
@@ -50,7 +45,7 @@ class ChatsIntegrationTest {
 
     @Test
     fun `create and retrieve chats for user`() {
-        val userId = Random.nextInt()
+        val userId = createUser(url, restTemplate)
         val doctorIds = (1..3).map { createDoctor(url, restTemplate) }.toSet()
         val expectedChats = mutableSetOf<ChatDto>()
         verifyChatsResponseUser(userId, expectedChats)
@@ -62,7 +57,7 @@ class ChatsIntegrationTest {
 
     @Test
     fun `create and retrieve messages for doctor`() {
-        val userIds = (1..3).map { Random.nextInt() }.toSet()
+        val userIds = (1..3).map { createUser(url, restTemplate) }.toSet()
         val doctorId = createDoctor(url, restTemplate)
         val expectedChats = mutableSetOf<ChatDto>()
         verifyChatsResponseDoctor(doctorId, expectedChats)

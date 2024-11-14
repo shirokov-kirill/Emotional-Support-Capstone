@@ -1,10 +1,6 @@
 package org.example.appbackend.service
 
-import org.example.appbackend.dto.ChatProfileDto
-import org.example.appbackend.dto.ChatWithMessagesDto
-import org.example.appbackend.dto.DoctorCredentialsDto
-import org.example.appbackend.dto.MessageDto
-import org.example.appbackend.dto.UserDto
+import org.example.appbackend.dto.*
 import org.springframework.stereotype.Service
 
 @Service
@@ -45,7 +41,7 @@ class ChatWithMessagesServiceImpl(
 
     private fun formDoctorProfile(doctor: DoctorCredentialsDto): ChatProfileDto {
         val doctorId = doctor.id ?: throw IllegalStateException("Doctor id was not set")
-        val doctorName = doctor.name ?: throw IllegalStateException("Doctor name was not set")
+        val doctorName = doctor.firstName ?: throw IllegalStateException("Doctor name was not set")
         return formChatProfile(doctorId, doctorName)
     }
 

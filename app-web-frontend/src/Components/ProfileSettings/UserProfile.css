@@ -1,0 +1,124 @@
+.profile-settings {
+  width: 35%;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.avatar-column {
+  text-align: center;
+}
+
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.edit-avatar {
+  display: block;
+  margin-top: 10px;
+  color: #007BFF;
+  cursor: pointer;
+}
+
+.settings-item {
+  margin-bottom: 20px;
+}
+
+.user-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.settings-buttons {
+  text-align: right;
+}
+
+.delete-button{
+  text-align: left;
+}
+
+
+.save-button, .cancel-button, .delete-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.save-button {
+  background: #007BFF;
+  color: white;
+}
+
+.delete-button {
+  background: red;
+  color: white;
+}
+.save-button:hover {
+  background: #0056b3;
+}
+
+.cancel-button {
+  background: #f8f9fa;
+  color: #212529;
+}
+
+.cancel-button:hover {
+  background: #e2e6ea;
+}
+
+.settings-item {
+    display: contents;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #faf9f9; /* Light grey background */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.settings-item label {
+  display: flex;
+    font-weight: bold; /* Bold font for labels */
+    color: #333; /* Dark grey color for text */
+    flex-grow: 1; /* Labels take up remaining space */
+}
+
+.user-input[type="checkbox"] {
+  display: flex;
+    /* Custom checkbox styles */
+    width: 40px; /* Width of the checkbox */
+    height: 20px; /* Height of the checkbox */
+    -webkit-appearance: none; /* Remove default checkbox appearance */
+    background-color: #ddd; /* Default background color */
+    border-radius: 10px; /* Rounded corners for checkbox */
+    position: relative; /* Positioning for pseudo-elements */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.user-input[type="checkbox"]:checked {
+    background-color: #4CAF50; /* Green background for checked state */
+}
+
+.user-input[type="checkbox"]:after {
+    /* Custom checkmark styles */
+    content: '';
+    position: absolute;
+    width: 20px; /* Width of the checkmark */
+    height: 20px; /* Height of the checkmark */
+    background-color: white; /* White checkmark */
+    border-radius: 50%; /* Circular checkmark */
+    top: 0; /* Align to the top of the checkbox */
+    left: 20px; /* Position to the right for checked state */
+    transition: left 0.2s; /* Smooth transition for checkmark */
+}
+
+.user-input[type="checkbox"]:not(:checked):after {
+    left: 0; /* Position to the left for unchecked state */
+}

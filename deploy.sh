@@ -40,7 +40,7 @@ check_apt() {
     for pkg in "${packages[@]}"; do
         if ! dpkg -l | grep -qw "$pkg"; then
             echo "$pkg is not installed."
-	    $docker_packages_installed = 0
+	    docker_packages_installed=0
         fi
     done
 }
@@ -52,7 +52,7 @@ check_rpm() {
     for pkg in "${packages[@]}"; do
         if ! $manager list installed "$pkg" &> /dev/null; then
             echo "$pkg is not installed."
-	    $docker_packages_installed = 0
+	    docker_packages_installed=0
         fi
     done
 }
@@ -161,7 +161,7 @@ create_application_conf() {
 
     # Escape special characters in the secret key
     escaped_secret_key=$(printf '%s\n' "$secret_key" | sed 's/[\/&]/\\&/g')
-    
+
     # Replace placeholder in configuration file with the secret key
     sed -i "s/secret: mySecret/secret: $escaped_secret_key/" "$CONFIG_FILE"
 }
@@ -169,7 +169,7 @@ create_application_conf() {
 # Function to set SERVER_ADDRESS for API calls on frontend
 update_setupinfo() {
     source $ENV_FILE
-    sed -i "s|export const SERVER_ADDRESS = 'http://' + SERVER_ADDRESS_LINE|export const SERVER_ADDRESS = 'https://$DOMAIN_NAME/api'|g" app-web-frontend/src/setupInfo.js 
+    sed -i "s|export const SERVER_ADDRESS = 'http://' + SERVER_ADDRESS_LINE|export const SERVER_ADDRESS = 'https://$DOMAIN_NAME/api'|g" app-web-frontend/src/setupInfo.js
 }
 
 # Function to generate self-signed SSL certificates
@@ -219,10 +219,16 @@ deploy() {
 }
 
 main() {
-    check_docker
-    
-#    pull_current_branch
-    
+    echo "GITHUB_ACTIONS variable: $GITHUB_ACTIONS"
+
+    # Skip Docker check if running in GitHub Actions CI environment
+    if [ "$GITHUB_ACTIONS" = "true" ]; then
+        echo "GitHub Actions CI environment detected. Skipping Docker package checks..."
+    else
+        echo "Non-CI environment detected. Running Docker package checks..."
+        check_docker
+    fi
+
     create_env
     generate_ssl
     create_ngnix_conf
