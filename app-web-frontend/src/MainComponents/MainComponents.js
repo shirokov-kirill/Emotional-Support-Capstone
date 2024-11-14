@@ -24,6 +24,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Sidebar } from 'react-pro-sidebar';
 import ComponentType from './ComponentType';
+import AiRecs from "./AIRecs/AiRecs";
+import {AiFillRobot} from "react-icons/ai";
 
 
 export const PatientMainComponents = [
@@ -36,6 +38,7 @@ export const PatientMainComponents = [
     { "label": "Share", "path": "/share", "element": Share, icon: <ShareIcon />, "type": ComponentType.Sidebar },
     { "label": "Notifications list", "path": "/notifications", "element": NotificationList, icon: <NotificationsIcon/>, "type": ComponentType.Sidebar },
     { "label": "Data Sharing", "path": "/datasharing", "element": DataSharing, icon: <IosShareIcon />, "type": ComponentType.Sidebar },
+    { "label": "AI", "path": "/recs", "element": AiRecs, "icon": <AiFillRobot/>, "type": ComponentType.Sidebar},
     { "label": "Settings", "path": "/settings", "element": Settings, icon: <SettingsIcon />, "type": ComponentType.Topbar},
     { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon />, "type": ComponentType.Sidebar }
 ]
