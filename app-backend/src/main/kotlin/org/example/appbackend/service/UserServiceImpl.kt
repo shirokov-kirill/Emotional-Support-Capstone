@@ -29,6 +29,13 @@ class UserServiceImpl(
             return userMapper.entityToDto(existingUser)
         }
 
+        // Check if a user with the same email address already exists
+        val existingWithSameEmailUser = userRepository.findByEmail(userDto.email)
+        if (existingWithSameEmailUser != null) {
+            logger.info("User with such email already exists: {}", existingWithSameEmailUser.username)
+            return userMapper.entityToDto(existingWithSameEmailUser)
+        }
+
         val hashedPassword = hashPassword(userDto.password)
 
         var user = userMapper.createDtoToEntity(userDto)
