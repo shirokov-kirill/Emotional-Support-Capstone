@@ -26,7 +26,7 @@ class UserServiceImpl(
         val existingUser = userRepository.findByUsername(userDto.username)
         if (existingUser != null) {
             logger.info("User with such username already exists: {}", existingUser.username)
-            return userMapper.entityToDto(existingUser)
+            throw BadCredentialsException("User with such username already exists: ${existingUser.username}")
         }
 
         // Check if a user with the same email address already exists
