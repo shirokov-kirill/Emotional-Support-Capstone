@@ -10,7 +10,7 @@ function ChatsPage() {
       user: {
         id: 1,
         url: "https://via.placeholder.com/30",
-        author: "Leonard"
+        author: "Alexandra Vasnetsova"
       },
       messages: [
         {
