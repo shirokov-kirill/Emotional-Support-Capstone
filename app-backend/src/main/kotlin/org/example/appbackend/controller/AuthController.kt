@@ -9,6 +9,8 @@ import org.example.appbackend.entity.AuthToken
 import org.example.appbackend.repository.AuthTokenRepository
 import org.example.appbackend.service.DoctorCredentialsService
 import org.example.appbackend.service.UserService
+import org.example.appbackend.utils.ActionNames
+import org.example.appbackend.utils.NEW_LOGIN_MSG_TEXT
 import org.example.appbackend.utils.executePythonScript
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -48,7 +50,7 @@ class AuthController(
             logger.info("Logged in successfully.")
 
             try {
-                executePythonScript(userDto.email, userDto.username)
+                executePythonScript(userDto.email, userDto.username, NEW_LOGIN_MSG_TEXT, ActionNames.Actions.LOGIN.value)
             } catch (e: Exception) {
                 logger.error("Failed sending Email: ${e.message}")
             }

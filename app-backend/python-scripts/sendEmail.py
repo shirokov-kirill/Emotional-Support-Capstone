@@ -2,35 +2,9 @@ import smtplib
 import sys
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import os
-
-def send_email_to_user(to_address, subject, email_body_html):
-    smtp_server = "smtp.gmail.com"
-    smtp_port = 587
-
-    sender_password = "qoee mxln acxi occo"
-    sender_email = "emotional.app52@gmail.com"
-
-    try:
-        msg = MIMEMultipart()
-        msg['From'] = sender_email
-        msg['To'] = to_address
-        msg['Subject'] = subject
-
-        msg.attach(MIMEText(email_body_html, 'html'))
-
-        with smtplib.SMTP(smtp_server, smtp_port) as server:
-            server.starttls()
-            server.login(sender_email, sender_password)
-            server.send_message(msg)
-    except Exception as e:
-        print(f"Failed to send email. Error: {str(e)}")
 
 
-email = sys.argv[1]
-name = sys.argv[2]
-
-new_login_detected_html = """
+msg_template = """
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,12 +43,10 @@ new_login_detected_html = """
 </head>
 <body>
     <div class="container">
-        <h1>New Login Detected</h1>
+        <h1>[ACTION_NAME]</h1>
         <div class="content">
             <p>Hi, [USER_NAME]!</p>
-            <p>We noticed a new login to your Emotional Support App account.</p>
-            <p>If this was you, please ignore this message.</p>
-            <p>If not, please contact us promptly to secure your account.</p>
+            [TEXT]
             <a href="https://emotionalsupport.life/" class="button">Contact Us</a>
         </div>
     </div>
@@ -82,5 +54,35 @@ new_login_detected_html = """
 </html>
 """
 
-new_login_detected_html = new_login_detected_html.replace("[USER_NAME]", name)
-send_email_to_user(email, "Alert: New Login Detected on Your Emotional Support App Account", new_login_detected_html)
+def send_email_to_user(to_address, subject, email_body_html):
+    smtp_server = "smtp.gmail.com"
+    smtp_port = 587
+
+    sender_password = "qoee mxln acxi occo"
+    sender_email = "emotional.app52@gmail.com"
+
+    try:
+        msg = MIMEMultipart()
+        msg['From'] = sender_email
+        msg['To'] = to_address
+        msg['Subject'] = subject
+
+        msg.attach(MIMEText(email_body_html, 'html'))
+
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.send_message(msg)
+    except Exception as e:
+        print(f"Failed to send email. Error: {str(e)}")
+
+
+email = sys.argv[1]
+name = sys.argv[2]
+text = sys.argv[3]
+action_name = sys.argv[4]
+
+msg_html = msg_template.replace("[USER_NAME]", name)
+msg_html = msg_html.replace("[ACTION_NAME]", action_name)
+msg_html = msg_html.replace("[TEXT]", text)
+send_email_to_user(email, f"Alert: {action_name}", msg_html)
