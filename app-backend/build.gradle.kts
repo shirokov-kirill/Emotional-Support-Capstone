@@ -11,8 +11,6 @@ plugins {
 group = "org.example"
 version = "0.0.1-SNAPSHOT"
 
-val mapstructVersion by extra("1.5.5.Final")
-
 java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
