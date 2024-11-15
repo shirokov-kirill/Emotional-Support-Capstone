@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
 import './Login.css';
 import axios from 'axios';
 
@@ -13,7 +13,7 @@ function Footer() {
 
 function ResetPassword() {
     const navigate = useNavigate();
-    const { token } = useParams();
+    const {token} = useParams();
     const [securityQuestion, setSecurityQuestion] = useState('');
     const [securityAnswer, setSecurityAnswer] = useState('');
     const [isSecurityQuestionVerified, setIsSecurityQuestionVerified] = useState(false);
@@ -74,7 +74,7 @@ function ResetPassword() {
         }
 
         try {
-            const response = await axios.post(`/api/reset-password/${token}`, { password });
+            const response = await axios.post(`/api/reset-password/${token}`, {password});
             if (response.status === 200) {
                 navigate('/login');
             }
@@ -109,26 +109,24 @@ function ResetPassword() {
                         <button type="submit">Verify Answer</button>
                     </form>
                 ) : (
+                    <form onSubmit={onResetPasswordSubmit}>
+                        <input
+                            type="password"
+                            placeholder="New password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            style={isPasswordValid() ? {} : {border: '1px solid lightcoral'}}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Confirm password"
+                            onChange={(e) => setConfirmationPassword(e.target.value)}
+                            style={isPasswordSame() ? {} : {border: '1px solid lightcoral'}}
+                        />
 
-                <form onSubmit={onResetPasswordSubmit}>
-                    <input
-                        type="password"
-                        placeholder="New password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        style={isPasswordValid() ? {} : { border: '1px solid lightcoral' }}
-                    />
-
-                    <input
-                        type="password"
-                        placeholder="Confirm password"
-                        onChange={(e) => setConfirmationPassword(e.target.value)}
-                        style={isPasswordSame() ? {} : { border: '1px solid lightcoral' }}
-                    />
-
-                    <div>
-                        <button type="submit">Continue</button>
-                    </div>
-                </form>
+                        <div>
+                            <button type="submit">Continue</button>
+                        </div>
+                    </form>)}
                 <button
                     className="text-button signup-button"
                     onClick={() => navigate('/login')}
@@ -136,7 +134,7 @@ function ResetPassword() {
                     Back to login
                 </button>
             </div>
-            <Footer />
+            <Footer/>
         </div>
     );
 }
