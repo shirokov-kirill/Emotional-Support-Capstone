@@ -34,7 +34,7 @@ export const PatientMainComponents = [
     { "label": "Appointments", "path": "/appointment", "element": Appointment, icon: <AppointmentIcon />, "type": ComponentType.Sidebar },
     { "label": "Feedback", "path": "/feedback", "element": Feedback, icon: <FeedbackIcon />, "type": ComponentType.Sidebar },
     { "label": "Share", "path": "/share", "element": Share, icon: <ShareIcon />, "type": ComponentType.Sidebar },
-    { "label": "Notifications list", "path": "/notifications", "element": NotificationList, icon: <NotificationsIcon/>, "type": ComponentType.Sidebar },
+    { "label": "Notifications list", "path": "/notifications", "element": NotificationList("patient"), icon: <NotificationsIcon/>, "type": ComponentType.Sidebar },
     { "label": "Data Sharing", "path": "/datasharing", "element": DataSharing, icon: <IosShareIcon />, "type": ComponentType.Sidebar },
     { "label": "Settings", "path": "/settings", "element": Settings, icon: <SettingsIcon />, "type": ComponentType.Topbar},
     { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon />, "type": ComponentType.Sidebar }
@@ -45,7 +45,7 @@ export const HealthProviderMainComponents = [
     { "label": "Chats", "path": "/chats", "element": ChatsPage, icon: <SmsIcon />, "type": ComponentType.Sidebar},
     { "label": "Appointments", "path": "/appointment", "element": Appointment, icon: <AppointmentIcon />, "type": ComponentType.Sidebar },
     { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList, icon: <FeedbackIcon />, "type": ComponentType.Sidebar },
-    { "label": "Notifications list", "path": "/notifications", "element": NotificationList, icon: <NotificationsIcon/>, "type": ComponentType.Sidebar },
+    { "label": "Notifications list", "path": "/notifications", "element": NotificationList("doctor"), icon: <NotificationsIcon/>, "type": ComponentType.Sidebar },
     { "label": "Data Viewing", "path": "/dataviewing", "element": DataViewing, icon: <CoPresentIcon />, "type": ComponentType.Sidebar },
     { "label": "Settings", "path": "/settings", "element": Settings, icon: <SettingsIcon />, "type": ComponentType.Topbar},
     { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon />, "type": ComponentType.Sidebar }

@@ -1,13 +1,25 @@
 import React from 'react';
-import {ExampleNotification, MoodAssessmentNotification} from './Notifications';
+import {MoodAssessmentNotification, UpcomingAppointmentNotification, WellnessTipNotification} from './Notifications';
 
-const NotificationList = () => {
+const NotificationList = ({ user }) => {
+    if (user === "doctor") return DoctorNotificationList
+    else return PatientNotificationList
+}
+
+const PatientNotificationList = () => {
     return (
         <div>
             <MoodAssessmentNotification/>
-            <ExampleNotification/>
+            <WellnessTipNotification/>
+        </div>
+    );
+}
+const DoctorNotificationList = () => {
+    return (
+        <div>
+            <UpcomingAppointmentNotification/>
         </div>
     );
 }
 
-export default NotificationList;
+export default NotificationList
