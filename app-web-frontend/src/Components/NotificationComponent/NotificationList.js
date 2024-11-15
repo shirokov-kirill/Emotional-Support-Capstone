@@ -1,7 +1,7 @@
 import React from 'react';
 import {MoodAssessmentNotification, UpcomingAppointmentNotification, WellnessTipNotification} from './Notifications';
 
-const NotificationList = ({ user }) => {
+const NotificationList = (user) => {
     if (user === "doctor") return DoctorNotificationList
     else return PatientNotificationList
 }
