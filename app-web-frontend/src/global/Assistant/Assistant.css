@@ -1,0 +1,123 @@
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff; /* Blue color */
+    color: white;
+    border: none;
+    width: 50px; /* Set width for a circular shape */
+    height: 50px; /* Set height for a circular shape */
+    border-radius: 50%; /* Makes the button round */
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.chat-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.chat-box {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    width: 350px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    max-height: 400px;
+    overflow: hidden;
+}
+
+.messages {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* User and bot message styling */
+.user {
+    align-self: flex-end; /* Aligns user's messages to the right */
+    background-color: #e0f7fa;
+    padding: 8px 12px;
+    max-width: 80%; /* Set a max width so messages don’t stretch across */
+    border-radius: 15px 0 15px 15px;
+    color: #007bff;
+    word-wrap: break-word; /* Break long words to prevent overflow */
+}
+
+.bot {
+    align-self: flex-start; /* Aligns bot's messages to the left */
+    background-color: #f1f1f1;
+    padding: 8px 12px;
+    max-width: 80%; /* Set a max width so messages don’t stretch across */
+    border-radius: 0 15px 15px 15px;
+    color: #333333;
+    word-wrap: break-word; /* Break long words to prevent overflow */
+}
+
+/* Input area */
+.chat-box input {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    padding: 10px;
+    font-size: 14px;
+    outline: none;
+    flex: 1;
+}
+
+.chat-box button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chat-box button:hover {
+    background-color: #0056b3;
+}
+
+.typing-indicator {
+    display: inline-block;
+    position: relative;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    opacity: 0;
+    animation: typing-dot 1.5s infinite;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 1s;
+}
+
+@keyframes typing-dot {
+    0%, 80%, 100% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 1;
+    }
+}

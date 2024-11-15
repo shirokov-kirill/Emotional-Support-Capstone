@@ -15,6 +15,7 @@
     "@fullcalendar/list": "^6.1.11",
     "@fullcalendar/react": "^6.1.11",
     "@fullcalendar/timegrid": "^6.1.11",
+    "@google/generative-ai": "^0.21.0",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/x-charts": "^7.1.1",
@@ -42,6 +43,7 @@
     "recharts": "^2.12.4",
     "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4",
+    "webpack": "^5.96.1",
     "yup": "^1.4.0"
   },
   "scripts": {
@@ -67,5 +69,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-app-rewired": "^2.2.1"
   }
 }
