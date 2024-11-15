@@ -1,15 +1,11 @@
 package org.example.appbackend
 
-import org.example.appbackend.dto.CreateUserDto
-import org.example.appbackend.dto.UserDto
-import org.example.appbackend.dto.DoctorCredentialsDto
-import org.example.appbackend.dto.LoginRequestDto
-import org.example.appbackend.dto.LoginResponseDto
+import org.example.appbackend.dto.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import java.time.LocalDate
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.test.assertNotNull
 
 class Url(val port: Int) {
@@ -25,19 +21,50 @@ class Url(val port: Int) {
     val shareUserMood = "$root/user-mood/share"
     val createMood get() = "$root/user-mood/create"
     fun getAllowedUserMood(userId: Int, doctorId: Int) = "$root/user-mood/get-allowed/$userId/$doctorId"
+    fun getUserMoodTimeFrame(start: LocalDate, end: LocalDate) =
+        "$root/user-mood/getByUser/timeframe?start=$start&end=$end"
+}
+
+interface NameProvider {
+    companion object {
+        val counter: AtomicInteger = TODO()
+        fun getNewName(): String = ""
+    }
+}
+
+class UserNameProvider : NameProvider {
+    companion object {
+        private val counter = AtomicInteger(0)
+
+        fun getNewName(): String {
+            return "user${counter.incrementAndGet()}"
+        }
+    }
+}
+
+class DoctorNameProvider : NameProvider {
+    companion object {
+        private val counter = AtomicInteger(0)
+
+        fun getNewName(): String {
+            return "doctor${counter.incrementAndGet()}"
+        }
+    }
 }
 
 fun createDoctor(
     url: Url,
     restTemplate: TestRestTemplate,
-    username: String? = null,
-    name: String? = null,
-    surname: String? = null,
-    email: String? = null,
-    clinic: String? = null,
-    specialization: String? = null,
+    username: String = DoctorNameProvider.getNewName(),
+    name: String = "DoctorName",
+    surname: String = "DoctorSurname",
+    email: String = "doctor@example.com",
+    clinic: String = "default_clinic",
+    specialization: String = "default_specialization",
 ): Int {
-    val doctorCredentials = DoctorCredentialsDto(null, null, username, name, surname, email, clinic, specialization)
+    val id = 123
+    val dob = LocalDate.of(1990, 1, 1)
+    val doctorCredentials = RegisterDoctorCredentialsDto(username, "password", name, surname, email, dob, clinic, specialization, false)
     val response = restTemplate.postForEntity(url.addDoctor, doctorCredentials, DoctorCredentialsDto::class.java)
     assertEquals(HttpStatus.OK, response.statusCode)
     val createdDoctorCredentials = response.body
@@ -50,13 +77,13 @@ fun createDoctor(
 fun createUser(
     url: Url,
     restTemplate: TestRestTemplate,
-    username: String,
-    password: String,
-    firstName: String? = null,
-    lastName: String? = null,
-    email: String,
-    dateOfBirth: LocalDate? = null,
-    gender: String? = null,
+    username: String = UserNameProvider.getNewName(),
+    password: String = "default_password",
+    firstName: String = "FirstName",
+    lastName: String = "SecondName",
+    email: String = "default_email",
+    dateOfBirth: LocalDate = LocalDate.of(1990, 1, 1),
+    gender: String = "male",
     securityQuestion: String? = null,
     securityAnswer: String? = null
 ): Int {

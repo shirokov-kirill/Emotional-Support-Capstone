@@ -1,19 +1,17 @@
 package org.example.appbackend.service
 
 import jakarta.transaction.Transactional
-import org.example.appbackend.config.SecurityConfig
-import org.example.appbackend.dto.CreateUserMoodDto
-import org.example.appbackend.dto.ShareMoodTimeFrameWithDoctorsDto
-import org.example.appbackend.dto.UpdateUserMoodDto
-import org.example.appbackend.dto.UserMoodDto
-import org.example.appbackend.dto.UserMoodSharingDto
+import org.example.appbackend.config.JwtTokenFilter
+import org.example.appbackend.dto.*
 import org.example.appbackend.entity.UserMood
 import org.example.appbackend.exception.UserMoodIdNotAssignedException
 import org.example.appbackend.exception.UserMoodNotFoundException
 import org.example.appbackend.mapper.ChatMapper
+import org.example.appbackend.mapper.DoctorCredentialsMapper
 import org.example.appbackend.mapper.UserMoodMapper
 import org.example.appbackend.repository.ChatRepository
 import org.example.appbackend.mapper.UserMoodSharingMapper
+import org.example.appbackend.repository.DoctorCredentialsRepository
 import org.example.appbackend.repository.UserMoodRepository
 import org.example.appbackend.repository.UserMoodSharingRepository
 import org.springframework.stereotype.Service
@@ -30,11 +28,15 @@ import java.time.LocalDateTime
 @Service
 class UserMoodServiceImpl(
     private val userMoodRepository: UserMoodRepository,
+    private val doctorCredentialsRepository: DoctorCredentialsRepository,
     private val chatRepository: ChatRepository,
     private val userMoodMapper: UserMoodMapper,
+    private val doctorCredentialsMapper: DoctorCredentialsMapper,
     private val chatMapper: ChatMapper,
     private val userMoodSharingRepository: UserMoodSharingRepository,
     private val userMoodSharingMapper: UserMoodSharingMapper,
+    private val jwtTokenFilter: JwtTokenFilter,
+    private val recommendationService: RecommendationService
 ) : UserMoodService {
 
     @Transactional
@@ -63,7 +65,7 @@ class UserMoodServiceImpl(
 
     @Transactional
     override fun getUserMoodForTimeFrame(authToken: String, startDate: LocalDate, endDate: LocalDate): Map<LocalDate, UserMoodDto> {
-        val userId = SecurityConfig().jwtTokenFilter().extractUserId(authToken)
+        val userId = jwtTokenFilter.extractUserId(authToken.substring(7))
         val startLocalDateTime = startDate.atStartOfDay()
         val endLocalDateTime = endDate.atStartOfDay()
         val userMoodData = userMoodRepository.findByUserIdAndCreatedBetween(userId, startLocalDateTime, endLocalDateTime)
@@ -84,7 +86,7 @@ class UserMoodServiceImpl(
      */
     @Transactional
     override fun getCriticalUsersMoodByDoctorToken(authToken: String): List<UserMoodDto> {
-        val doctorId = SecurityConfig().jwtTokenFilter().extractUserId(authToken)
+        val doctorId = jwtTokenFilter.extractUserId(authToken.substring(7))
         val doctorChats = chatRepository.findByDoctorId(doctorId)
         val userIdToMoodDto = mutableListOf<UserMoodDto>()
         val today = LocalDateTime.now().toLocalDate().atStartOfDay()
@@ -143,5 +145,14 @@ class UserMoodServiceImpl(
     @Transactional
     override fun getAllowedUserMoods(userId: Int, doctorId: Int): List<UserMoodDto> {
         return userMoodRepository.findByUserIdAndDoctorId(userId, doctorId).map { userMoodMapper.entityToDto(it) }
+    }
+
+    @Transactional
+    override fun getRecommendedDoctorsByMoods(authToken: String): List<DoctorRecommendationDto> {
+        val endDate = LocalDate.now()
+        val startDate = endDate.minusWeeks(1)
+        val userMoods = getUserMoodForTimeFrame(authToken, startDate, endDate).values.toList()
+        val doctors = doctorCredentialsRepository.findAll().map { doctorCredentialsMapper.entityToDto(it) }
+        return recommendationService.getRelevantDoctors(userMoods, doctors)
     }
 }

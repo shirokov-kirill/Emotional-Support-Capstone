@@ -23,10 +23,9 @@ class UserProfile extends Component {
   }
 
   componentDidMount() {
-    const id = localStorage.getItem('id');
     const token = localStorage.getItem('authToken')
-    if (id && token ) {
-      axios.get(`${SERVER_ADDRESS}/users/${id}`, {
+    if (token) {
+      axios.get(`${SERVER_ADDRESS}/users`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -57,7 +56,7 @@ class UserProfile extends Component {
             console.error('Error fetching user data:', error);
           });
     } else {
-      console.error('User ID not found in localStorage');
+      console.error('User token not found in localStorage');
     }
   }
 

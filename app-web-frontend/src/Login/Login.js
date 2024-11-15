@@ -3,6 +3,8 @@ import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {SERVER_ADDRESS} from "../setupInfo";
+import PasswordInput from './Components/PasswordInput';
+
 
 
 
@@ -21,7 +23,24 @@ const securityQuestions = [
     "In what city were you born?"
 ];
 
+const PasswordStrength = {
+    WEAK: {
+        message: 'Your password is weak. Try adding more characters and mixing letters, numbers, and special symbols.',
+        color: 'red'
+    },
+    FAIR: {
+        message: 'Your password is fair. It can be stronger by adding special characters and ensuring it is at least 12 characters.',
+        color: 'orange'
+    },
+    STRONG: {
+        message: 'Your password is strong and secure.',
+        color: 'green'
+    }
+};
+
 export function Login() {
+    localStorage.setItem("authToken", NaN);
+    localStorage.setItem("role", NaN);
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -33,7 +52,17 @@ export function Login() {
     const [gender, setGender] = useState('');
     const [securityQuestion, setSecurityQuestion] = useState('');
     const [securityAnswer, setSecurityAnswer] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
     const [showFormValidWarning, setShowFormValidWarning] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const toggleConfirmationPasswordVisibility = () => {
+        setShowConfirmationPassword(!showConfirmationPassword);
+    };
 
     let navigate = useNavigate();
 
@@ -51,6 +80,21 @@ export function Login() {
         return password.length >= 8 || password.length === 0;
     }
 
+    const calculatePasswordStrength = () => {
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumbers = /\d/.test(password);
+        const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        if (hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChars) {
+            return PasswordStrength.STRONG;
+        } else if (hasUpperCase && hasLowerCase && hasNumbers && password.length >= 12) {
+            return PasswordStrength.FAIR;
+        } else {
+            return PasswordStrength.WEAK;
+        }
+    }
+
     const isPasswordSame= () => {
         return password === confirmationPassword || confirmationPassword.length === 0;
     }
@@ -60,12 +104,17 @@ export function Login() {
         return age >= 13 || dateOfBirth.length === 0;
     }
 
+    const isUsernameValid = () => {
+        const re = /[0-9a-zA-Z]/;
+        return username.length > 4 && re.test(username)
+    }
+
     const isNewUserFormValid = () => {
-        return isPasswordValid() && isPasswordSame() && validateEmail() && isDOBValid() && !isFormEmpty();
+        return isPasswordValid() && isPasswordSame() && validateEmail() && isDOBValid() && !isFormEmpty() && isUsernameValid();
     }
 
     const isLoginFormValid = () => {
-        return isPasswordValid() && username;
+        return isPasswordValid() && isUsernameValid();
     }
 
     const onUserLoginSubmit = async (event) => {
@@ -88,10 +137,10 @@ export function Login() {
             if (response.status === 200) {
 		const authToken = response.data.token;
                 localStorage.setItem('authToken', authToken); // Save token to local storage
-                localStorage.setItem('id', response.data['id'])
+                localStorage.setItem('role', 'patient')
                 console.log('User login successfully')
                 console.log(response.data);
-                navigate('/home');
+                navigate('/dashboard');
             }
         } catch (error) {
             console.error('Failed to login', error);
@@ -122,7 +171,7 @@ export function Login() {
                 if (login_response.status === 200) {
                     const authToken = login_response.data['token'];
                     localStorage.setItem('authToken', authToken); // Save token to local storage
-                    localStorage.setItem('id', response.data['id'])
+                    localStorage.setItem('role', 'patient')
                     console.log(response.data)
                     navigate('/dashboard');
                 }
@@ -142,8 +191,19 @@ export function Login() {
                     </div>
                     <form onSubmit={onUserLoginSubmit}>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
-                        <button id="forgot-password-button" className="text-button" onClick={() => navigate("/password_reset")}>
+                        <PasswordInput
+                            value={password}
+                            placeholder={"Password"}
+                            onChange={e => setPassword(e.target.value)}
+                            isValid={isPasswordValid()}
+                            showPassword={showPassword}
+                            togglePasswordVisibility={togglePasswordVisibility}
+                        />
+                        <button
+                            id="forgot-password-button"
+                            className="text-button"
+                            onClick={() => navigate('/forgot-password', {state: {from: 'user'}})}
+                        >
                             Forgot Password?
                         </button>
 
@@ -188,10 +248,15 @@ export function Login() {
                                 type="text"
                                 placeholder="Username"
                                 onChange={(e) => setUsername(e.target.value)}
-                            />
-                        </div>
-                        <div className="horizontal-column">
-                            <input
+                                />
+                                    {!isUsernameValid() && (
+                                        <p className="warning-message">
+                                            Has to be 5+ symbols long, no special characters
+                                        </p>
+                                    )}
+                                </div>
+                                <div className="horizontal-column">
+                                <input
                                 type="date"
                                 placeholder="1990-01-01"
                                 onChange={(e) => setDob(e.target.value)}
@@ -232,26 +297,35 @@ export function Login() {
                         <p className="warning-message">Please enter a valid Email.</p>
                     )}
 
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        style={
-                            isPasswordValid() ? {} : {border: "1px solid lightcoral"}
-                        }
+                    <PasswordInput
+                            value={password}
+                            placeholder={"Password"}
+                            onChange={e => setPassword(e.target.value)}
+                            isValid={isPasswordValid()}
+                            showPassword={showPassword}
+                            togglePasswordVisibility={togglePasswordVisibility}
                     />
-
+                    {isPasswordValid() && password.length !== 0 && (() => {
+                    const strength = calculatePasswordStrength(password);
+                    return (
+                        <p className="warning-message" style={{ color: strength.color }}>
+                            {strength.message}
+                        </p>
+                    );
+                    })()}
                     {!isPasswordValid() && (
                         <p className="warning-message">
                             Password must be at least 8 characters long.
                         </p>
                     )}
 
-                    <input
-                        type="password"
-                        placeholder="Confirm Password"
-                        onChange={(e) => setConfirmationPassword(e.target.value)}
-                        style={isPasswordSame() ? {} : {border: "1px solid lightcoral"}}
+                    <PasswordInput
+                            value={confirmationPassword}
+                            placeholder={"Confirm password"}
+                            onChange={e => setConfirmationPassword(e.target.value)}
+                            isValid={isPasswordSame()}
+                            showPassword={showConfirmationPassword}
+                            togglePasswordVisibility={toggleConfirmationPasswordVisibility}
                     />
 
                     <select
@@ -304,6 +378,7 @@ export function Login() {
 
 // this logic isn't great, but this functiion is needed for the header to work
 // TODO: refactor this
+
     export function isLoggedIn() {
         return true;
     }

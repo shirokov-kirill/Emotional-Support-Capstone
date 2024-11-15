@@ -1,8 +1,7 @@
 import Header from "../../Components/Header";
 import { Box } from "@mui/material";
-import Calendar from "../../MainComponents/Calendar/Calendar";
 
-const MainCalendar = () => {
+const Settings = () => {
   return (
     <Box m="1px">
       <Box
@@ -11,13 +10,10 @@ const MainCalendar = () => {
         alignItems="center"
         marginLeft="20px"
       >
-        <Header title="CALENDAR" subtitle="Welcome to your calendar"></Header>
-      </Box>
-      <Box>
-        <Calendar></Calendar>
+        <Header title="Settings" subtitle="Welcome to your profile"></Header>
       </Box>
     </Box>
   );
 };
 
-export default MainCalendar;
+export default Settings;
