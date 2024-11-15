@@ -33,6 +33,12 @@ class User {
         @Column(name = "gender")
         var gender: String? = null
 
+        @Column(name = "securityQuestion")
+        var securityQuestion: String? = null
+
+        @Column(name = "securityAnswer")
+        var securityAnswer: String? = null
+
         @Column(name = "created_at", nullable = false)
         var createdAt: LocalDateTime? = LocalDateTime.now()
 
