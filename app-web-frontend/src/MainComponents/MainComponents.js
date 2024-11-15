@@ -45,7 +45,7 @@ export const PatientMainComponents = [
 ]
 
 export const HealthProviderMainComponents = [
-    // { "label": "Dashboard", "path": "/dashboard", "element": Dashboard, "icon": <HomeIcon />, "type": ComponentType.Sidebar},
+    { "label": "Dashboard", "path": "/dashboard", "element": Dashboard, "icon": <HomeIcon />, "type": ComponentType.Sidebar},
     { "label": "Chats", "path": "/chats", "element": ChatsPage, icon: <SmsIcon />, "type": ComponentType.Sidebar},
     { "label": "Appointments", "path": "/appointment", "element": Appointment, icon: <AppointmentIcon />, "type": ComponentType.Sidebar },
     { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList, icon: <FeedbackIcon />, "type": ComponentType.Sidebar },

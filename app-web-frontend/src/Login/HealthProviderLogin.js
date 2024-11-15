@@ -168,9 +168,10 @@ function HealthProviderLogin() {
                 if (login_response.status === 200) {
                     const authToken = login_response.data['token'];
                     localStorage.setItem('authToken', authToken); // Save token to local storage
+                    localStorage.setItem('role', 'health_provider');
                     console.log(response.data)
-                    // navigate('/dashboard');
-                    navigate("/home/hprovider")
+                    navigate('/dashboard');
+                    // navigate("/home/hprovider")
                 }
             }
         } catch (error) {
