@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AiRecs.css';
 
-const ButtonGrid = () => {
+const AIRecs = () => {
     const navigate = useNavigate();
 
     const handleButtonClick = (category) => {
@@ -37,4 +37,4 @@ const ButtonGrid = () => {
     );
 };
 
-export default ButtonGrid;
+export default AIRecs;
