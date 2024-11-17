@@ -91,16 +91,20 @@ function ChatsPage() {
 
   const fetchChat = useCallback( async () => {
     const authToken = getUserAuthToken()
-    let response = await axios.get(`http://localhost:8080/messages/${chatId}`, {
-      headers: {
-        'Authorization': `Bearer ${authToken}`
+    try {
+      let response = await axios.get(`http://localhost:8080/messages/${chatId}`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+      const result = {
+        messages: response.data.reverse(),
+        user: chatsInitial[0].user
       }
-    });
-    const result = {
-      messages: response.data.reverse(),
-      user: chatsInitial[0].user
+      setChats([result])
+    } catch(error) {
+      console.error('Failed to retrieve messages', error);
     }
-    setChats([result])
   }, [])
 
   useLayoutEffect(() => {
@@ -116,9 +120,14 @@ function ChatsPage() {
       senderId: myId,
       content: message
     }
+    const authToken = getUserAuthToken()
 
     try {
-      const response = await axios.post('http://localhost:8080/messages', messageObj);
+      const response = await axios.post('http://localhost:8080/messages', messageObj, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
       console.log(response)
       if (response.status === 200) {
         console.log('Message successfully sent')

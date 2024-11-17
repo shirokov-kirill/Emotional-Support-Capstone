@@ -1,12 +1,18 @@
 import { useState } from "react";
 import "./ChatView.css";
 import MessageBubble from "./MessageBubble";
-import { FaRegSmile, FaEllipsisH } from 'react-icons/fa';
-import { GoPaperclip } from "react-icons/go";
-import { HiOutlineMicrophone, HiEllipsisHorizontal } from "react-icons/hi2";
+import { FaRegSmile } from 'react-icons/fa';
+import { GoPaperAirplane, GoPaperclip} from "react-icons/go";
+import { HiOutlineMicrophone } from "react-icons/hi2";
 
 function ChatView(props) {
   let [message, setMessage] = useState("");
+
+  const sendMessage = () => {
+    console.log(message)
+    props.onSendMessage(message)
+    setMessage("")
+  }
   
   return (
     <div className="chatsView">
@@ -16,12 +22,12 @@ function ChatView(props) {
       <div className="input-control-panel">
         <div className="message-input-container">
           <FaRegSmile className="input-icon emoji-icon" />
-          <input type="text" placeholder="Type a message" className="message-input" />
+          <input type="text" placeholder="Type a message" value={message} className="message-input" onChange={e => setMessage(e.target.value)} />
         </div>
         <div className="input-icons-group">
+          <GoPaperAirplane className="input-icon" onClick={sendMessage}/>
           <HiOutlineMicrophone className="input-icon"/>
           <GoPaperclip className="input-icon"/>
-          <HiEllipsisHorizontal className="input-icon" />
         </div>
       </div>
     </div>
