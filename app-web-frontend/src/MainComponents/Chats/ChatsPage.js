@@ -3,7 +3,8 @@ import "./ChatsPage.css"
 import ChatsList from "./components/ChatsList";
 import ChatView from "./components/ChatView";
 import ChatHeader from "./components/ChatHeader";
-import axios from "axios";
+import axios, { AxiosHeaders } from "axios";
+import { getUserAuthToken } from "../../reusables/utils/AuthToken";
 
 function ChatsPage() {
   const chatsInitial = [
@@ -89,7 +90,12 @@ function ChatsPage() {
 
 
   const fetchChat = useCallback( async () => {
-    let response = await axios.get(`http://localhost:8080/messages/${chatId}`);
+    const authToken = getUserAuthToken()
+    let response = await axios.get(`http://localhost:8080/messages/${chatId}`, {
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      }
+    });
     const result = {
       messages: response.data.reverse(),
       user: chatsInitial[0].user
