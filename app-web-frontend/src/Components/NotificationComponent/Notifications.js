@@ -40,9 +40,48 @@ export const MoodAssessmentNotification = () => {
         }
 
         return true;
-    }
+    };
 
     return (
         NeedToNotify() && <Notification title={title} message={message} action={() => navigate("/emotion_assessment")} buttonText="To mood assessment"/>
     );
+};
+
+export const UpcomingAppointmentNotification = () => {
+    const title = "Upcoming Appointment";
+    const message = "Check your appointments so you don't miss any of them!";
+
+    const NeedToNotify = () => {
+        const now = new Date();
+
+        if (localStorage.getItem('lastAppointmentDate') === now.toDateString()) {
+            console.log('Already reminded about appointment today');
+            return false;
+        }
+
+        localStorage.setItem('lastAppointmentDate', new Date().toDateString());
+        return true;
+    };
+
+    return (NeedToNotify() && <Notification title={title} message={message} />);
+};
+
+// Additional patient notification: Wellness tip
+export const WellnessTipNotification = () => {
+    const title = "Wellness Tip of the Day";
+    const message = "Remember to take a deep breath and focus on something positive today!";
+
+    const NeedToNotify = () => {
+        const now = new Date();
+
+        if (localStorage.getItem('lastTipDate') === now.toDateString()) {
+            console.log('Already sent a tip today');
+            return false;
+        }
+
+        localStorage.setItem('lastTipDate', new Date().toDateString());
+        return true;
+    };
+
+    return (NeedToNotify() && <Notification title={title} message={message} />);
 };
