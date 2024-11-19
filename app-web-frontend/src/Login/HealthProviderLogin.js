@@ -3,6 +3,7 @@ import './Login.css';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import { SERVER_ADDRESS } from "../setupInfo";
+import Timer from "../reusables/utils/Timer";
 import PasswordInput from './Components/PasswordInput';
 
 function Footer() {
@@ -29,8 +30,10 @@ const PasswordStrength = {
 };
 
 function HealthProviderLogin() {
+    const timerInStorageId = "HealthProviderLoginTimer";
     localStorage.setItem("authToken", NaN);
     localStorage.setItem("role", NaN);
+    const timerInStorageId = "HealthProviderLoginTimer";
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -42,6 +45,8 @@ function HealthProviderLogin() {
     const [clinic, setClinic] = useState('');
     const [specialisation, setSpecialisation] = useState('');
     const [file, setFile] = useState(null);
+    const [loginsCount, setLoginsCount] = useState(0);
+    const [showMultipleLoginTimerCountdown, setShowMultipleLoginTimerCountdown] = useState(localStorage.getItem(timerInStorageId) != null);
     const [agreedForRecommendations, setAgreedForRecommendations] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
@@ -113,6 +118,19 @@ function HealthProviderLogin() {
         setFile(selectedFile);
     }
 
+    const validateLoginsCount = () => {
+        if(loginsCount >= 3 || localStorage.getItem(timerInStorageId) != null) {
+            setShowMultipleLoginTimerCountdown(true)
+        } else {
+            setShowMultipleLoginTimerCountdown(false)
+        }
+    }
+
+    const onMultipleLoginsTimerEnds = () => {
+        setLoginsCount(0)
+        validateLoginsCount()
+    }
+
     const onHealthProviderLoginSubmit = async (event) => {
         event.preventDefault();
 
@@ -140,6 +158,9 @@ function HealthProviderLogin() {
                 navigate("/home/hprovider")
             }
         } catch (error) {
+            setLoginsCount(loginsCount + 1)
+            validateLoginsCount()
+            //navigate('/home/hprovider');
             console.error('Failed to login', error);
         }
     };
@@ -197,7 +218,10 @@ function HealthProviderLogin() {
                             showPassword={showPassword}
                             togglePasswordVisibility={togglePasswordVisibility}
                         />
-                        <button type="submit" onClick={onHealthProviderLoginSubmit}>Login</button>
+                        <button type="submit" onClick={onHealthProviderLoginSubmit} disabled={showMultipleLoginTimerCountdown>Login</button>
+                        {showMultipleLoginTimerCountdown &&
+                            <Timer id="timer-countdown" text={'Next login in:'} numberOfSeconds={localStorage.getItem(timerInStorageId) ?? 120} storageIdString={timerInStorageId} onTimerEnds={onMultipleLoginsTimerEnds}/>
+                        }
                     </form>
                     <button className="text-button switch-form-button" onClick={() => setIsLogin(false)}>
                         Don't have an account? Sign Up!

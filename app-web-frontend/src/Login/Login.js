@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Timer from "../reusables/utils/Timer";
 import {SERVER_ADDRESS} from "../setupInfo";
 import PasswordInput from './Components/PasswordInput';
-
 
 
 
@@ -39,6 +39,7 @@ const PasswordStrength = {
 };
 
 export function Login() {
+    const timerInStorageId = "UserLoginTimer";
     localStorage.setItem("authToken", NaN);
     localStorage.setItem("role", NaN);
     const [isLogin, setIsLogin] = useState(true);
@@ -55,6 +56,8 @@ export function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
     const [showFormValidWarning, setShowFormValidWarning] = useState(false);
+    const [loginsCount, setLoginsCount] = useState(0);
+    const [showMultipleLoginTimerCountdown, setShowMultipleLoginTimerCountdown] = useState(localStorage.getItem(timerInStorageId) != null);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -117,6 +120,19 @@ export function Login() {
         return isPasswordValid() && isUsernameValid();
     }
 
+    const validateLoginsCount = () => {
+        if(loginsCount >= 3 || localStorage.getItem(timerInStorageId) != null) {
+            setShowMultipleLoginTimerCountdown(true)
+        } else {
+            setShowMultipleLoginTimerCountdown(false)
+        }
+    }
+
+    const onMultipleLoginsTimerEnds = () => {
+        setLoginsCount(0)
+        validateLoginsCount()
+    }
+
     const onUserLoginSubmit = async (event) => {
         event.preventDefault();
 
@@ -143,6 +159,8 @@ export function Login() {
                 navigate('/dashboard');
             }
         } catch (error) {
+            setLoginsCount(loginsCount + 1);
+            validateLoginsCount()
             console.error('Failed to login', error);
         }
     };
@@ -210,7 +228,10 @@ export function Login() {
                         <div>
                             {showFormValidWarning &&
                                 <p className="warning-message">Please fill in all the required fields.</p>}
-                            <button type="submit">Continue</button>
+                            <button type="submit" disabled={showMultipleLoginTimerCountdown}>Continue</button>
+                            {showMultipleLoginTimerCountdown &&
+                                <Timer id="timer-countdown" text={'Next login in:'} numberOfSeconds={localStorage.getItem(timerInStorageId) ?? 120} storageIdString={timerInStorageId} onTimerEnds={onMultipleLoginsTimerEnds}/>
+                            }
                         </div>
                     </form>
 
