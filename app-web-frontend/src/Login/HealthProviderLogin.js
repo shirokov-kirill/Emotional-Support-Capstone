@@ -167,7 +167,7 @@ function HealthProviderLogin() {
                 const login_response = await axios.post(SERVER_ADDRESS + '/auth/doctor-login', {username, password});
                 if (login_response.status === 200) {
                     const authToken = login_response.data['token'];
-                    localStorage.setItem('authToken', authToken); // Save token to local storage
+                    localStorage.setItem('authToken', authToken);
                     console.log(response.data)
                     // navigate('/dashboard');
                     navigate("/home/hprovider")
@@ -199,8 +199,20 @@ function HealthProviderLogin() {
                         />
                         <button type="submit" onClick={onHealthProviderLoginSubmit}>Login</button>
                     </form>
-                    <button className="text-button switch-form-button" onClick={() => setIsLogin(false)}>
-                        Don't have an account? Sign Up!
+                    <button
+                        id="forgot-password-button"
+                        className="text-button"
+                        onClick={() => navigate('/forgot-password', {state: {from: 'provider'}})}
+                    >
+                        Forgot Password?
+                    </button>
+                    <div>
+                        {showFormValidWarning &&
+                            <p className="warning-message">Please fill in all the required fields.</p>}
+                        <button type="submit">Continue</button>
+                    </div>
+                    <button className="text-button signup-button" onClick={() => setIsLogin(false)}>
+                        New user? Register!
                     </button>
                     <button className="text-button back-to-role" onClick={() => navigate('/')}>
                         Back to role choice

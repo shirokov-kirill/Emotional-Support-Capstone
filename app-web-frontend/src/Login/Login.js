@@ -206,7 +206,6 @@ export function Login() {
                         >
                             Forgot Password?
                         </button>
-
                         <div>
                             {showFormValidWarning &&
                                 <p className="warning-message">Please fill in all the required fields.</p>}
