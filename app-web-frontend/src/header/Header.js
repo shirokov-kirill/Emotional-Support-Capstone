@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import { isLoggedIn } from "../Login/UserLogin";
+import MainComponents from '../MainComponents/MainComponents.js';
 import { isLoggedIn } from "../Login/Login";
 import { PatientMainComponents, HealthProviderMainComponents } from '../MainComponents/MainComponents.js';
 
