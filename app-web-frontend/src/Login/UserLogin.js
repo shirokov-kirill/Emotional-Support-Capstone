@@ -186,8 +186,8 @@ export function Login() {
             {isLogin ? (
                 <div className="form-container">
                     <div className="title">
-                        <h2>Login</h2>
-                        <h4>to get started</h4>
+                        <h2 style={{ textAlign: 'center' }}>Login</h2>
+                        <h4 style={{ textAlign: 'center' }}>to get started</h4>
                     </div>
                     <form onSubmit={onUserLoginSubmit}>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
@@ -376,9 +376,8 @@ export function Login() {
 }
 
 
-// this logic isn't great, but this functiion is needed for the header to work
-// TODO: refactor this
 
-    export function isLoggedIn() {
-        return true;
-    }
+export function isLoggedIn() {
+    const token = localStorage.getItem('authToken');
+    return token !== null;
+}
