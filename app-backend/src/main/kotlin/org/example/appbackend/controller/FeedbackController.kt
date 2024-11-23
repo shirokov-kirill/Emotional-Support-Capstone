@@ -14,7 +14,7 @@ class FeedbackController(
 ) {
 
     @PostMapping("/feedback")
-    fun postFeedback(@RequestBody feedbackDto: FeedbackDto): FeedbackEntity {
+    fun postFeedback(@RequestBody feedbackDto: FeedbackDto): FeedbackDto {
         return feedbackService.saveFeedback(feedbackDto)
     }
 
