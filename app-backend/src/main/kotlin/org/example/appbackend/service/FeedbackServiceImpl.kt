@@ -11,9 +11,10 @@ class FeedbackServiceImpl(
     private val feedbackRepository: FeedbackRepository,
     private val feedbackEntityMapper: FeedbackEntityMapper
 ) : FeedbackService {
-    override fun saveFeedback(feedbackDto: FeedbackDto): FeedbackEntity {
+    override fun saveFeedback(feedbackDto: FeedbackDto): FeedbackDto {
         val feedback = feedbackEntityMapper.dtoToEntity(feedbackDto)
-        return feedbackRepository.save(feedback)
+        val feedbackEntity = feedbackRepository.save(feedback)
+        return feedbackEntityMapper.entityToDto(feedbackEntity)
     }
 
     override fun getAllFeedback(): List<FeedbackDto> {
