@@ -1,6 +1,6 @@
 package org.example.appbackend.dto
 
-data class FeedbackDto(
+data class PostFeedbackDto(
     val name: String?,
     val email: String?,
     val phone: String?,
