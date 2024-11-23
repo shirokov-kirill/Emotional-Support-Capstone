@@ -1,7 +1,7 @@
 package org.example.appbackend.controller
 
 import org.example.appbackend.dto.FeedbackDto
-import org.example.appbackend.entity.FeedbackEntity
+import org.example.appbackend.dto.PostFeedbackDto
 import org.example.appbackend.service.FeedbackService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,7 +14,7 @@ class FeedbackController(
 ) {
 
     @PostMapping("/feedback")
-    fun postFeedback(@RequestBody feedbackDto: FeedbackDto): FeedbackDto {
+    fun postFeedback(@RequestBody feedbackDto: PostFeedbackDto): FeedbackDto {
         return feedbackService.saveFeedback(feedbackDto)
     }
 
