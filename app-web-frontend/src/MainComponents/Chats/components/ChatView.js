@@ -10,7 +10,7 @@ function ChatView(props) {
 
   const sendMessage = () => {
     console.log(message)
-    props.onSendMessage(message)
+    props.onSendMessage(props.userMap.get("other")[0], message)
     setMessage("")
   }
   

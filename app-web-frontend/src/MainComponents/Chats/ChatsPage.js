@@ -7,85 +7,11 @@ import axios, { AxiosHeaders } from "axios";
 import { getUserAuthToken } from "../../reusables/utils/AuthToken";
 
 function ChatsPage() {
-  const chatsInitial = [
-    {
-      user: {
-        id: 1,
-        url: "https://via.placeholder.com/30",
-        author: "Alexandra Vasnetsova"
-      },
-      messages: [
-        {
-          senderId: 1, // userID of sender
-          created: "11:04",
-          content: "Hello!"
-        },
-        {
-          senderId: 1,
-          created: "11:05",
-          content: "How are you?"
-        },
-        {
-          senderId: 0, // my userID
-          created: "11:07",
-          content: "Good morning! Fine, thank you, Leonard!"
-        }
-      ]
-    },
-    {
-      user: {
-        id: 2,
-        url: "https://via.placeholder.com/30",
-        author: "Sheldon"
-      },
-      messages: [
-        {
-          senderId: 2, // userID of sender
-          created: "11:04",
-          content: "Hello!"
-        },
-        {
-          senderId: 2,
-          created: "11:05",
-          content: "How are you?"
-        },
-        {
-          senderId: 0, // my userID
-          created: "11:07",
-          content: "Good morning! Fine, thank you, Sheldon!"
-        }
-      ]
-    },
-    {
-      user: {
-        id: 3,
-        url: "https://via.placeholder.com/30",
-        author: "Radjesh"
-      },
-      messages: [
-        {
-          senderId: 3, // userID of sender
-          created: "11:04",
-          content: "Hello!"
-        },
-        {
-          senderId: 3,
-          created: "11:05",
-          content: "How are you?"
-        },
-        {
-          senderId: 0, // my userID
-          created: "11:10",
-          content: "Good morning! Fine, thank you, Radjesh!"
-        }
-      ]
-    }
-  ]
+  const chatsInitial = []
 
   let [position, setPosition] = useState(0);
   let [chats, setChats] = useState(chatsInitial)
-  const myId = 0;
-  const chatId = 5;
+  let [myId, setMyId] = useState(-1);
   const myIcon = "https://via.placeholder.com/30";
 
 
@@ -98,6 +24,7 @@ function ChatsPage() {
         }
       }).then(response => {
         let uid = response.data.id;
+        setMyId(uid)
         axios.get(`http://localhost:8080/chats/user/${uid}`, {
           headers: {
             'Authorization': `Bearer ${authToken}`
@@ -110,8 +37,13 @@ function ChatsPage() {
                 'Authorization': `Bearer ${authToken}`
               }}).then(response2 => {
                 const result = {
-                  messages: response2.data.reverse(),
-                  user: uid
+                  chatId: element.id,
+                  user: {
+                    id: response2.data.doctor.id,
+                    url: `https://via.placeholder.com/30`,
+                    author: response2.data.doctor.author
+                  },
+                  messages: response2.data.reverse()
                 }
                 setChats([chats + result])
               })
@@ -129,10 +61,11 @@ function ChatsPage() {
 
 
 
-  const onSendMessage = async (message) => {
+  const onSendMessage = async (sentToId, message) => {
     // TODO server connection
+    let cid = chats.filter(it => it.user.id === sentToId)[0].chatId
     const messageObj = {
-      chatId: 5,
+      chatId: cid,
       senderId: myId,
       content: message
     }
