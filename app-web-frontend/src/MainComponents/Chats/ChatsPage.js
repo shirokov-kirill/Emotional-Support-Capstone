@@ -92,16 +92,32 @@ function ChatsPage() {
   const fetchChat = useCallback( async () => {
     const authToken = getUserAuthToken()
     try {
-      let response = await axios.get(`http://localhost:8080/messages/${chatId}`, {
+      axios.get(`http://localhost:8080/users`, {
         headers: {
           'Authorization': `Bearer ${authToken}`
         }
-      });
-      const result = {
-        messages: response.data.reverse(),
-        user: chatsInitial[0].user
-      }
-      setChats([result])
+      }).then(response => {
+        let uid = response.data.id;
+        axios.get(`http://localhost:8080/chats/user/${uid}`, {
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          } 
+        }).then(response1 => {
+          let chatList = response1.data
+          chatList.forEach(element => {
+            axios.get(`http://localhost:8080/messages/${element.id}`, {
+              headers: {
+                'Authorization': `Bearer ${authToken}`
+              }}).then(response2 => {
+                const result = {
+                  messages: response2.data.reverse(),
+                  user: uid
+                }
+                setChats([chats + result])
+              })
+          });
+        })
+      })
     } catch(error) {
       console.error('Failed to retrieve messages', error);
     }
