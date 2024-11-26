@@ -9,7 +9,7 @@ import { getUserAuthToken } from "../../reusables/utils/AuthToken";
 function ChatsPage() {
   const chatsInitial = []
 
-  let [position, setPosition] = useState(0);
+  let [position, setPosition] = useState(-1);
   let [chats, setChats] = useState(chatsInitial)
   let [myId, setMyId] = useState(-1);
   const myIcon = "https://via.placeholder.com/30";
@@ -43,9 +43,12 @@ function ChatsPage() {
                     url: `https://via.placeholder.com/30`,
                     author: response2.data.doctor.author
                   },
-                  messages: response2.data.reverse()
+                  messages: response2.data.messages.reverse()
                 }
-                setChats([chats + result])
+                let newChats = [...chats]
+                newChats.push(result)
+                setChats(newChats)
+                // setChats([chats + result])
               })
           });
         })
@@ -101,7 +104,11 @@ function ChatsPage() {
           } position={position} onPositionChange={(i) => {
             setPosition(i)
           }}/>
-          <ChatView className="row-item" userMap={new Map([["me", [myId, myIcon]], ["other", [chats[position].user.id, chats[position].user.url]]])} messages={chats[position].messages} onSendMessage={onSendMessage}/>
+          {
+            position === -1
+                ? <div></div>
+                : <ChatView className="row-item" userMap={new Map([["me", [myId, myIcon]], ["other", [chats[position].user.id, chats[position].user.url]]])} messages={chats[position].messages} onSendMessage={onSendMessage}/>
+          }
         </div>
       </div>
   );
