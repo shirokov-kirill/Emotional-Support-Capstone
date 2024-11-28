@@ -2,9 +2,11 @@ package org.example.appbackend.service
 
 import org.example.appbackend.dto.UserDto
 import org.example.appbackend.dto.CreateUserDto
-import org.example.appbackend.entity.User
+import org.example.appbackend.utils.SIGN_UP_MSG_TEXT
+import org.example.appbackend.utils.executePythonScript
 import org.example.appbackend.mapper.UserMapper
 import org.example.appbackend.repository.UserRepository
+import org.example.appbackend.utils.ActionNames
 import org.springframework.stereotype.Service
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.authentication.BadCredentialsException
@@ -26,7 +28,14 @@ class UserServiceImpl(
         val existingUser = userRepository.findByUsername(userDto.username)
         if (existingUser != null) {
             logger.info("User with such username already exists: {}", existingUser.username)
-            return userMapper.entityToDto(existingUser)
+            throw BadCredentialsException("User with such username already exists: ${existingUser.username}")
+        }
+
+        // Check if a user with the same email address already exists
+        val existingWithSameEmailUser = userRepository.findByEmail(userDto.email)
+        if (existingWithSameEmailUser != null) {
+            logger.info("User with such email already exists: {}", existingWithSameEmailUser.username)
+            return userMapper.entityToDto(existingWithSameEmailUser)
         }
 
         val hashedPassword = hashPassword(userDto.password)
@@ -35,6 +44,13 @@ class UserServiceImpl(
         user.password = hashedPassword
         user.createdAt = LocalDateTime.now()
         val savedUser = userRepository.save(user)
+
+        try {
+            executePythonScript(userDto.email, userDto.username, SIGN_UP_MSG_TEXT, ActionNames.Actions.SIGN_UP.value)
+        } catch (e: Exception) {
+            logger.error("Failed sending Email: ${e.message}")
+        }
+
         return userMapper.entityToDto(savedUser)
     }
 
@@ -72,6 +88,10 @@ class UserServiceImpl(
         userRepository.save(user)
 
         return userMapper.entityToDto(user)
+    }
+
+    override fun userWithIdExists(userId: Int): Boolean {
+        return userRepository.findById(userId).isPresent
     }
 
     private fun hashPassword(password: String): String {

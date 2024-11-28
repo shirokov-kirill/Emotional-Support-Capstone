@@ -1,8 +1,7 @@
 import Header from "../../Components/Header";
 import { Box } from "@mui/material";
-import EmotionAssessmentForm from "../../MainComponents/Emotion assessment/EmotionAssessmentForm";
-
-const Assessment = () => {
+import AccountSettings from "../../Components/ProfileSettings/Settings";
+const MainProfileSetting = () => {
   return (
     <Box m="1px">
       <Box
@@ -12,15 +11,13 @@ const Assessment = () => {
         marginLeft="20px"
       >
         <Header
-          title="EmotionAssessment"
-          subtitle="Welcome to your emotion aseessment form"
+          title="Setting"
+          subtitle="Welcome to your Account Setting"
         ></Header>
       </Box>
-      <Box>
-        <EmotionAssessmentForm />
-      </Box>
+      <AccountSettings></AccountSettings>
     </Box>
   );
 };
 
-export default Assessment;
+export default MainProfileSetting;

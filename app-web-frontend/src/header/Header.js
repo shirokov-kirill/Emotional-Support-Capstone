@@ -2,10 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import { isLoggedIn } from "../Login/Login";
-import MainComponents from '../MainComponents/MainComponents.js';
+import { PatientMainComponents, HealthProviderMainComponents } from '../MainComponents/MainComponents.js';
 
 
 const Header = () => {
+  const role = localStorage.getItem("role");
+
+  const MainComponents = role === "patient" ? PatientMainComponents : role === "health_provider" ? HealthProviderMainComponents : [];
+  
   return (
     <header>
       <nav>
@@ -29,5 +33,6 @@ const HeaderLayout = ({ children }) => {
     </div>
   );
 };
+
 
 export default HeaderLayout;

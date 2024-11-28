@@ -23,18 +23,12 @@ class UserController(
         return userService.createUser(dto)
     }
 
-    @GetMapping("/{id}")
-    fun getUserById(@PathVariable id: Int, authentication: Authentication): UserDto? {
+    @GetMapping
+    fun getUserById(authentication: Authentication): UserDto? {
         // Access check. To be moved to separate service later when implement share access with doctors feature.
         val userPrincipal = authentication.principal as UserDto
         val authenticatedUserId = userPrincipal.id
-        if (authenticatedUserId != id) {
-            logger.info("/users/${id} cannot be accessed by $authenticatedUserId")
-            throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized")
-        }
-
-        // If the IDs match, retrieve the user from the database using the UserService
-        return userService.getUserById(id)
+        return userService.getUserById(authenticatedUserId)
     }
 
     @PostMapping("/password/update")

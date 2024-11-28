@@ -9,23 +9,22 @@ import org.springframework.web.filter.OncePerRequestFilter
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.FilterChain
-import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import java.io.IOException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.JwtException
 import java.security.Key
 import java.util.Date
-import java.util.*
 import org.slf4j.LoggerFactory
 import org.example.appbackend.repository.AuthTokenRepository
+import org.example.appbackend.service.DoctorCredentialsService
 
 class JwtTokenFilter(
     @Value("\${spring.jwt.secret}")
     private val jwtSecret: String,
     private val userService: UserService,
+    private val doctorService: DoctorCredentialsService,
     private val authTokenRepository: AuthTokenRepository
 ) : OncePerRequestFilter() {
 
@@ -59,10 +58,17 @@ class JwtTokenFilter(
         }
 
         if (userId != null && SecurityContextHolder.getContext().authentication == null) {
-            val userDetails = userService.getUserById(userId)
-            if (userDetails != null) {
+            if (userService.userWithIdExists(userId)) {
+                val userDetails = userService.getUserById(userId)
                 val authenticationToken = UsernamePasswordAuthenticationToken(
-                        userDetails, null, null
+                    userDetails, null, null
+                )
+                authenticationToken.details = WebAuthenticationDetailsSource().buildDetails(request)
+                SecurityContextHolder.getContext().authentication = authenticationToken
+            } else {
+                val doctorDetails = doctorService.getDoctorById(userId)
+                val authenticationToken = UsernamePasswordAuthenticationToken(
+                    doctorDetails, null, null
                 )
                 authenticationToken.details = WebAuthenticationDetailsSource().buildDetails(request)
                 SecurityContextHolder.getContext().authentication = authenticationToken

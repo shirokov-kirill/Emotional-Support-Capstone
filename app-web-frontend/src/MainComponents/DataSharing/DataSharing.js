@@ -85,6 +85,7 @@ function DataSharing() {
                     placeholder="Search doctors..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    className="input-text"
                 />
                 <div className="doctor-list">
                     <ul>

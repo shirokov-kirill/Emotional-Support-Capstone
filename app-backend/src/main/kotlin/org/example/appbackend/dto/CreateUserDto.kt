@@ -9,5 +9,7 @@ data class CreateUserDto(
         val lastName: String?,
         val email: String,
         val dateOfBirth: LocalDate?,
-        val gender: String?
+        val gender: String?,
+        val securityQuestion: String?,
+        val securityAnswer: String?
 )

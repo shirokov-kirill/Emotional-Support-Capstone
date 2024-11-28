@@ -7,4 +7,5 @@ import org.example.appbackend.dto.RegisterDoctorCredentialsDto
 interface DoctorCredentialsService {
     fun register(dto: RegisterDoctorCredentialsDto): DoctorCredentialsDto
     fun getDoctorById(doctorId: Int): DoctorCredentialsDto
+    fun authenticateUser(username: String, password: String): DoctorCredentialsDto
 }
