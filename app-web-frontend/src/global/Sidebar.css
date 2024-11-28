@@ -1,0 +1,115 @@
+/* Sidebar.css */
+
+/* Base sidebar styles */
+.custom-sidebar {
+  width: 300px;
+  background-color: #2c3e50;
+  color: white;
+  height: 100vh;
+  padding: 10px;
+  transition: width 0.3s ease;
+}
+
+.custom-sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-top: 15px;
+  padding: 5px;
+}
+
+.sidebar-logo h4 {
+  margin: 10;
+  color: #fff;
+  font-size: "18px";
+
+  padding-left: 15px;
+}
+
+.menu-toggle-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-item {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.menu-item.active {
+  background-color: #70748e24;
+}
+
+.menu-item:hover {
+  background-color: #34495e;
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+}
+
+.menu-icon {
+  margin-right: 10px;
+}
+
+.custom-sidebar.collapsed .menu-text {
+  display: none;
+}
+
+/* RESPONSIVE STYLES */
+
+/* For mobile screens (less than or equal to 768px) */
+@media (max-width: 425px) {
+  .custom-sidebar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: auto;
+    display: none; /* Initially hide the sidebar */
+    z-index: 1000;
+  }
+
+  .custom-sidebar.mobile {
+    display: block; /* Show when the sidebar is in mobile mode */
+  }
+
+  .menu-item {
+    justify-content: left;
+  }
+
+  .menu-text {
+    display: block;
+    text-align: center;
+  }
+
+  .sidebar-header {
+    justify-content: left;
+  }
+
+  .menu-toggle-button {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1100;
+  }
+}

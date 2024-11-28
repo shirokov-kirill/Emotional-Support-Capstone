@@ -1,9 +1,6 @@
 package org.example.appbackend.controller
 
-import org.example.appbackend.dto.CreateUserMoodDto
-import org.example.appbackend.dto.ShareMoodTimeFrameWithDoctorsDto
-import org.example.appbackend.dto.UpdateUserMoodDto
-import org.example.appbackend.dto.UserMoodDto
+import org.example.appbackend.dto.*
 import org.example.appbackend.service.UserMoodService
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
@@ -74,5 +71,11 @@ class UserMoodController(
     ): List<UserMoodDto> {
         logger.info("Receiving allowed user moods: {}", userId)
         return userMoodService.getAllowedUserMoods(userId, doctorId)
+    }
+
+    @GetMapping("getRecommendedDoctorsByMoods")
+    fun getRecommendedDoctorsByMoods(@RequestHeader("Authorization") authToken: String): List<DoctorRecommendationDto> {
+        logger.info("Get recommended doctors")
+        return userMoodService.getRecommendedDoctorsByMoods(authToken)
     }
 }

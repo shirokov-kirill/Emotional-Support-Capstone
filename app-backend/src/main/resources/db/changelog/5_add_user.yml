@@ -52,6 +52,16 @@ databaseChangeLog:
                   constraints:
                     nullable: true
               - column:
+                  name: security_question
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: security_answer
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
                   name: created_at
                   type: TIMESTAMP
                   constraints:

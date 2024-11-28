@@ -3,6 +3,7 @@ import './Login.css';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import { SERVER_ADDRESS } from "../setupInfo";
+import PasswordInput from './Components/PasswordInput';
 
 function Footer() {
     return (
@@ -12,24 +13,63 @@ function Footer() {
     );
 }
 
+const PasswordStrength = {
+    WEAK: {
+        message: 'Your password is weak. Try adding more characters and mixing letters, numbers, and special symbols.',
+        color: 'red'
+    },
+    FAIR: {
+        message: 'Your password is fair. It can be stronger by adding special characters and ensuring it is at least 12 characters.',
+        color: 'orange'
+    },
+    STRONG: {
+        message: 'Your password is strong and secure.',
+        color: 'green'
+    }
+};
+
 function HealthProviderLogin() {
+    localStorage.setItem("authToken", NaN);
+    localStorage.setItem("role", NaN);
     const [isLogin, setIsLogin] = useState(true);
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [dob, setDob] = useState('');
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [clinic, setClinic] = useState('');
-    const [specialization, setSpecialization] = useState('');
+    const [specialisation, setSpecialisation] = useState('');
     const [file, setFile] = useState(null);
+    const [agreedForRecommendations, setAgreedForRecommendations] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const toggleConfirmationPasswordVisibility = () => {
+        setShowConfirmationPassword(!showConfirmationPassword);
+    };
+    const [showFormValidWarning, setShowFormValidWarning] = useState(false);
 
     let navigate = useNavigate();
 
     const isFormEmpty = () => {
-        return !name || !surname || !dob || !email || !username || !password || !confirmationPassword || !clinic || !specialization;
-    }
+        return (
+            !firstName ||
+            !lastName ||
+            !dateOfBirth ||
+            !email ||
+            !username ||
+            !password ||
+            !confirmationPassword ||
+            !clinic ||
+            !specialisation
+        );
+    };
 
     const validateEmail = () => {
         const re = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -44,9 +84,24 @@ function HealthProviderLogin() {
         return password === confirmationPassword || confirmationPassword.length === 0;
     }
 
+    const calculatePasswordStrength = () => {
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumbers = /\d/.test(password);
+        const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        if (hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChars) {
+            return PasswordStrength.STRONG;
+        } else if (hasUpperCase && hasLowerCase && hasNumbers && password.length >= 12) {
+            return PasswordStrength.FAIR;
+        } else {
+            return PasswordStrength.WEAK;
+        }
+    }
+
     const isDOBValid = () => {
-        const age = new Date().getFullYear() - new Date(dob).getFullYear();
-        return age >= 18 || dob.length === 0; // Assuming doctors must be at least 18 years old
+        const age = new Date().getFullYear() - new Date(dateOfBirth).getFullYear();
+        return age >= 18 || dateOfBirth.length === 0; // Assuming doctors must be at least 18 years old
     }
 
     const isFormValid = () => {
@@ -61,21 +116,31 @@ function HealthProviderLogin() {
     const onHealthProviderLoginSubmit = async (event) => {
         event.preventDefault();
 
+        if (!isLoginFormValid()) {
+            setShowFormValidWarning(true);
+            return;
+        } else {
+            setShowFormValidWarning(false);
+        }
+
         const hProviderLogin = {
-            email,
+            username,
             password
         };
 
         try {
-            const response = await axios.post('${SERVER_ADDRESS}/register', hProviderLogin);
+            const response = await axios.post(SERVER_ADDRESS + '/auth/doctor-login', hProviderLogin);
             if (response.status === 200) {
-                navigate('/home/hprovider');
-                console.log('User login successfully')
+                const authToken = response.data.token;
+                localStorage.setItem('authToken', authToken); // Save token to local storage
+                localStorage.setItem('role', 'health_provider');
+                console.log('Doctor login successfully')
                 console.log(response.data);
+                // navigate('/dashboard');
+                navigate("/home/hprovider")
             }
         } catch (error) {
-            navigate('/home/hprovider');
-            console.error('Error during registration', error);
+            console.error('Failed to login', error);
         }
     };
 
@@ -83,28 +148,38 @@ function HealthProviderLogin() {
         event.preventDefault();
 
         const hpRegistration = {
-            email,
-            name,
-            surname,
-            dob,
-            password,
             username,
+            password,
+            firstName,
+            lastName,
+            email,
+            dateOfBirth,
             clinic,
-            specialization,
-            file
+            specialisation,
+            agreedForRecommendations
         };
 
         try {
-            const response = await axios.post('${SERVER_ADDRESS}/register', hpRegistration);
+            const response = await axios.post(SERVER_ADDRESS + '/doctor/register', hpRegistration);
+
             if (response.status === 200) {
-                navigate('/home/hprovider');
-                console.log('User registered successfully')
-                console.log(response.data);
+                console.log('Doctor registered successfully')
+                const login_response = await axios.post(SERVER_ADDRESS + '/auth/doctor-login', {username, password});
+                if (login_response.status === 200) {
+                    const authToken = login_response.data['token'];
+                    localStorage.setItem('authToken', authToken); // Save token to local storage
+                    console.log(response.data)
+                    // navigate('/dashboard');
+                    navigate("/home/hprovider")
+                }
             }
         } catch (error) {
-            navigate('/home/hprovider');
             console.error('Error during registration', error);
         }
+    };
+
+    const isLoginFormValid = () => {
+        return isPasswordValid() && username;
     };
 
     return (
@@ -114,24 +189,33 @@ function HealthProviderLogin() {
                     <h2>Health Provider Login</h2>
                     <form>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+                        <PasswordInput
+                            value={password}
+                            placeholder={"Password"}
+                            onChange={e => setPassword(e.target.value)}
+                            isValid={isPasswordValid()}
+                            showPassword={showPassword}
+                            togglePasswordVisibility={togglePasswordVisibility}
+                        />
                         <button type="submit" onClick={onHealthProviderLoginSubmit}>Login</button>
                     </form>
-                    <button className="switch-form-button" onClick={() => setIsLogin(false)}>Don't have an account? Sign
-                        Up!
+                    <button className="text-button switch-form-button" onClick={() => setIsLogin(false)}>
+                        Don't have an account? Sign Up!
                     </button>
-                    <Link to='/' style={{ textDecoration: 'underline', marginTop: '10px' }}>Back to role choice</Link>
+                    <button className="text-button back-to-role" onClick={() => navigate('/')}>
+                        Back to role choice
+                    </button>
                 </div>
             ) : (
-                <div className="form-container">
+                <div className="form-container signup">
                     <h2>Health Provider Sign Up</h2>
                     <form>
-                        <input type="text" placeholder="Name" onChange={e => setName(e.target.value)}/>
-                        <input type="text" placeholder="Surname" onChange={e => setSurname(e.target.value)}/>
+                        <input type="text" placeholder="Name" onChange={e => setFirstName(e.target.value)}/>
+                        <input type="text" placeholder="Surname" onChange={e => setLastName(e.target.value)}/>
                         <input
                             type="date"
                             placeholder="Date of Birth"
-                            onChange={e => setDob(e.target.value)}
+                            onChange={e => setDateOfBirth(e.target.value)}
                             style={isDOBValid() ? {} : {border: '1px solid lightcoral'}}
                         />
                         {!isDOBValid() &&
@@ -145,7 +229,7 @@ function HealthProviderLogin() {
                         {!validateEmail() && <p className="warning-message">Please enter a valid Email.</p>}
                         <input type="text" placeholder="Clinic" onChange={e => setClinic(e.target.value)}/>
                         <input type="text" placeholder="Specialization"
-                               onChange={e => setSpecialization(e.target.value)}/>
+                               onChange={e => setSpecialisation(e.target.value)}/>
                         <div>
                             <label htmlFor="fileInput">Upload Certification:</label>
                             <input
@@ -158,22 +242,47 @@ function HealthProviderLogin() {
                         </div>
 
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <input
-                            type="password"
-                            placeholder="Password"
+                        <PasswordInput
+                            value={password}
+                            placeholder={"Password"}
                             onChange={e => setPassword(e.target.value)}
-                            style={isPasswordValid() ? {} : {border: '1px solid lightcoral'}}
+                            isValid={isPasswordValid()}
+                            showPassword={showPassword}
+                            togglePasswordVisibility={togglePasswordVisibility}
                         />
-                        {!isPasswordValid() &&
-                            <p className="warning-message">Password must be at least 8 characters long.</p>}
-                        <input
-                            type="password"
-                            placeholder="Confirm Password"
-                            onChange={e => setConfirmationPassword(e.target.value)}
-                            style={isPasswordSame() ? {} : {border: '1px solid lightcoral'}}
+                        {isPasswordValid() && password.length !== 0 && (() => {
+                        const strength = calculatePasswordStrength(password);
+                        return (
+                            <p className="warning-message" style={{ color: strength.color }}>
+                                {strength.message}
+                            </p>
+                        );
+                        })()}
+                        {!isPasswordValid() && (
+                        <p className="warning-message">
+                            Password must be at least 8 characters long.
+                        </p>
+                        )}
+
+                        <PasswordInput
+                                value={confirmationPassword}
+                                placeholder={"Confirm password"}
+                                onChange={e => setConfirmationPassword(e.target.value)}
+                                isValid={isPasswordSame()}
+                                showPassword={showConfirmationPassword}
+                                togglePasswordVisibility={toggleConfirmationPasswordVisibility}
                         />
                         {!isPasswordSame() &&
                             <p className="warning-message">Passwords must match the confirmation password.</p>}
+                        <div className="checkbox-container">
+                            <input
+                                type="checkbox"
+                                id="agreement"
+                                onChange={e => setAgreedForRecommendations(e.target.checked)}
+                            />
+                            <label htmlFor="agreement">I agree that I will appear in patients' recommendations</label>
+                        </div>
+
                         <button type="submit" onClick={onNewHealthProviderFormSubmit} disabled={!isFormValid()}>Sign Up</button>
                     </form>
                     <button className="switch-form-button" onClick={() => setIsLogin(true)}>Back to Login</button>

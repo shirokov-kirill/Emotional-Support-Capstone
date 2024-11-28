@@ -1,12 +1,19 @@
 .chatsList {
-    width: 20vw;
-    padding-left: 20px;
-    padding-top: 20px;
-    padding-right: 20px;
+    flex: 0.2;
     display: flex;
     flex-direction: column;
+    padding-top: 20px;
     border: none;
     border-right: thin solid lightgrey;
+}
+
+.chats-frame {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    padding-left: 27px;
+    padding-right: 2px;
 }
 
 .chatsSearch {
@@ -14,13 +21,57 @@
 }
 
 .chatsListView {
+    display: block;
+    flex-direction: column;
     margin-top: 20px;
     width: 400px;
-    height: 75vh;
     flex-grow: 1;
     overflow-y: auto;
 }
 
-.managementPanel {
-    margin-top: 10px;
+.chats-list-control-panel {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
+
+.bottom-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .bottom-menu-icons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 25px;
+  }
+  
+  .menu-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    color: #007bff; /* Light blue color for icons */
+    cursor: pointer;
+  }
+  
+  .menu-icon svg {
+    width: 32px;
+    height: 34px;
+    margin-bottom: 4px;
+  }
+
+  .icon-text {
+    color: black;
+  }
+  
