@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import './Login.css';
 import axios from 'axios';
+import {SERVER_ADDRESS} from "../setupInfo";
 
 function Footer() {
     return (
@@ -29,15 +30,15 @@ function ResetPassword() {
         setIsQuestionLoaded(true);
 
         //TODO(add such response on backend part)
-        // try {
-        //     const response = await axios.post('/api/users/get-security-question', { username });
-        //     if (response.status === 200) {
-        //         setSecurityQuestion(response.data.securityQuestion);
-        //         setIsQuestionLoaded(true);
-        //     }
-        // } catch (error) {
-        //     console.error('Failed to fetch security question', error);
-        // }
+        try {
+            const response = await axios.post(SERVER_ADDRESS + 'users/get-security-question', { username });
+            if (response.status === 200) {
+                setSecurityQuestion(response.data.securityQuestion);
+                setIsQuestionLoaded(true);
+            }
+        } catch (error) {
+            console.error('Failed to fetch security question:', error.response?.data || error.message);
+        }
     };
 
     const onVerifySecurityQuestion = async (event) => {
@@ -47,15 +48,15 @@ function ResetPassword() {
         setIsSecurityQuestionVerified(true);
 
         //TODO(add such response on backend part)
-        // try {
-        //     const response = await axios.post('/api/users/verify-security-question', { username, securityAnswer });
-        //     if (response.status === 200) {
-        //         console.log('Security question verified');
-        //         setIsSecurityQuestionVerified(true);
-        //     }
-        // } catch (error) {
-        //     console.error('Failed to verify security question', error);
-        // }
+        try {
+            const response = await axios.post(SERVER_ADDRESS + 'users/verify-security-question', { username, securityAnswer });
+            if (response.status === 200) {
+                console.log('Security question verified');
+                setIsSecurityQuestionVerified(true);
+            }
+        } catch (error) {
+            console.error('Failed to verify security question:', error.response?.data || error.message);
+        }
     };
 
 
