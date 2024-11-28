@@ -5,6 +5,7 @@ import ChatView from "./components/ChatView";
 import ChatHeader from "./components/ChatHeader";
 import axios, { AxiosHeaders } from "axios";
 import { getUserAuthToken } from "../../reusables/utils/AuthToken";
+import { SERVER_ADDRESS } from "../../setupInfo";
 
 function ChatsPage() {
   const chatsInitial = []
@@ -18,21 +19,21 @@ function ChatsPage() {
   const fetchChat = useCallback( async () => {
     const authToken = getUserAuthToken()
     try {
-      axios.get(`http://localhost:8080/users`, {
+      axios.get(`${SERVER_ADDRESS}/users`, {
         headers: {
           'Authorization': `Bearer ${authToken}`
         }
       }).then(response => {
         let uid = response.data.id;
         setMyId(uid)
-        axios.get(`http://localhost:8080/chats/user/${uid}`, {
+        axios.get(`${SERVER_ADDRESS}/chats/user/${uid}`, {
           headers: {
             'Authorization': `Bearer ${authToken}`
           } 
         }).then(response1 => {
           let chatList = response1.data
           chatList.forEach(element => {
-            axios.get(`http://localhost:8080/messages/${element.id}`, {
+            axios.get(`${SERVER_ADDRESS}/messages/${element.id}`, {
               headers: {
                 'Authorization': `Bearer ${authToken}`
               }}).then(response2 => {
@@ -75,7 +76,7 @@ function ChatsPage() {
     const authToken = getUserAuthToken()
 
     try {
-      const response = await axios.post('http://localhost:8080/messages', messageObj, {
+      const response = await axios.post(`${SERVER_ADDRESS}/messages`, messageObj, {
         headers: {
           'Authorization': `Bearer ${authToken}`
         }
