@@ -3,98 +3,60 @@ import "./ChatsPage.css"
 import ChatsList from "./components/ChatsList";
 import ChatView from "./components/ChatView";
 import ChatHeader from "./components/ChatHeader";
-import axios from "axios";
+import axios, { AxiosHeaders } from "axios";
+import { getUserAuthToken } from "../../reusables/utils/AuthToken";
+import { SERVER_ADDRESS } from "../../setupInfo";
 
 function ChatsPage() {
-  const chatsInitial = [
-    {
-      user: {
-        id: 1,
-        url: "https://via.placeholder.com/30",
-        author: "Leonard"
-      },
-      messages: [
-        {
-          senderId: 1, // userID of sender
-          created: "11:04",
-          content: "Hello!"
-        },
-        {
-          senderId: 1,
-          created: "11:05",
-          content: "How are you?"
-        },
-        {
-          senderId: 0, // my userID
-          created: "11:07",
-          content: "Good morning! Fine, thank you, Leonard!"
-        }
-      ]
-    },
-    {
-      user: {
-        id: 2,
-        url: "https://via.placeholder.com/30",
-        author: "Sheldon"
-      },
-      messages: [
-        {
-          senderId: 2, // userID of sender
-          created: "11:04",
-          content: "Hello!"
-        },
-        {
-          senderId: 2,
-          created: "11:05",
-          content: "How are you?"
-        },
-        {
-          senderId: 0, // my userID
-          created: "11:07",
-          content: "Good morning! Fine, thank you, Sheldon!"
-        }
-      ]
-    },
-    {
-      user: {
-        id: 3,
-        url: "https://via.placeholder.com/30",
-        author: "Radjesh"
-      },
-      messages: [
-        {
-          senderId: 3, // userID of sender
-          created: "11:04",
-          content: "Hello!"
-        },
-        {
-          senderId: 3,
-          created: "11:05",
-          content: "How are you?"
-        },
-        {
-          senderId: 0, // my userID
-          created: "11:10",
-          content: "Good morning! Fine, thank you, Radjesh!"
-        }
-      ]
-    }
-  ]
+  const chatsInitial = []
 
-  let [position, setPosition] = useState(0);
+  let [position, setPosition] = useState(-1);
   let [chats, setChats] = useState(chatsInitial)
-  const myId = 0;
-  const chatId = 5;
+  let [myId, setMyId] = useState(-1);
   const myIcon = "https://via.placeholder.com/30";
 
 
   const fetchChat = useCallback( async () => {
-    let response = await axios.get(`http://localhost:8080/messages/${chatId}`);
-    const result = {
-      messages: response.data.reverse(),
-      user: chatsInitial[0].user
+    const authToken = getUserAuthToken()
+    try {
+      axios.get(`${SERVER_ADDRESS}/users`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      }).then(response => {
+        let uid = response.data.id;
+        setMyId(uid)
+        axios.get(`${SERVER_ADDRESS}/chats/user/${uid}`, {
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          } 
+        }).then(response1 => {
+          let chatList = response1.data
+          chatList.forEach(element => {
+            axios.get(`${SERVER_ADDRESS}/messages/${element.id}`, {
+              headers: {
+                'Authorization': `Bearer ${authToken}`
+              }}).then(response2 => {
+                const result = {
+                  chatId: element.id,
+                  user: {
+                    id: response2.data.doctor.id,
+                    url: `https://via.placeholder.com/30`,
+                    author: response2.data.doctor.author
+                  },
+                  messages: response2.data.messages.reverse()
+                }
+                let newChats = [...chats]
+                newChats.push(result)
+                setChats(newChats)
+                // setChats([chats + result])
+              })
+          });
+        })
+      })
+    } catch(error) {
+      console.error('Failed to retrieve messages', error);
     }
-    setChats([result])
   }, [])
 
   useLayoutEffect(() => {
@@ -103,16 +65,22 @@ function ChatsPage() {
 
 
 
-  const onSendMessage = async (message) => {
+  const onSendMessage = async (sentToId, message) => {
     // TODO server connection
+    let cid = chats.filter(it => it.user.id === sentToId)[0].chatId
     const messageObj = {
-      chatId: 5,
+      chatId: cid,
       senderId: myId,
       content: message
     }
+    const authToken = getUserAuthToken()
 
     try {
-      const response = await axios.post('http://localhost:8080/messages', messageObj);
+      const response = await axios.post(`${SERVER_ADDRESS}/messages`, messageObj, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
       console.log(response)
       if (response.status === 200) {
         console.log('Message successfully sent')
@@ -137,7 +105,11 @@ function ChatsPage() {
           } position={position} onPositionChange={(i) => {
             setPosition(i)
           }}/>
-          <ChatView className="row-item" userMap={new Map([[myId, ["me", myIcon]], [chats[position].user.id, ["other", chats[position].user.url]]])} messages={chats[position].messages} onSendMessage={onSendMessage}/>
+          {
+            position === -1
+                ? <div></div>
+                : <ChatView className="row-item" userMap={new Map([["me", [myId, myIcon]], ["other", [chats[position].user.id, chats[position].user.url]]])} messages={chats[position].messages} onSendMessage={onSendMessage}/>
+          }
         </div>
       </div>
   );

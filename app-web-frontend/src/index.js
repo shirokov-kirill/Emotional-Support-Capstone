@@ -29,16 +29,16 @@ const App = () => {
                 <Route path="/forgot-password-confirmation" element={<ForgotPasswordConfirmation/>}/>
                 <Route path="/reset-password/:token" element={<ResetPassword/>}/>
 
-        <Route element={<Layout />}>
-            {PatientMainComponents.map((component, index) => (
-              <Route key={index} path={component.path} element={<component.element />} />
-            ))}
-            {HealthProviderMainComponents.map((component, index) => (
-              <Route key={index} path={component.path} element={<component.element />} />
-            ))}
-        </Route>
-      </Routes>
-    </Router>
+                <Route element={<Layout />}>
+                  {PatientMainComponents.map((component, index) => (
+                    <Route key={index} path={component.path} element={<component.element />} />
+                  ))}
+                  {HealthProviderMainComponents.map((component, index) => (
+                    <Route key={index} path={component.path} element={<component.element />} />
+                  ))}
+                </Route>
+            </Routes>
+        </Router>
   );
 };
 
