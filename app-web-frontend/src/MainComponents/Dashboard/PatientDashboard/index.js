@@ -1,12 +1,12 @@
 import { Box } from "@mui/material";
-import CustomCard from "../../Components/DashboardComponent/CustomDashboardCard";
-import Header from "../../Components/Header";
+import CustomCard from "../../../Components/DashboardComponent/CustomDashboardCard";
+import Header from "../../../Components/Header";
 import cardImage from "./Images/Pie_chart.png";
-import CustomDashboardCardDoctor from "../../Components/DashboardComponent/CustomDashboardCardDoctor";
+import CustomDashboardCardDoctor from "../../../Components/DashboardComponent/CustomDashboardCardDoctor";
 import {useEffect, useState} from "react";
-import {SERVER_ADDRESS} from "../../setupInfo";
+import {SERVER_ADDRESS} from "../../../setupInfo";
 import RecommendedDoctorsList from "./RecommendedDoctorsList";
-import {getUserAuthToken} from "../../reusables/utils/AuthToken";
+import {getUserAuthToken} from "../../../reusables/utils/AuthToken";
 
 const Dashboard = () => {
 
