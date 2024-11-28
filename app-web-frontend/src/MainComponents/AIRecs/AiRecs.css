@@ -1,0 +1,53 @@
+/* Container for the entire App */
+.App {
+    text-align: center;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100vh;
+    background: #F3F4F6;
+    padding-top: 100px;
+    overflow-y: auto;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 60px;
+}
+
+/* Styling for the header text */
+h1 {
+    margin-bottom: 30px;
+    font-size: 1.5em;
+    color: #555;
+}
+
+/* Container for the grid layout */
+.button-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 600px;
+    width: 100%;
+}
+
+/* Button styling */
+.grid-button {
+    background-color: #a3a7f3; /* Soft purple color */
+    border: none;
+    color: white;
+    padding: 20px 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+/* Hover effect for buttons */
+.grid-button:hover {
+    background-color: #8d90e6; /* Slightly darker purple on hover */
+}
