@@ -7,11 +7,11 @@ import { Login } from './Login/Login';
 import { PatientMainComponents, HealthProviderMainComponents } from './MainComponents/MainComponents.js';
 import LoginChoice from "./Login/LoginChoice";
 import HealthProviderLogin from "./Login/HealthProviderLogin";
-import HealthProviderHome from "./Home/HealthProviderHome";
 import Layout from "./global/Layout";
 import ResetPassword from "./Login/ResetPassword";
 import ForgotPassword from './Login/ForgotPassword';
 import ForgotPasswordConfirmation from './Login/ForgotPasswordConfirmation';
+import BreathingRecs from "./MainComponents/AIRecs/BreathingRecs";
 
 const App = () => {
   const role = localStorage.getItem("role");
@@ -28,6 +28,7 @@ const App = () => {
                 <Route path="/forgot-password" element={<ForgotPassword/>}/>
                 <Route path="/forgot-password-confirmation" element={<ForgotPasswordConfirmation/>}/>
                 <Route path="/reset-password/:token" element={<ResetPassword/>}/>
+                <Route path="/breathing-exercises" element={<BreathingRecs/>}/>
 
                 <Route element={<Layout />}>
                   {PatientMainComponents.map((component, index) => (
