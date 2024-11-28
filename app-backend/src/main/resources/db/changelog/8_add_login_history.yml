@@ -4,23 +4,24 @@ databaseChangeLog:
       author: e2e4b6b7
       changes:
         - createSequence:
-            sequenceName: login_history_id
+            sequenceName: user_login_sequence
+            dataType: int
             startValue: 1
             incrementBy: 1
         - createTable:
-            tableName: login_history
+            tableName: user_logins
             columns:
               - column:
                   name: id
                   type: int
-                  valueSequenceNext: login_history_id
+                  valueSequenceNext: user_login_sequence
                   constraints:
                     primaryKey: true
               - column:
                   name: user_id
                   type: int
                   constraints:
-                    foreignKeyName: fk_login_history_user
+                    foreignKeyName: fk_user_logins_user
                     references: users(id)
                     nullable: false
               - column:
@@ -29,8 +30,8 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createIndex:
-            indexName: idx_login_history_user
-            tableName: login_history
+            indexName: idx_user_logins_user
+            tableName: user_logins
             columns:
               - column:
                   name: user_id
