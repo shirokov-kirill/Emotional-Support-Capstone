@@ -13,9 +13,10 @@ class UserMoodController(
     private var logger = LoggerFactory.getLogger(UserMoodController::class.java)
 
     @PostMapping("user-mood/create")
-    fun createUserMood(@RequestBody dto: CreateUserMoodDto): UserMoodDto {
+    fun createUserMood(@RequestHeader("Authorization") authToken: String,
+                       @RequestBody dto: CreateUserMoodDto): UserMoodDto {
         logger.info("Creating {}", dto)
-        return userMoodService.create(dto)
+        return userMoodService.create(authToken, dto)
     }
 
     @GetMapping("user-mood/get/{id}")

@@ -9,8 +9,7 @@ async function getMoodDataFromServer(authToken, startDate, endDate) {
         const response = await fetch(url, {
             headers: {
                 'Authorization': `Bearer ${authToken}`
-            },
-            mode: 'no-cors'
+            }
         });
         console.log(response)
         if (!response.ok) {

@@ -40,8 +40,9 @@ class UserMoodServiceImpl(
 ) : UserMoodService {
 
     @Transactional
-    override fun create(dto: CreateUserMoodDto): UserMoodDto {
-        val mood = createMoodByDto(dto)
+    override fun create(authToken: String, dto: CreateUserMoodDto): UserMoodDto {
+        val userId = jwtTokenFilter.extractUserId(authToken.substring(7))
+        val mood = createMoodByDto(dto.copy(userId = userId))
         val savedMood = userMoodRepository.save(mood)
         return userMoodMapper.entityToDto(savedMood)
     }
