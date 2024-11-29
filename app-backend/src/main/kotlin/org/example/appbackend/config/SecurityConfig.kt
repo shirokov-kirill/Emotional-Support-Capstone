@@ -50,6 +50,8 @@ class SecurityConfig {
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/doctor/register").permitAll()
             .requestMatchers(HttpMethod.POST, "/auth/doctor-login").permitAll()
+            .requestMatchers(HttpMethod.GET, "/user-mood/**").permitAll()
+            .requestMatchers(HttpMethod.POST, "/user-mood/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
