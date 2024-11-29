@@ -3,6 +3,7 @@ import { Box, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Topbar from "../Topbar";
 import ProSidebar from "../Sidebar";
+import ChatAssistant from '../Assistant/ChatAssistant';
 
 const wrapperStyles = {
   display: 'flex',
@@ -34,6 +35,7 @@ export const Layout = ({ children }) => {
                 {children}
             </Box>
         </div>
+        <ChatAssistant/>
     </Box>
   );
 };
