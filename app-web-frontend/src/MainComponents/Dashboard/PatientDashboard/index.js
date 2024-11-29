@@ -24,7 +24,6 @@ const Dashboard = () => {
                 headers: {
                     'Authorization': `Bearer ${authToken}`
                 },
-                mode: 'no-cors'
             });
 
             if (response.status !== 200) {
