@@ -29,8 +29,8 @@ const Dashboard = () => {
             if (response.status !== 200) {
                 throw new Error('Failed to fetch patient data');
             }
-
-            setRecommendedDoctors(response.data);
+            const data = await response.json();
+            setRecommendedDoctors(data);
 
         } catch (error) {
             console.error('Error fetching relevant doctors', error);
