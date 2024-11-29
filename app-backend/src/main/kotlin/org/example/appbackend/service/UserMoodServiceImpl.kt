@@ -36,7 +36,7 @@ class UserMoodServiceImpl(
     private val userMoodSharingRepository: UserMoodSharingRepository,
     private val userMoodSharingMapper: UserMoodSharingMapper,
     private val jwtTokenFilter: JwtTokenFilter,
-    private val recommendationService: RecommendationService
+    private val pythonCommunicatorService: PythonCommunicatorService
 ) : UserMoodService {
 
     @Transactional
@@ -153,6 +153,6 @@ class UserMoodServiceImpl(
         val startDate = endDate.minusWeeks(1)
         val userMoods = getUserMoodForTimeFrame(authToken, startDate, endDate).values.toList()
         val doctors = doctorCredentialsRepository.findAll().map { doctorCredentialsMapper.entityToDto(it) }
-        return recommendationService.getRelevantDoctors(userMoods, doctors)
+        return pythonCommunicatorService.getRelevantDoctors(userMoods, doctors)
     }
 }

@@ -24,14 +24,13 @@ const Dashboard = () => {
                 headers: {
                     'Authorization': `Bearer ${authToken}`
                 },
-                mode: 'no-cors'
             });
 
             if (response.status !== 200) {
                 throw new Error('Failed to fetch patient data');
             }
-
-            setRecommendedDoctors(response.data);
+            const data = await response.json();
+            setRecommendedDoctors(data);
 
         } catch (error) {
             console.error('Error fetching relevant doctors', error);
