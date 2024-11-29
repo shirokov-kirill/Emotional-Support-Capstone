@@ -1,10 +1,12 @@
 .chatsPage {
-    margin-top: 50px;
-    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    flex: 1;
 }
 
 .chatsLayout {
-    width: 40%;
+    flex: 1;
     display: flex;
 }
 

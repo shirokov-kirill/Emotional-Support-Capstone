@@ -1,0 +1,48 @@
+.card-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 10px;
+    background-color: white;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .card-container.selected {
+    background-color: rgba(0, 148, 255, 0.2); /* Light blue background for selected state */
+  }
+  
+  .card-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+  }
+  
+  .card-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .card-details {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-name {
+    font-family: 'Montserrat';
+    font-size: 1.125em;
+    font-weight: bold;
+    color: black;
+  }
+  
+  .card-time {
+    font-family: 'Montserrat';
+    font-size: 1.125em;
+    color: black;
+  }

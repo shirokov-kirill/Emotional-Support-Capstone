@@ -13,3 +13,5 @@ databaseChangeLog:
       file: db/changelog/6_add_authtoken.yml
   - include:
       file: db/changelog/7_add_mood_sharing.yml
+  - include:
+      file: db/changelog/8_add_login_history.yml

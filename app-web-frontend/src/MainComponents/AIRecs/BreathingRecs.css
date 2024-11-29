@@ -1,0 +1,171 @@
+/* Container for the entire component */
+.horizontal-popup-window {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Container for horizontal alignment */
+.horizontal-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Text styling */
+.horizontal-text {
+    width: auto;
+    font-size: 1.2em;
+    color: #333;
+    margin: 0;
+}
+
+/* Clickable display for the selected option (not a button) */
+.popup-display {
+    font-size: 1.2em;
+    color: #555;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-bottom: 1px dashed #888; /* Underlined to indicate it's clickable */
+    display: inline-block;
+    transition: color 0.3s;
+}
+
+.popup-display:hover {
+    color: #333; /* Darker on hover */
+}
+
+/* Popup menu styling */
+.popup-container {
+    position: relative;
+}
+
+.popup-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    z-index: 1000;
+    padding: 10px 0;
+    width: 150px;
+}
+
+/* Popup menu list styling */
+.popup-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popup-menu li {
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #333;
+}
+
+.popup-menu li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Submit button styling */
+.submit-button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #a3a7f3; /* Green color */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.submit-button:hover {
+    background-color: #8d90e6; /* Darker green on hover */
+}
+
+/* Horizontal container for buttons and text field */
+.horizontal-containerr {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    width: 2000px;
+    /*max-width: 3000px;*/
+    /*max-height: 1000px;*/
+    margin: 20px auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Left object: Scrollable list of buttons */
+.scrollable-list {
+    /*max-height: 1000px; !* Increase maximum height of the list *!*/
+    overflow-y: scroll; /* Scrolls vertically */
+    width: auto; /* Increase width of the list */
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 10px; /* Ensure spacing on the right side */
+}
+
+.list-button {
+    padding: 15px; /* Increased padding for larger buttons */
+    background-color: #a3a7f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em; /* Increased font size for better visibility */
+    transition: background-color 0.3s;
+    text-align: left;
+    width: auto; /* Let the width adjust automatically based on content */
+    white-space: nowrap; /* Prevent text from wrapping to a new line */
+    word-wrap: break-word; /* Handle long words in case of overflow */
+}
+
+.list-button:hover {
+    background-color: #8d90e6; /* Darker green on hover */
+}
+
+/* Right object: Text field */
+.text-field-container {
+    flex-grow: 1; /* Take up the remaining space */
+    padding-left: 20px; /* Add padding to the left side */
+}
+
+.text-field {
+    width: 100%; /* Make textarea take up all available width */
+    height: 100%;
+    padding: 16px; /* Increase padding to make the text area larger */
+    font-size: 1.2em; /* Increase font size */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    resize: none; /* Prevent manual resizing */
+    overflow: hidden; /* Hide the scrollbar */
+    min-height: 80px; /* Increase the minimum height for the textarea */
+    max-height: 10000px; /* Increase the max-height for larger content */
+    line-height: 1.6; /* Make text more readable */
+    transition: height 0.2s ease-in-out; /* Smooth transition on resize */
+    /*white-space: nowrap; !* Prevent text from wrapping to a new line *!*/
+    word-wrap: break-word; /* Handle long words in case of overflow */
+}
+
+

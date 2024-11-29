@@ -1,12 +1,12 @@
 import { Box } from "@mui/material";
-import CustomCard from "../../Components/DashboardComponent/CustomDashboardCard";
-import Header from "../../Components/Header";
+import CustomCard from "../../../Components/DashboardComponent/CustomDashboardCard";
+import Header from "../../../Components/Header";
 import cardImage from "./Images/Pie_chart.png";
-import CustomDashboardCardDoctor from "../../Components/DashboardComponent/CustomDashboardCardDoctor";
+import CustomDashboardCardDoctor from "../../../Components/DashboardComponent/CustomDashboardCardDoctor";
 import {useEffect, useState} from "react";
-import {SERVER_ADDRESS} from "../../setupInfo";
+import {SERVER_ADDRESS} from "../../../setupInfo";
 import RecommendedDoctorsList from "./RecommendedDoctorsList";
-import {getUserAuthToken} from "../../reusables/utils/AuthToken";
+import {getUserAuthToken} from "../../../reusables/utils/AuthToken";
 
 const Dashboard = () => {
 
@@ -24,14 +24,13 @@ const Dashboard = () => {
                 headers: {
                     'Authorization': `Bearer ${authToken}`
                 },
-                mode: 'no-cors'
             });
 
             if (response.status !== 200) {
                 throw new Error('Failed to fetch patient data');
             }
-
-            setRecommendedDoctors(response.data);
+            const data = await response.json();
+            setRecommendedDoctors(data);
 
         } catch (error) {
             console.error('Error fetching relevant doctors', error);
