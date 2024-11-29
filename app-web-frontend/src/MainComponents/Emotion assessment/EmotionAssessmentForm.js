@@ -4,6 +4,7 @@ import './EmotionAssessmentForm.css';
 import ColorSelectionButton from '../../reusables/Buttons/ColorSelectionButton/ColorSelectionButton';
 import EmojiSelectionButton from '../../reusables/Buttons/EmojiSelectionButton/EmojiSelectionButton';
 import {SERVER_ADDRESS, prepareRequest} from '../../setupInfo';
+import {getUserAuthToken} from "../../reusables/utils/AuthToken";
 
 function EmotionAssessmentForm() {
   const selectedColorDefault = '#ffffff'
@@ -28,14 +29,14 @@ function EmotionAssessmentForm() {
       description: null,
       userId: null
     }))
-
+    const authToken = getUserAuthToken();
     fetch(SERVER_ADDRESS + '/user-mood/create', 
     prepareRequest('POST', JSON.stringify({
       color: selectedColor,
       emoji: selectedEmoji,
       description: null,
       userId: null
-    })))
+    }), authToken))
     .then(response => {
       console.log(response)
       if(response.ok) {
