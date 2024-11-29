@@ -18,7 +18,7 @@ function EmotionAssessmentForm() {
   };
 
   const handleEmojiChange = (emoji) => {
-    setSelectedEmoji(emoji['id']);
+    setSelectedEmoji(emoji['native']);
   };
 
   const onSubmit = (event) => {
