@@ -5,7 +5,7 @@ import java.time.LocalDate
 
 interface UserMoodService {
 
-    fun create(dto: CreateUserMoodDto): UserMoodDto
+    fun create(authToken: String, dto: CreateUserMoodDto): UserMoodDto
     fun get(id: Int): UserMoodDto
     fun update(dto: UpdateUserMoodDto): UserMoodDto
     fun getUserMoodForTimeFrame(authToken: String, startDate: LocalDate, endDate: LocalDate): Map<LocalDate, UserMoodDto>
