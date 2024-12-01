@@ -132,8 +132,10 @@ class UserMoodServiceImpl(
     override fun delete(id: Int) = userMoodRepository.deleteById(id)
 
     @Transactional
-    override fun shareTimeFrame(dto: ShareMoodTimeFrameWithDoctorsDto): List<Int> {
-        return dto.doctorsIds.map { doctorId ->
+    override fun shareTimeFrame(authToken: String, dto: ShareMoodTimeFrameWithDoctorsDto): List<Int> {
+        val userId = jwtTokenFilter.extractUserId(authToken.substring(7))
+
+        return dto.copy(userId = userId).doctorsIds.map { doctorId ->
             val singleDoctorDto = UserMoodSharingDto(dto.userId, doctorId, dto.timeFrameStart, dto.timeFrameEnd)
             val entity = userMoodSharingMapper.dtoToEntity(singleDoctorDto)
             val now = LocalDateTime.now()

@@ -60,9 +60,10 @@ class UserMoodController(
     }
 
     @PostMapping("user-mood/share")
-    fun shareMoodTimeFrameWithDoctors(@RequestBody dto: ShareMoodTimeFrameWithDoctorsDto): List<Int> {
+    fun shareMoodTimeFrameWithDoctors(@RequestHeader("Authorization") authToken: String,
+                                      @RequestBody dto: ShareMoodTimeFrameWithDoctorsDto): List<Int> {
         logger.info("Receiving user mood sharing timeframe: {}", dto)
-        return userMoodService.shareTimeFrame(dto)
+        return userMoodService.shareTimeFrame(authToken, dto)
     }
 
     @GetMapping("user-mood/get-allowed/{userId}/{doctorId}")

@@ -33,7 +33,7 @@ async function getMoodsForTimeFrame(startDate, endDate) {
         // Find mood data for the current date
         const moodInfo = moodData[currentDateISO];
 
-        const default_color = "#DCDCDC"
+        const default_color = "#ffffff"
         const default_emoji = "😐"
         let color = (currentDateISO in moodData && moodInfo.color !== undefined) ? moodInfo.color : default_color;
         let emoji = (currentDateISO in moodData && moodInfo.emoji !== undefined) ? moodInfo.emoji : default_emoji;
@@ -45,6 +45,7 @@ async function getMoodsForTimeFrame(startDate, endDate) {
 
         currentDate.setDate(currentDate.getDate() + 1);
     }
+    console.log(moods);
     return moods;
 }
 

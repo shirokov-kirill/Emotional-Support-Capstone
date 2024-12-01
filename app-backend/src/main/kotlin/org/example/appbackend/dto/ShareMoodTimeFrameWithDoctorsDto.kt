@@ -10,7 +10,7 @@ data class ShareMoodTimeFrameWithDoctorsDto(
 )
 
 data class UserMoodSharingDto(
-    val userId: Int,
+    val userId: Int?,
     val doctorId: Int,
     val startDate: LocalDateTime,
     val endDate: LocalDateTime,
