@@ -1,14 +1,41 @@
 .colorSelectionButton {
     position: relative; /* Set position to relative */
-  }
-  
-  .colorSelectionButton button {
+}
+
+.colorSelectionButton button {
     margin-right: 10px; /* Add margin between button and dialog */
-  }
-  
-  .colorSelectionButton .chrome-picker {
+}
+
+.colorSelectionButton .chrome-picker {
     position: absolute; /* Set position to absolute */
     top: 30px; /* Adjust top position as needed */
     left: 0; /* Align to the left edge of the container */
     z-index: 9999;
-  }
+}
+
+.colorPickerWrapper {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 40px; /* Add spacing for the button */
+    transition: background-color 0.5s ease-in-out; /* Smooth color transition */
+}
+
+.selectButton {
+    position: absolute;
+    bottom: 10px; /* Position at the bottom of the wrapper */
+    left: 50%; /* Center the button horizontally */
+    transform: translateX(-50%);
+    background-color: #6200ea;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.selectButton:hover {
+    background-color: #3700b3;
+}
+
+

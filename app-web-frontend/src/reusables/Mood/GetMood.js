@@ -71,9 +71,11 @@ export async function getCriticalPatientsDataForDoctor() {
 
 function dateToIsoWithoutTime(dateString) {
     let dateObject = new Date(dateString);
-    let isoString = dateObject.toISOString();
-    let isoDate = isoString.split('T')[0];
-    return isoDate;
+    let year = dateObject.getFullYear();
+    let month = String(dateObject.getMonth() + 1).padStart(2, '0');  // Months are 0-indexed
+    let day = String(dateObject.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
 }
 
 export default getMoodsForTimeFrame;

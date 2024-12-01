@@ -7,8 +7,8 @@ import {SERVER_ADDRESS, prepareRequest} from '../../setupInfo';
 import {getUserAuthToken} from "../../reusables/utils/AuthToken";
 
 function EmotionAssessmentForm() {
-  const selectedColorDefault = '#ffffff'
-  const selectedEmojiDefault = '+1'
+  const selectedColorDefault = '#ffffff';
+  const selectedEmojiDefault = "#ffffff";
 
   let [selectedColor, setSelectedColor] = useState(selectedColorDefault);
   let [selectedEmoji, setSelectedEmoji] = useState(selectedEmojiDefault);
