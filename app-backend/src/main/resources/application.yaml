@@ -13,3 +13,4 @@ openai:
 
 recommendation:
   doctor: "Formulate a recommendation for a psychologist on a patient who describes his condition as follows:\n"
+  literature: "Recommend literature and podcasts on the following topic: "
