@@ -23,7 +23,7 @@ class Url(val port: Int) {
     val updateUserMood get() = "$root/user-mood/update"
     val updatePassword get() = "$root/password/update"
     val registerDoctorCredentials get() = "$root/doctor/register"
-    fun getAllowedUserMood(userId: Int, doctorId: Int) = "$root/user-mood/get-allowed/$userId/$doctorId"
+    fun getAllowedUserMood(authToken: String, userId: Int) = "$root/user-mood/get-allowed/$userId"
     fun getUserMoodTimeFrame(start: LocalDate, end: LocalDate) =
         "$root/user-mood/getByUser/timeframe?start=$start&end=$end"
 }
