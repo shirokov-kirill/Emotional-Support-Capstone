@@ -85,11 +85,13 @@ function DataViewing() {
         return null;
     };
 
-    const dateToIsoWithoutTime = (dateString) => {
+    function dateToIsoWithoutTime(dateString) {
         let dateObject = new Date(dateString);
-        let isoString = dateObject.toISOString();
-        let isoDate = isoString.split('T')[0];
-        return isoDate;
+        let year = dateObject.getFullYear();
+        let month = String(dateObject.getMonth() + 1).padStart(2, '0');  // Months are 0-indexed
+        let day = String(dateObject.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
     }
 
     const filteredPatients = patients.filter(patient =>
