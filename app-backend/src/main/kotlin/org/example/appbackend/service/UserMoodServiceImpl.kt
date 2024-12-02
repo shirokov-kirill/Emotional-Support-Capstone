@@ -8,6 +8,7 @@ import org.example.appbackend.exception.UserMoodIdNotAssignedException
 import org.example.appbackend.exception.UserMoodNotFoundException
 import org.example.appbackend.mapper.ChatMapper
 import org.example.appbackend.mapper.DoctorCredentialsMapper
+import org.example.appbackend.mapper.UserMapper
 import org.example.appbackend.mapper.UserMoodMapper
 import org.example.appbackend.repository.ChatRepository
 import org.example.appbackend.mapper.UserMoodSharingMapper
@@ -36,7 +37,8 @@ class UserMoodServiceImpl(
     private val userMoodSharingRepository: UserMoodSharingRepository,
     private val userMoodSharingMapper: UserMoodSharingMapper,
     private val jwtTokenFilter: JwtTokenFilter,
-    private val pythonCommunicatorService: PythonCommunicatorService
+    private val pythonCommunicatorService: PythonCommunicatorService,
+    private val userMapper: UserMapper
 ) : UserMoodService {
 
     @Transactional
@@ -134,9 +136,10 @@ class UserMoodServiceImpl(
     @Transactional
     override fun shareTimeFrame(authToken: String, dto: ShareMoodTimeFrameWithDoctorsDto): List<Int> {
         val userId = jwtTokenFilter.extractUserId(authToken.substring(7))
+        val updatedDto = dto.copy(userId = userId)
 
-        return dto.copy(userId = userId).doctorsIds.map { doctorId ->
-            val singleDoctorDto = UserMoodSharingDto(dto.userId, doctorId, dto.timeFrameStart, dto.timeFrameEnd)
+        return updatedDto.doctorsIds.map { doctorId ->
+            val singleDoctorDto = UserMoodSharingDto(updatedDto.userId, doctorId, updatedDto.timeFrameStart, updatedDto.timeFrameEnd)
             val entity = userMoodSharingMapper.dtoToEntity(singleDoctorDto)
             val now = LocalDateTime.now()
             entity.created = now
@@ -146,8 +149,18 @@ class UserMoodServiceImpl(
     }
 
     @Transactional
-    override fun getAllowedUserMoods(userId: Int, doctorId: Int): List<UserMoodDto> {
+    override fun getAllowedUserMoods(authToken: String, userId: Int): List<UserMoodDto> {
+        val doctorId = jwtTokenFilter.extractUserId(authToken.substring(7))
         return userMoodRepository.findByUserIdAndDoctorId(userId, doctorId).map { userMoodMapper.entityToDto(it) }
+    }
+
+    @Transactional
+    override fun getSharedUsers(authToken: String): List<UserProjection> {
+        val doctorId = jwtTokenFilter.extractUserId(authToken.substring(7))
+        val users = userMoodSharingRepository
+            .findUsersByDoctorId(doctorId)
+            .map { userMapper.entityToDto(it) }
+        return users.map {user -> UserProjection(user.id, user.firstName, user.lastName) }
     }
 
     @Transactional

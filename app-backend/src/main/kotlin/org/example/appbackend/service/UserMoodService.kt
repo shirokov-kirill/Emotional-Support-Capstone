@@ -12,7 +12,8 @@ interface UserMoodService {
     fun getCriticalUsersMoodByDoctorToken(authToken: String): List<UserMoodDto>
     fun delete(id: Int)
     fun shareTimeFrame(authToken: String, dto: ShareMoodTimeFrameWithDoctorsDto): List<Int>
-    fun getAllowedUserMoods(userId: Int, doctorId: Int): List<UserMoodDto>
+    fun getAllowedUserMoods(authToken: String, userId: Int): List<UserMoodDto>
+    fun getSharedUsers(authToken: String): List<UserProjection>
     fun getRecommendedDoctorsByMoods(authToken: String): List<DoctorRecommendationDto>
 
     companion object {

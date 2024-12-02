@@ -66,13 +66,20 @@ class UserMoodController(
         return userMoodService.shareTimeFrame(authToken, dto)
     }
 
-    @GetMapping("user-mood/get-allowed/{userId}/{doctorId}")
+    @GetMapping("user-mood/get-allowed/{userId}")
     fun getUserMoodByFrame(
+        @RequestHeader("Authorization") authToken: String,
         @PathVariable("userId") userId: Int,
-        @PathVariable("doctorId") doctorId: Int,
     ): List<UserMoodDto> {
         logger.info("Receiving allowed user moods: {}", userId)
-        return userMoodService.getAllowedUserMoods(userId, doctorId)
+        return userMoodService.getAllowedUserMoods(authToken, userId)
+    }
+
+    @GetMapping("user-mood/get-allowed")
+    fun getUsersByDoctor(
+        @RequestHeader("Authorization") authToken: String
+    ): List<UserProjection> {
+        return userMoodService.getSharedUsers(authToken)
     }
 
     @GetMapping("getRecommendedDoctorsByMoods")

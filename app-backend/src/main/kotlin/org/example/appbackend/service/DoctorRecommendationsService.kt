@@ -5,5 +5,5 @@ import org.example.appbackend.dto.RecommendationForDoctorDto
 
 interface DoctorRecommendationsService {
 
-    fun getRecommendationsByDoctor(dto: GetRecommendationForDoctorDto) : RecommendationForDoctorDto
+    fun getRecommendationsByDoctor(authToken: String, userId: Int) : RecommendationForDoctorDto
 }
