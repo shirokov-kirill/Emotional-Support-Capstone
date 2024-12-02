@@ -4,7 +4,7 @@ import CalendarDays from './Calendar days/CalendarDays';
 import getMoodsForTimeFrame from "../../reusables/Mood/GetMood";
 
 
-function findStartAndEndDate(date) {
+export function findStartAndEndDate(date) {
     let startDate = new Date(date.getFullYear(), date.getMonth(), 1);
     startDate = startDate.setDate(startDate.getDate() - startDate.getDay());
 
