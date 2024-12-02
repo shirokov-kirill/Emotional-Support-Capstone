@@ -84,7 +84,7 @@ class Unknown {
         val headers = HttpHeaders()
         headers.set("Authorization", "Bearer $token")
         val response = restTemplate.exchange(
-            url.getAllowedUserMood(userId, doctorId),
+            url.getAllowedUserMood(token, userId),
             HttpMethod.GET,
             HttpEntity<Any>(headers),
             Array<UserMoodDto>::class.java,
