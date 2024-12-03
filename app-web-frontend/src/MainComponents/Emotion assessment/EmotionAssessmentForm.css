@@ -3,44 +3,63 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .formRow p {
   margin: 0;
-  margin-right: 10;
+  font-size: 16px;
+  color: #333;
 }
 
 .emotionAssessmentForm {
   margin-top: 50px;
-  width: 200px;
-  height: 100px;
+  width: 260px;
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Align items horizontally at the center */
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 255, 0.1);
   padding: 20px;
+  border: 1px solid #dce4f7;
 }
 
 .emotionAssessmentFormParameterBox {
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .componentEmotionAssessment p {
   font-size: 16px;
+  color: #4a90e2;
+  font-weight: bold;
 }
 
 .submitFormButton {
-  background-color: #8a3ab9; /* Light purple color */
-  color: white; /* Text color */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Add border radius */
-  padding: 10px 20px; /* Add padding */
-  cursor: pointer; /* Add cursor pointer on hover */
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .submitFormButton:hover {
-  opacity: 0.8; /* Reduce opacity on hover */
+  background-color: #0056b3;
+  opacity: 0.9;
 }
+
+.submitFormButton:active {
+  transform: scale(0.98);
+}
+
+.submitFormButton:disabled {
+  background-color: #b0c4de;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
