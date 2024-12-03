@@ -17,3 +17,9 @@ data class UserDto(
         val updatedAt: LocalDateTime?,
         val deletedAt: LocalDateTime?
 )
+
+data class UserProjection(
+        val id: Int,
+        val firstName: String?,
+        val lastName: String?
+)

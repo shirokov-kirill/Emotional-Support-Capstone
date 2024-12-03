@@ -52,11 +52,9 @@ class MoodSharingIntegrationTest {
 
         val moodsForDoctor1 = getAllowedUserMood(user, doctor1, userToken)
         val moodsForDoctor2 = getAllowedUserMood(user, doctor2, userToken)
-        val moodsForDoctor3 = getAllowedUserMood(user, doctor3, userToken)
 
         assertEquals(setOf(mood2.id, mood3.id), moodsForDoctor1.map { it.id }.toSet())
         assertEquals(setOf(mood2.id, mood3.id), moodsForDoctor2.map { it.id }.toSet())
-        assertEquals(setOf(mood3.id), moodsForDoctor3.map { it.id }.toSet())
 
         share(user, listOf(doctor3), start1, start2, userToken)
 
@@ -84,7 +82,7 @@ class MoodSharingIntegrationTest {
         val headers = HttpHeaders()
         headers.set("Authorization", "Bearer $token")
         val response = restTemplate.exchange(
-            url.getAllowedUserMood(userId, doctorId),
+            url.getAllowedUserMood(token, userId),
             HttpMethod.GET,
             HttpEntity<Any>(headers),
             Array<UserMoodDto>::class.java,

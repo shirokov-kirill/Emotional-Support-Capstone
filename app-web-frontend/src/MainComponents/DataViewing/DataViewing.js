@@ -4,6 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import './DataViewing.css'
 import {SERVER_ADDRESS} from "../../setupInfo";
 import axios from "axios";
+import {getUserAuthToken} from "../../reusables/utils/AuthToken";
 
 function DataViewing() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -12,56 +13,63 @@ function DataViewing() {
     const [patients, setPatients] = useState([]);
     const doctorId = 1;
 
-    const patients_list = [
-        {
-            id: 1,
-            name: 'First Patient'
-        },
-        {
-            id: 2,
-            name: 'Second Patient'
-        }
-    ]
-
-
     useEffect(() => {
         // Fetch patient data from your API endpoint
-        fetchPatients();
+        fetchUsers()
     }, []);
 
-
-
-    const fetchPatients = async () => {
-        try {
-            // const response = await axios.get(SERVER_ADDRESS + '/patients');
-            //
-            // if (response.status !== 200) {
-            //     throw new Error('Failed to fetch patient data');
-            // }
-            //
-            // setPatients(response.data);
-            setPatients(patients_list);
-
-        } catch (error) {
-            console.error('Error fetching patient data:', error);
-            setPatients(patients_list);
-            console.log(patients);
+    const fetchUsers = () => {
+        const token = getUserAuthToken();
+        if (token) {
+            axios.get(`${SERVER_ADDRESS}/user-mood/get-allowed`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    const patientData = response.data.map(user => ({
+                        id: user.id,
+                        name: `${user.firstName} ${user.lastName}`
+                    }));
+                    setPatients(patientData);
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                });
+        } else {
+            console.error('User token not found in localStorage');
         }
     };
 
 
     const handlePatientClick = async (patient) => {
-        // setSelectedPatient(patient);
-        try {
-            const response = await axios.get(SERVER_ADDRESS + `/user-mood/get-allowed/${patient.id}/${doctorId}`);
-            if (response.status !== 200) {
-                throw new Error('Failed to fetch patient data');
-            }
-            setSelectedPatient({...patient, data: response.data});
-        } catch (error) {
-            console.error('Error fetching patient data:', error);
+        const token = getUserAuthToken();
+        if (!token) {
+            console.error('User token not found in localStorage');
+            return;
         }
+
+        axios.get(`${SERVER_ADDRESS}/user-mood/get-allowed/${patient.id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(response => {
+                if (response.status === 200) {
+                    const moods = {}
+                    for (let i = 0; i < response.data.length; i++) {
+                        let current = response.data[i]
+                        moods[dateToIsoWithoutTime(current.created)] = {emoji: current.emoji, color: current.color}
+                        console.log(moods[dateToIsoWithoutTime(current.created)])
+                    }
+
+                    setSelectedPatient({...patient, data: moods});
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching patient data:', error);
+            });
     };
+
 
 
     const handleDateChange = (date) => {
@@ -70,40 +78,37 @@ function DataViewing() {
 
 
     const getEmojiAndColorForDate = (date) => {
-        console.log(date)
-        const formattedDate = formatDate(date);
-        const dataEntry = selectedPatient.data.find(entry => {
-            const entryObject = JSON.parse(entry);
-            console.log(entryObject)
-            return formatDate(entryObject['created']) === formattedDate;
-        });
-        if (dataEntry) {
-            const entryObject = JSON.parse(dataEntry);
-            return {emoji: entryObject.emoji, color: entryObject.color};
+        const formattedDate = dateToIsoWithoutTime(date);
+        if (selectedPatient.data.hasOwnProperty(formattedDate)) {
+            return selectedPatient.data[formattedDate];
         }
         return null;
     };
 
+    function dateToIsoWithoutTime(dateString) {
+        let dateObject = new Date(dateString);
+        let year = dateObject.getFullYear();
+        let month = String(dateObject.getMonth() + 1).padStart(2, '0');  // Months are 0-indexed
+        let day = String(dateObject.getDate()).padStart(2, '0');
 
-    const formatDate = (date) => {
-        return date.toISOString().split('T')[0];
-    };
+        return `${year}-${month}-${day}`;
+    }
 
     const filteredPatients = patients.filter(patient =>
         patient.name.toLowerCase().split(" ").some(word => word.startsWith(searchTerm.toLowerCase()))
     );
 
-    const tileContent = ({date, view}) => {
-        const emojiAndColor = getEmojiAndColorForDate(date);
-        if (emojiAndColor && view === 'month') {
-            return (
-                <span role="img" aria-label="Emoji" style={{color: emojiAndColor.color}}>
-                <span style={{color: emojiAndColor.color}}>{emojiAndColor.emoji}</span>
-            </span>
-            );
+    const tileContent = ({ date, view }) => {
+        if (view === 'month') {
+            const mood = getEmojiAndColorForDate(date);
+            return mood ? (
+                <div style={{ backgroundColor: mood.color, width: '50%', height: '50%', textAlign: 'center' }}>
+                    {mood.emoji}
+                </div>
+            ) : null;
         }
         return null;
-    };
+    }
 
     return (
         <div className="container">

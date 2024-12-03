@@ -60,18 +60,26 @@ class UserMoodController(
     }
 
     @PostMapping("user-mood/share")
-    fun shareMoodTimeFrameWithDoctors(@RequestBody dto: ShareMoodTimeFrameWithDoctorsDto): List<Int> {
+    fun shareMoodTimeFrameWithDoctors(@RequestHeader("Authorization") authToken: String,
+                                      @RequestBody dto: ShareMoodTimeFrameWithDoctorsDto): List<Int> {
         logger.info("Receiving user mood sharing timeframe: {}", dto)
-        return userMoodService.shareTimeFrame(dto)
+        return userMoodService.shareTimeFrame(authToken, dto)
     }
 
-    @GetMapping("user-mood/get-allowed/{userId}/{doctorId}")
+    @GetMapping("user-mood/get-allowed/{userId}")
     fun getUserMoodByFrame(
+        @RequestHeader("Authorization") authToken: String,
         @PathVariable("userId") userId: Int,
-        @PathVariable("doctorId") doctorId: Int,
     ): List<UserMoodDto> {
         logger.info("Receiving allowed user moods: {}", userId)
-        return userMoodService.getAllowedUserMoods(userId, doctorId)
+        return userMoodService.getAllowedUserMoods(authToken, userId)
+    }
+
+    @GetMapping("user-mood/get-allowed")
+    fun getUsersByDoctor(
+        @RequestHeader("Authorization") authToken: String
+    ): List<UserProjection> {
+        return userMoodService.getSharedUsers(authToken)
     }
 
     @GetMapping("getRecommendedDoctorsByMoods")
