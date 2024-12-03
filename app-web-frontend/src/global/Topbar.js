@@ -62,13 +62,21 @@ import { PatientMainComponents, HealthProviderMainComponents } from "../MainComp
 import ComponentType from "../MainComponents/ComponentType";
 import { Link } from "react-router-dom";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { FiLogOut } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const Topbar = () => {
   const role = localStorage.getItem("role");
+  const navigate = useNavigate();
 
   const MainComponents = role === "patient" ? PatientMainComponents : role === "health_provider" ? HealthProviderMainComponents : [];
 
   console.log(role);
+  const handleLogout = () => {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('role');
+        navigate('/');
+    };
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
@@ -79,20 +87,24 @@ const Topbar = () => {
           <SearchIcon />
         </IconButton>
       </Box>
-      
-      {/* Icons */}
-      <Box display="flex">
-        {MainComponents.map(({ label, path, icon, type }) => (
-          type === ComponentType.Topbar && (
-            <Link key={label} to={path} style={{ textDecoration: 'none' }}>
-              <IconButton title={label}>
-                {icon}
-              </IconButton>
-            </Link>
-          )
-        ))}
 
-      </Box>
+      {/* Icons */}
+        <Box display="flex">
+            {MainComponents.map(({ label, path, icon, type }) => (
+                type === ComponentType.Topbar && (
+                    <Link key={label} to={path} style={{ textDecoration: 'none' }}>
+                        <IconButton title={label}>
+                            {icon}
+                        </IconButton>
+                    </Link>
+                )
+            ))}
+
+            {/* Logout IconButton */}
+            <IconButton title="Logout" onClick={handleLogout}>
+                <FiLogOut size={24} />
+            </IconButton>
+        </Box>
     </Box>
   );
 };

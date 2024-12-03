@@ -30,7 +30,7 @@ function EmotionAssessmentForm() {
       userId: null
     }))
     const authToken = getUserAuthToken();
-    fetch(SERVER_ADDRESS + '/user-mood/create', 
+    fetch(SERVER_ADDRESS + '/user-mood/create',
     prepareRequest('POST', JSON.stringify({
       color: selectedColor,
       emoji: selectedEmoji,

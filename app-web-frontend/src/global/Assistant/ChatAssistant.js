@@ -34,6 +34,7 @@ const ChatAssistant = () => {
         systemInstruction:  systemPrompt});
 
     const toggleChat = () => setIsOpen(!isOpen);
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     const handleSend = async () => {
         if (!input.trim()) return;
@@ -42,13 +43,31 @@ const ChatAssistant = () => {
         setInput('');
         setIsTyping(true); // Start typing animation
         const prompt = `${input}`;
-        const result = await model.generateContent(prompt);
+        if (api_key.includes("TODO:")) {
+            const aiResponse = "Hi! I'm your AI assistant! I can help you record your mood, " +
+                "answer all your questions about the app, or just talk to you to cheer you up! " +
+                "To start working, you need to add a token to the Gemini model.";
+            console.log("Put API key to start the AI assistant.");
+            await sleep(500);
 
-        const aiResponse = result.response.text();
-        console.log(`AI: ${aiResponse}`);
+            setIsTyping(false); // Stop typing animation
+            setMessages(prev => [...prev, { sender: "bot", text: aiResponse }]);
+        } else {
+            try {
+                const result = await model.generateContent(prompt);
+                const aiResponse = result.response.text();
+                console.log(`AI: ${aiResponse}`);
 
-        setIsTyping(false); // Stop typing animation
-        setMessages(prev => [...prev, { sender: "bot", text: aiResponse }]);
+                setIsTyping(false); // Stop typing animation
+                setMessages(prev => [...prev, { sender: "bot", text: aiResponse }]);
+            } catch (error) {
+                console.error("Error generating response:", error);
+                const errorResponse = "Oops! Something went wrong while generating a response.";
+
+                setIsTyping(false); // Stop typing animation
+                setMessages(prev => [...prev, { sender: "bot", text: errorResponse }]);
+            }
+        }
     };
 
     return (

@@ -55,7 +55,8 @@ const ProSidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 paddingLeft={isSidebarOpen ? undefined : "10%"}
                 paddingBottom="350px"
             > {
-              MainComponents.map(({ element, label, path, icon }) => (
+              MainComponents.map(({ element, label, path, icon, type }) => (
+                  type === ComponentType.Sidebar &&
                   <Item
                       title={label}
                       to={path}
