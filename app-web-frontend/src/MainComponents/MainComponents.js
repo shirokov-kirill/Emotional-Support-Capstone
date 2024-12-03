@@ -36,13 +36,13 @@ export const PatientMainComponents = [
     { "label": "Mood Assessment", "path": "/emotion_assessment", "element": EmotionAssessmentForm, icon: <CalendarIcon />, "type": ComponentType.Sidebar},
     { "label": "Chats", "path": "/chats", "element": ChatsPage, icon: <SmsIcon />, "type": ComponentType.Sidebar},
     { "label": "Appointments", "path": "/appointment", "element": Appointment, icon: <AppointmentIcon />, "type": ComponentType.Sidebar },
+    { "label": "AI", "path": "/recs", "element": AiRecs, "icon": <AiFillRobot/>, "type": ComponentType.Sidebar},
     { "label": "Feedback", "path": "/feedback", "element": Feedback, icon: <FeedbackIcon />, "type": ComponentType.Sidebar },
     { "label": "Share", "path": "/share", "element": Share, icon: <ShareIcon />, "type": ComponentType.Sidebar },
-    { "label": "Notifications list", "path": "/notifications", "element": NotificationList, icon: <NotificationsIcon/>, "type": ComponentType.Sidebar },
+    { "label": "Notifications list", "path": "/notifications", "element": NotificationList, icon: <NotificationsIcon/>, "type": ComponentType.Topbar },
     { "label": "Data Sharing", "path": "/datasharing", "element": DataSharing, icon: <IosShareIcon />, "type": ComponentType.Sidebar },
-    { "label": "AI", "path": "/recs", "element": AiRecs, "icon": <AiFillRobot/>, "type": ComponentType.Sidebar},
     { "label": "Settings", "path": "/settings", "element": Settings, icon: <SettingsIcon />, "type": ComponentType.Topbar},
-    { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon />, "type": ComponentType.Sidebar }
+    { "label": "Profile", "path": "/profile", "element": MainProfile, "icon": <ProfileIcon />, "type": ComponentType.Topbar }
 ]
 
 export const HealthProviderMainComponents = [
@@ -50,8 +50,8 @@ export const HealthProviderMainComponents = [
     { "label": "Chats", "path": "/chats", "element": ChatsPage, icon: <SmsIcon />, "type": ComponentType.Sidebar},
     { "label": "Appointments", "path": "/appointment", "element": Appointment, icon: <AppointmentIcon />, "type": ComponentType.Sidebar },
     { "label": "Feedback list", "path": "/feedbackList", "element": FeedbackList, icon: <FeedbackIcon />, "type": ComponentType.Sidebar },
-    { "label": "Notifications list", "path": "/notifications", "element": NotificationList, icon: <NotificationsIcon/>, "type": ComponentType.Sidebar },
+    { "label": "Notifications list", "path": "/notifications", "element": NotificationList, icon: <NotificationsIcon/>, "type": ComponentType.Topbar },
     { "label": "Data Viewing", "path": "/dataviewing", "element": DataViewing, icon: <CoPresentIcon />, "type": ComponentType.Sidebar },
     { "label": "Settings", "path": "/settings", "element": Settings, icon: <SettingsIcon />, "type": ComponentType.Topbar},
-    { "label": "Profile", "path": "/hpProfile", "element": HPMainProfile, "icon": <ProfileIcon />, "type": ComponentType.Sidebar }
+    { "label": "Profile", "path": "/hpProfile", "element": HPMainProfile, "icon": <ProfileIcon />, "type": ComponentType.Topbar }
 ]
