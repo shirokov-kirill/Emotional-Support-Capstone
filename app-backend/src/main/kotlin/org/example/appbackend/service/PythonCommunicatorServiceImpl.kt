@@ -31,9 +31,9 @@ class PythonCommunicatorServiceImpl: PythonCommunicatorService {
                 .retrieve()
                 .bodyToMono<PythonRelevantDoctorResponseDto>()
                 .block()
-        } catch (e: WebClientResponseException) {
+        } catch (e: Exception) {
             PythonRelevantDoctorResponseDto(
-                relevantDoctorIdSorted = doctorIdAndSpecialisations.map { it.first }
+                relevantDoctorIdSorted = doctorIdAndSpecialisations.map { it.first }.shuffled()
             )
         }
         val idToDoctorRecommendationDto = doctors.map {
