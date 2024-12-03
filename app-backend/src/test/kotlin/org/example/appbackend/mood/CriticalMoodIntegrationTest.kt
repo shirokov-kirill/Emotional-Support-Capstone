@@ -47,17 +47,17 @@ class CriticalMoodIntegrationTest {
         val usernameDoctor1 = "d1"
         val passwordDoctor1 = "bar"
         val doctor1 = createDoctor(url, restTemplate, usernameDoctor1, passwordDoctor1)
-        val doctor1Token = loginUser(url, restTemplate, usernameDoctor1, passwordDoctor1)
+        val doctor1Token = loginDoctor(url, restTemplate, usernameDoctor1, passwordDoctor1)
 
         val usernameDoctor2 = "d2"
         val passwordDoctor2 = "bar"
         val doctor2 = createDoctor(url, restTemplate, usernameDoctor2, passwordDoctor2)
-        val doctor2Token = loginUser(url, restTemplate, usernameDoctor2, passwordDoctor2)
+        val doctor2Token = loginDoctor(url, restTemplate, usernameDoctor2, passwordDoctor2)
 
         val usernameDoctor3 = "d3"
         val passwordDoctor3 = "bar"
         val doctor3 = createDoctor(url, restTemplate, usernameDoctor3, passwordDoctor3)
-        val doctor3Token = loginUser(url, restTemplate, usernameDoctor3, passwordDoctor3)
+        val doctor3Token = loginDoctor(url, restTemplate, usernameDoctor3, passwordDoctor3)
 
         createMood(url, restTemplate, user, userToken, emoji = CRITICAL_NEGATIVE_MOOD_EMOJI[0])
         val start1 = LocalDateTime.now()

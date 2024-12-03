@@ -13,6 +13,7 @@ class Url(val port: Int) {
     val addDoctor get() = "$root/doctor/register"
     val addUser get() = "$root/users"
     val login get() = "$root/auth/login"
+    val doctorLogin get() = "$root/auth/doctor-login"
     val addChat get() = "$root/chats"
     val addMessage get() = "$root/messages"
     fun getChatsByUser(userId: Int) = "$root/chats/user/$userId"
@@ -60,6 +61,7 @@ fun createDoctor(
     url: Url,
     restTemplate: TestRestTemplate,
     username: String = DoctorNameProvider.getNewName(),
+    password: String = "default_password",
     name: String = "DoctorName",
     surname: String = "DoctorSurname",
     email: String = "doctor@example.com",
@@ -69,7 +71,7 @@ fun createDoctor(
     val id = 123
     val dob = LocalDate.of(1990, 1, 1)
     val doctorCredentials =
-        RegisterDoctorCredentialsDto(username, "password", name, surname, email, dob, clinic, specialization, false)
+        RegisterDoctorCredentialsDto(username, password, name, surname, email, dob, clinic, specialization, false)
     val response = restTemplate.postForEntity(url.addDoctor, doctorCredentials, DoctorCredentialsDto::class.java)
     assertEquals(HttpStatus.OK, response.statusCode)
     val createdDoctorCredentials = response.body
@@ -120,6 +122,20 @@ fun loginUser(
     // Login and obtain the token
     val loginRequest = LoginRequestDto(username, password)
     val loginResponse = restTemplate.postForEntity(url.login, loginRequest, LoginResponseDto::class.java)
+    assertEquals(HttpStatus.OK, loginResponse.statusCode)
+    assertNotNull(loginResponse.body)
+    return loginResponse.body!!.token
+}
+
+fun loginDoctor(
+    url: Url,
+    restTemplate: TestRestTemplate,
+    username: String,
+    password: String,
+): String {
+    // Login and obtain the token
+    val loginRequest = LoginRequestDto(username, password)
+    val loginResponse = restTemplate.postForEntity(url.doctorLogin, loginRequest, LoginResponseDto::class.java)
     assertEquals(HttpStatus.OK, loginResponse.statusCode)
     assertNotNull(loginResponse.body)
     return loginResponse.body!!.token
