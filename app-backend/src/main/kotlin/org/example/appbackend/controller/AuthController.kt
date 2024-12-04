@@ -6,9 +6,6 @@ import org.example.appbackend.dto.LoginResponseDto
 import org.example.appbackend.service.AuthService
 import org.example.appbackend.service.DoctorCredentialsService
 import org.example.appbackend.service.UserService
-import org.example.appbackend.utils.ActionNames
-import org.example.appbackend.utils.NEW_LOGIN_MSG_TEXT
-import org.example.appbackend.utils.executePythonScript
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -39,12 +36,6 @@ class AuthController(
             // Return the authentication token in the response
             val responseDto = LoginResponseDto(authToken)
             logger.info("Logged in successfully.")
-
-            try {
-                executePythonScript(userDto.email, userDto.username, NEW_LOGIN_MSG_TEXT, ActionNames.Actions.LOGIN.value)
-            } catch (e: Exception) {
-                logger.error("Failed sending Email: ${e.message}")
-            }
 
             return ResponseEntity(responseDto, HttpStatus.OK)
         } catch (e: Exception) {
