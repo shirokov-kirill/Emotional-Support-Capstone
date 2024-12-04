@@ -3,14 +3,12 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const PasswordInput = ({ value, placeholder,  onChange, isValid, showPassword, togglePasswordVisibility }) => {
     return (
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative' }} className="password-input">
             <input
                 type={showPassword ? 'text' : 'password'} // Toggle visibility
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
-                style={isValid ? {} : { border: '1px solid lightcoral' }}
-                className="custom-input" // Optional: use your custom styles
             />
             <button
                 type="button"
