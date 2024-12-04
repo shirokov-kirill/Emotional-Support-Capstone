@@ -185,7 +185,9 @@ function HealthProviderLogin() {
         <div className="App">
             {isLogin ? (
                 <div className="form-container">
-                    <h2>Health Provider Login</h2>
+                    <div className="title">
+                        <h2>Health Provider</h2>
+                    </div>
                     <form>
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
                         <PasswordInput
@@ -196,12 +198,24 @@ function HealthProviderLogin() {
                             showPassword={showPassword}
                             togglePasswordVisibility={togglePasswordVisibility}
                         />
-                        <button type="submit" onClick={onHealthProviderLoginSubmit}>Login</button>
+                        <button
+                            id="forgot-password-button"
+                            className="text-button"
+                            onClick={() => navigate('/forgot-password', {state: {from: 'user'}})}
+                        >
+                            Forgot Password?
+                        </button>
+                        <div>
+                            {showFormValidWarning &&
+                                <p className="warning-message">Please fill in all the required fields.</p>}
+                            <button type="submit" onClick={onHealthProviderLoginSubmit}>Continue</button>
+                        </div>
                     </form>
-                    <button className="text-button switch-form-button" onClick={() => setIsLogin(false)}>
-                        Don't have an account? Sign Up!
+                    <button className="text-button signup-button" onClick={() => setIsLogin(false)}>
+                        New user? Register!
                     </button>
-                    <button className="text-button back-to-role" onClick={() => navigate('/')}>
+
+                    <button className="text-button back-to-role" onClick={() => navigate("/")}>
                         Back to role choice
                     </button>
                 </div>
