@@ -1,21 +1,21 @@
 package org.example.appbackend.service
 
-import org.example.appbackend.dto.UserDto
 import org.example.appbackend.dto.CreateUserDto
+import org.example.appbackend.dto.UserDto
 import org.example.appbackend.dto.UserLoginsDto
 import org.example.appbackend.entity.UserLogin
-import org.example.appbackend.utils.SIGN_UP_MSG_TEXT
-import org.example.appbackend.utils.executePythonScript
 import org.example.appbackend.mapper.UserMapper
 import org.example.appbackend.repository.UserLoginRepository
 import org.example.appbackend.repository.UserRepository
 import org.example.appbackend.utils.ActionNames
 import org.example.appbackend.utils.NEW_LOGIN_MSG_TEXT
-import org.springframework.stereotype.Service
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.authentication.BadCredentialsException
-import java.time.LocalDateTime
+import org.example.appbackend.utils.SIGN_UP_MSG_TEXT
+import org.example.appbackend.utils.executePythonScript
 import org.slf4j.LoggerFactory
+import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class UserServiceImpl(
@@ -95,7 +95,7 @@ class UserServiceImpl(
                 it.loginTime.isAfter(LocalDateTime.now().minusHours(24))
             }
             if (recentLogins.size > 1) {
-                user.email?.let { trySendEmail(it, user.username) }
+                user.email?.let { trySendEmail(it, user.username, logger) }
             }
             return userMapper.entityToDto(user)
         } catch (ex: Exception) {
@@ -121,14 +121,16 @@ class UserServiceImpl(
         return password.let { passwordEncoder.encode(it) }
     }
 
-    private fun trySendEmail(email: String, username: String) {
-        try {
-            executePythonScript(
-                email, username,
-                NEW_LOGIN_MSG_TEXT, ActionNames.Actions.LOGIN.value
-            )
-        } catch (e: Exception) {
-            logger.error("Failed sending Email: ${e.message}")
+    companion object {
+        fun trySendEmail(email: String, username: String, logger: org.slf4j.Logger? = null) {
+            try {
+                executePythonScript(
+                    email, username,
+                    NEW_LOGIN_MSG_TEXT, ActionNames.Actions.LOGIN.value
+                )
+            } catch (e: Exception) {
+                logger?.error("Failed sending Email: ${e.message}")
+            }
         }
     }
 }

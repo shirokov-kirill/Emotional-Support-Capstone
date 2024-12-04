@@ -4,6 +4,7 @@ import org.example.appbackend.dto.DoctorCredentialsDto
 import org.example.appbackend.dto.RegisterDoctorCredentialsDto
 import org.example.appbackend.mapper.DoctorCredentialsMapper
 import org.example.appbackend.repository.DoctorCredentialsRepository
+import org.example.appbackend.service.UserServiceImpl.Companion.trySendEmail
 import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -49,6 +50,9 @@ class DoctorCredentialsServiceImpl(
             if (user == null || !passwordEncoder.matches(password, user.password)) {
                 throw BadCredentialsException("Invalid username or password")
             }
+
+            user.email?.let { trySendEmail(it, user.username ?: username, logger) }
+
             return doctorCredentialsMapper.entityToDto(user)
         } catch (ex: Exception) {
             logger.error("Error authenticating doctor: {}", ex.message)
