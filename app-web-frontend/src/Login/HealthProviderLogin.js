@@ -220,29 +220,55 @@ function HealthProviderLogin() {
                     </button>
                 </div>
             ) : (
-                <div className="form-container signup">
+                <div className="form-container signup" style={{textAlign: "left"}}>
                     <h2>Health Provider Sign Up</h2>
                     <form>
-                        <input type="text" placeholder="Name" onChange={e => setFirstName(e.target.value)}/>
-                        <input type="text" placeholder="Surname" onChange={e => setLastName(e.target.value)}/>
-                        <input
-                            type="date"
-                            placeholder="Date of Birth"
-                            onChange={e => setDateOfBirth(e.target.value)}
-                            style={isDOBValid() ? {} : {border: '1px solid lightcoral'}}
-                        />
-                        {!isDOBValid() &&
-                            <p className="warning-message">You must be at least 18 years old to register.</p>}
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            onChange={e => setEmail(e.target.value)}
-                            style={validateEmail() ? {} : {border: '1px solid lightcoral'}}
-                        />
-                        {!validateEmail() && <p className="warning-message">Please enter a valid Email.</p>}
-                        <input type="text" placeholder="Clinic" onChange={e => setClinic(e.target.value)}/>
-                        <input type="text" placeholder="Specialization"
-                               onChange={e => setSpecialisation(e.target.value)}/>
+                        <div className="horizontal-form">
+                            <div className="horizontal-column first-column">
+                                <input
+                                    type="text"
+                                    placeholder="Name"
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
+                            </div>
+                            <div className="horizontal-column">
+                                <input
+                                    type="text"
+                                    placeholder="Surname"
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="horizontal-form">
+                            <div className="horizontal-column first-column">
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    onChange={e => setEmail(e.target.value)}
+                                    style={validateEmail() ? {} : {border: '1px solid lightcoral'}}
+                                />
+                                {!validateEmail() && <p className="warning-message">Please enter a valid Email.</p>}
+                            </div>
+                            <div className="horizontal-column">
+                                <input
+                                    type="date"
+                                    placeholder="Date of Birth"
+                                    onChange={e => setDateOfBirth(e.target.value)}
+                                    style={isDOBValid() ? {} : {border: '1px solid lightcoral'}}
+                                />
+                                {!isDOBValid() &&
+                                    <p className="warning-message">You must be at least 18 years old to register.</p>}
+                            </div>
+                        </div>
+                        <div className="horizontal-form">
+                            <div className="horizontal-column first-column">
+                                <input type="text" placeholder="Clinic" onChange={e => setClinic(e.target.value)}/>
+                            </div>
+                            <div className="horizontal-column">
+                                <input type="text" placeholder="Specialization"
+                                       onChange={e => setSpecialisation(e.target.value)}/>
+                            </div>
+                        </div>
                         <div>
                             <label htmlFor="fileInput">Upload Certification:</label>
                             <input
@@ -251,42 +277,47 @@ function HealthProviderLogin() {
                                 onChange={handleFileChange}
                                 accept=".pdf, .doc, .docx"
                             />
-                            <span>(Accepted formats: PDF, DOC, DOCX)</span>
                         </div>
 
                         <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-                        <PasswordInput
-                            value={password}
-                            placeholder={"Password"}
-                            onChange={e => setPassword(e.target.value)}
-                            isValid={isPasswordValid()}
-                            showPassword={showPassword}
-                            togglePasswordVisibility={togglePasswordVisibility}
-                        />
-                        {isPasswordValid() && password.length !== 0 && (() => {
-                        const strength = calculatePasswordStrength(password);
-                        return (
-                            <p className="warning-message" style={{ color: strength.color }}>
-                                {strength.message}
-                            </p>
-                        );
-                        })()}
-                        {!isPasswordValid() && (
-                        <p className="warning-message">
-                            Password must be at least 8 characters long.
-                        </p>
-                        )}
+                        <div className="horizontal-form">
+                            <div className="horizontal-column first-column">
+                                <PasswordInput
+                                    value={password}
+                                    placeholder={"Password"}
+                                    onChange={e => setPassword(e.target.value)}
+                                    isValid={isPasswordValid()}
+                                    showPassword={showPassword}
+                                    togglePasswordVisibility={togglePasswordVisibility}
+                                />
+                                {isPasswordValid() && password.length !== 0 && (() => {
+                                    const strength = calculatePasswordStrength(password);
+                                    return (
+                                        <p className="warning-message" style={{color: strength.color}}>
+                                            {strength.message}
+                                        </p>
+                                    );
+                                })()}
+                                {!isPasswordValid() && (
+                                    <p className="warning-message">
+                                        Password must be at least 8 characters long.
+                                    </p>
+                                )}
+                            </div>
+                            <div className="horizontal-column">
+                                <PasswordInput
+                                    value={confirmationPassword}
+                                    placeholder={"Confirm password"}
+                                    onChange={e => setConfirmationPassword(e.target.value)}
+                                    isValid={isPasswordSame()}
+                                    showPassword={showConfirmationPassword}
+                                    togglePasswordVisibility={toggleConfirmationPasswordVisibility}
+                                />
+                                {!isPasswordSame() &&
+                                    <p className="warning-message">Passwords must match the confirmation password.</p>}
+                            </div>
+                        </div>
 
-                        <PasswordInput
-                                value={confirmationPassword}
-                                placeholder={"Confirm password"}
-                                onChange={e => setConfirmationPassword(e.target.value)}
-                                isValid={isPasswordSame()}
-                                showPassword={showConfirmationPassword}
-                                togglePasswordVisibility={toggleConfirmationPasswordVisibility}
-                        />
-                        {!isPasswordSame() &&
-                            <p className="warning-message">Passwords must match the confirmation password.</p>}
                         <div className="checkbox-container">
                             <input
                                 type="checkbox"
@@ -296,10 +327,19 @@ function HealthProviderLogin() {
                             <label htmlFor="agreement">I agree that I will appear in patients' recommendations</label>
                         </div>
 
-                        <button type="submit" onClick={onNewHealthProviderFormSubmit} disabled={!isFormValid()}>Sign Up</button>
+                        <button type="submit" onClick={onNewHealthProviderFormSubmit} disabled={!isFormValid()}>Sign
+                            Up
+                        </button>
                     </form>
-                    <button className="switch-form-button" onClick={() => setIsLogin(true)}>Back to Login</button>
-                    <Link to='/' style={{ textDecoration: 'underline', marginTop: '10px' }}>Back to role choice</Link>
+                    <button
+                        className="text-button signup-button"
+                        onClick={() => setIsLogin(true)}
+                    >
+                        Back to Login
+                    </button>
+                    <button className="text-button back-to-role" onClick={() => navigate("/")}>
+                        Back to role choice
+                    </button>
                 </div>
             )}
             <Footer/>

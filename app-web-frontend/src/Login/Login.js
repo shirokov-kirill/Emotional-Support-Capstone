@@ -104,7 +104,7 @@ export function Login() {
 
     const isUsernameValid = () => {
         const re = /[0-9a-zA-Z]/;
-        return username.length > 4 && re.test(username)
+        return (username.length > 4 && re.test(username)) || confirmationPassword.length === 0;
     }
 
     const isNewUserFormValid = () => {
@@ -296,36 +296,42 @@ export function Login() {
                             <p className="warning-message">Please enter a valid Email.</p>
                         )}
 
-                        <PasswordInput
-                            value={password}
-                            placeholder={"Password"}
-                            onChange={e => setPassword(e.target.value)}
-                            isValid={isPasswordValid()}
-                            showPassword={showPassword}
-                            togglePasswordVisibility={togglePasswordVisibility}
-                        />
-                        {isPasswordValid() && password.length !== 0 && (() => {
-                            const strength = calculatePasswordStrength(password);
-                            return (
-                                <p className="warning-message" style={{color: strength.color}}>
-                                    {strength.message}
-                                </p>
-                            );
-                        })()}
-                        {!isPasswordValid() && (
-                            <p className="warning-message">
-                                Password must be at least 8 characters long.
-                            </p>
-                        )}
+                        <div className="horizontal-form">
+                            <div className="horizontal-column first-column">
+                                <PasswordInput
+                                    value={password}
+                                    placeholder={"Password"}
+                                    onChange={e => setPassword(e.target.value)}
+                                    isValid={isPasswordValid()}
+                                    showPassword={showPassword}
+                                    togglePasswordVisibility={togglePasswordVisibility}
+                                />
+                                {isPasswordValid() && password.length !== 0 && (() => {
+                                    const strength = calculatePasswordStrength(password);
+                                    return (
+                                        <p className="warning-message" style={{color: strength.color}}>
+                                            {strength.message}
+                                        </p>
+                                    );
+                                })()}
+                                {!isPasswordValid() && (
+                                    <p className="warning-message">
+                                        Password must be at least 8 characters long.
+                                    </p>
+                                )}
+                            </div>
+                            <div className="horizontal-column">
+                                <PasswordInput
+                                    value={confirmationPassword}
+                                    placeholder={"Confirm password"}
+                                    onChange={e => setConfirmationPassword(e.target.value)}
+                                    isValid={isPasswordSame()}
+                                    showPassword={showConfirmationPassword}
+                                    togglePasswordVisibility={toggleConfirmationPasswordVisibility}
+                                />
+                            </div>
+                        </div>
 
-                        <PasswordInput
-                            value={confirmationPassword}
-                            placeholder={"Confirm password"}
-                            onChange={e => setConfirmationPassword(e.target.value)}
-                            isValid={isPasswordSame()}
-                            showPassword={showConfirmationPassword}
-                            togglePasswordVisibility={toggleConfirmationPasswordVisibility}
-                        />
 
                         <select
                             onChange={(e) => setSecurityQuestion(e.target.value)}
@@ -366,6 +372,9 @@ export function Login() {
                         onClick={() => setIsLogin(true)}
                     >
                         Back to Login
+                    </button>
+                    <button className="text-button back-to-role" onClick={() => navigate("/")}>
+                        Back to role choice
                     </button>
                 </div>
             )}
