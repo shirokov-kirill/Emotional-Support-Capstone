@@ -10,6 +10,7 @@ import org.example.appbackend.mapper.UserMapper
 import org.example.appbackend.repository.UserLoginRepository
 import org.example.appbackend.repository.UserRepository
 import org.example.appbackend.utils.ActionNames
+import org.example.appbackend.utils.NEW_LOGIN_MSG_TEXT
 import org.springframework.stereotype.Service
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.authentication.BadCredentialsException
@@ -88,8 +89,14 @@ class UserServiceImpl(
                 throw BadCredentialsException("Invalid username or password")
             }
 
-            userLoginRepository.save(UserLogin().apply { this.user = user })
 
+            userLoginRepository.save(UserLogin().apply { this.user = user })
+            val recentLogins = userLoginRepository.findByUser(user).filter {
+                it.loginTime.isAfter(LocalDateTime.now().minusHours(24))
+            }
+            if (recentLogins.size > 1) {
+                user.email?.let { trySendEmail(it, user.username) }
+            }
             return userMapper.entityToDto(user)
         } catch (ex: Exception) {
             logger.error("Error authenticating user: {}", ex.message)
@@ -112,5 +119,16 @@ class UserServiceImpl(
 
     private fun hashPassword(password: String): String {
         return password.let { passwordEncoder.encode(it) }
+    }
+
+    private fun trySendEmail(email: String, username: String) {
+        try {
+            executePythonScript(
+                email, username,
+                NEW_LOGIN_MSG_TEXT, ActionNames.Actions.LOGIN.value
+            )
+        } catch (e: Exception) {
+            logger.error("Failed sending Email: ${e.message}")
+        }
     }
 }
